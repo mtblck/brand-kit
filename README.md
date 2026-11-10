@@ -1,8 +1,9 @@
 # brand-kit
 
 A Claude Code plugin that designs a logo in SVG and exports the whole brand kit
-around it: icons, brand guidelines, an email signature, a business card, a
-slide template and social images, all from one `brand.json`.
+around it: icons, brand guidelines, a website colour palette for light and dark
+mode, an email signature, a business card, a slide template and social images,
+all from one `brand.json`.
 
 **See it at [mattblack.space/skills/brand-kit](https://mattblack.space/skills/brand-kit/)**,
 built around the example brand Harbor.
@@ -64,9 +65,10 @@ What one `node scripts/export.mjs brand.json` writes:
 | `png/` | every logo at 256–2048 px wide, transparent |
 | `icons/` | `favicon.ico` (16/32/48), `favicon.svg`, `apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-512.png`, `app-icon-1024.png`, `site.webmanifest`, `head.html` |
 | `check.png` | size ramp from 16 px, light and dark, one-colour tests, favicon in browser tabs, app icon on a home screen and under Android's mask |
-| `brand-guidelines.pdf` (+ `.html`, one PNG per page) | printable US Letter brand guidelines: cover and logo versions; construction, clear space, minimum size, one colour, misuse and icons; typography; colour with HEX, RGB, CMYK and contrast |
+| `brand-guidelines.pdf` (+ `.html`, one PNG per page) | printable US Letter brand guidelines: cover and logo versions; construction, clear space, minimum size, one colour, misuse and icons; typography; colour with HEX, RGB, CMYK and contrast; website colour |
 | `pdf/` | every logo as a vector PDF, for print shops |
 | `social/` | `og-image.png` (1200 × 630 link preview: logo, tagline, accent bar) and `avatar.png` (800 × 800, circle-safe) |
+| `web/` | the website palette: 12-step OKLCH scales (brand, accent, tinted neutral, success, warning, danger, info) and light and dark roles (`--bg`, `--text`, `--brand`, `--on-brand`, …) as `palette.css`, a Tailwind v4 theme and W3C design tokens, with `palette.html` showing every value and its WCAG 2.2 and APCA contrast |
 | `templates/` | email signature (HTML + text), business card (print PDF with bleed), slide template (`.pptx` + PDF) and social posts (square, portrait, story, Ko-fi cover, X header, each with a blank), with two pages about them in the guidelines |
 | `README.md` | which file to use for what |
 | `<name>-brand-kit.zip` | all of the above in one download |
@@ -78,6 +80,7 @@ Scripts (in `skills/logo/scripts/`, Node 18+):
   geometry helpers and `lockup()`.
 - `specimen.mjs`: the name in every face of the chosen typeface groups.
 - `render.mjs`: PNGs of any SVG, or a numbered concept comparison sheet.
+- `palette.mjs`: the website palette (also runs alone: `node palette.mjs brand.json`).
 - `export.mjs`: everything above from `brand.json`.
 
 Rendering uses Playwright's Chromium if it's installed (as in Claude's cloud
@@ -93,6 +96,8 @@ commercial logo use (SIL OFL or Apache 2.0), in eleven voices, each with text
 faces that pair with it.
 
 ![Page one of Harbor's brand guidelines](docs/harbor-guidelines-1.png)
+
+![Harbor's website palette: OKLCH scales and a sample interface in light and dark](docs/harbor-palette.png)
 
 The process and craft rules are original, informed by reading
 [kaankiziltug/logo-design-skill](https://github.com/kaankiziltug/logo-design-skill)
