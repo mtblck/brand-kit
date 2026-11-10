@@ -14,6 +14,7 @@
  *   brand-guidelines.html / .pdf / -N.png  printable US Letter brand guidelines (guide.mjs)
  *   social/  og-image.png (1200 × 630 link preview) and avatar.png (800 × 800)   (package.mjs)
  *   templates/  email signature, business card, slides (.pptx + PDF) and social posts (templates.mjs)
+ *   web/     the website palette: palette.css, palette.tailwind.css, tokens.json, palette.html/.png (palette.mjs)
  *   pdf/     every logo in svg/ as a vector PDF, for print
  *   README.md                which file to use for what
  *   <name>-brand-kit.zip     everything above in one download
@@ -35,6 +36,7 @@ import { browser, png, htmlShot, viewBox } from './render.mjs'
 import { guide, darkest } from './guide.mjs'
 import { social, pdfLogos, readme, zip } from './package.mjs'
 import { templates } from './templates.mjs'
+import * as web from './palette.mjs'
 
 const args = process.argv.slice(2)
 const cfgPath = args.find((a) => a.endsWith('.json'))
@@ -206,8 +208,25 @@ if (!onlyIcons) {
     t.written.forEach(wrote)
     previews = t.previews
   }
+  // ── Website palette: OKLCH scales and light/dark roles, checked for contrast ─
+  const pal = web.palette(cfg)
+  if (pal) {
+    mkdirSync(join(out, 'web'), { recursive: true })
+    const W = (f, text) => (writeFileSync(join(out, 'web', f), text), wrote(join(out, 'web', f)))
+    W('palette.css', web.css(pal, cfg.name))
+    W('palette.tailwind.css', web.tailwind(pal))
+    W('tokens.json', web.tokens(pal))
+    const t = cfg.type || {}
+    const fam = (x) => (x ? `'${x.family}', system-ui, sans-serif` : undefined)
+    const fams = [t.display, t.text].filter(Boolean)
+    const link = fams.length ? `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fams.map((x) => `family=${encodeURIComponent(x.family).replace(/%20/g, '+')}:wght@${[...new Set([400, 600, x.weight || 400, 700])].sort((m, n) => m - n).join(';')}`).join('&')}&display=swap">` : ''
+    W('palette.html', web.page(pal, { name: cfg.name, display: fam(t.display || t.text), body: fam(t.text || t.display), link }))
+    wrote(await htmlShot(b, join(out, 'web', 'palette.html'), join(out, 'web', 'palette.png'), { width: 1160 }))
+    const msg = web.report(pal)
+    if (msg) console.error(msg)
+  }
   const markVb = cfg.logos?.mark ? viewBox(read(cfg.logos.mark.file)) : null
-  for (const f of await guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, previews })) wrote(f)
+  for (const f of await guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, previews, pal })) wrote(f)
 
   // ── Print PDFs, README and the zip ──────────────────────────────────────────
   for (const f of await pdfLogos({ b, out })) wrote(f)

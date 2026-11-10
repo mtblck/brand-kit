@@ -92,6 +92,7 @@ export function readme({ cfg, out, files }) {
     has('templates/business-card') ? '| Business cards | `templates/business-card/business-card.pdf` (US 3.5 × 2 in, bleed included, front and back): send it to the printer as is |' : '',
     has('templates/slides') ? '| A presentation | `templates/slides/*.pptx` (PowerPoint, Keynote or Google Slides): add slides from its layouts |' : '',
     has('templates/social') ? '| A social post, story, Ko-fi cover or X header | `templates/social/`: a sample of each, plus a `-blank` version to design on |' : '',
+    has('web/palette.css') ? '| Colours for a website or app, light and dark | `web/palette.css` (or `web/palette.tailwind.css` on Tailwind v4, `web/tokens.json` for Figma or Style Dictionary); open `web/palette.html` to see every value and its contrast |' : '',
     '',
     '## Contents',
     '',
@@ -103,6 +104,7 @@ export function readme({ cfg, out, files }) {
       ['icons/', '`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, PWA icons, `site.webmanifest`, `head.html`'],
       ['social/', 'link preview and avatar'],
       ['templates/', 'email signature, business card, slide template and social posts'],
+      ['web/', 'the website palette: 12-step OKLCH scales and light and dark roles as CSS, a Tailwind v4 theme and W3C design tokens, with a preview and contrast report'],
       ['check.png', 'the logo at real pixel sizes, on light and dark, in browser tabs and on a home screen'],
     ]
       .filter(([p]) => has(p))

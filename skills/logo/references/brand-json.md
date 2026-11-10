@@ -56,6 +56,7 @@ One file describes a brand; `scripts/export.mjs` turns it into every deliverable
 | `website` | The site, without `https://`, for the email signature, business card, closing slide and posts. |
 | `contact` | `{ name, role, email, phone }` for the email signature and business card. Defaults are placeholders ("Your Name", "Role", `you@<website>`). |
 | `templates` | `false` skips the templates. `templates.background` is the field colour for card fronts, title slides and posts (default the primary colour). `templates.email.logoUrl` is where the signature's `logo.png` is hosted (until set, the HTML points at the local file). `templates.social.headline` and `.kicker` replace the sample post copy (default the tagline and website). |
+| `palette` | The website palette in `web/` (see `references/palette.md`). Made from the colours above with no settings: `primary` is the brand, `accent` the accent, `paper` the light page and `dark` the dark page. Optional: `brand` and `accent` (hex, to override the roles; `accent: false` leaves it out), `neutral` (hex whose hue tints the greys), `status` (`{ success, warning, danger, info }` hexes to use instead of generated ones), `harmonize: false` (keep the status hues from leaning toward the brand). `false` skips it. |
 | `out` | Output folder (default `dist`). |
 
 `node export.mjs brand.json --only icons` writes just `icons/` and `check.png` (no logos, guidelines, social images, PDFs or zip), which is what the `icons` skill uses for an existing logo.

@@ -5,6 +5,8 @@
  *   Page 1  cover: title, introduction, the logo and its versions
  *   Page 2  logo rules: construction, clear space and minimum size, one colour, misuse, icons
  *   Page 3  typography and colour
+ *   Page 4  website colour: the palette's scales and roles in light and dark, and its contrast (when export made one)
+ *   Then    the templates (when export made them)
  *
  * Optional brand.json fields used only here: "about" (a paragraph or two for the
  * introduction), "version" (default "1.0"), "construction" (a sentence on how the
@@ -13,6 +15,7 @@
 import { writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { preview } from './palette.mjs'
 
 export function rgb(hex) {
   let h = hex.replace('#', '')
@@ -45,7 +48,7 @@ function saturation(hex) {
 }
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
 
-export async function guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, previews }) {
+export async function guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, previews, pal }) {
   const type = cfg.type || {}
   const disp = type.display || type.text, body = type.text || type.display
   const fams = [disp, body].filter(Boolean)
@@ -66,7 +69,9 @@ export async function guide({ b, cfg, files, out, colors, ink, paper, dark, acce
   const cs = cfg.clearSpace ?? 0.25
   const logos = Object.entries(cfg.logos || {})
 
-  const total = previews ? 5 : 3
+  const total = 3 + (pal ? 1 : 0) + (previews ? 2 : 0)
+  const pn = (n) => n + (pal && n >= 4 ? 1 : 0) // page numbers after the palette page move up one
+  const sn = (n) => n + (pal && n >= 5 ? 1 : 0) // and so do section numbers
   const section = (n, title) => `<div class="sec"><h2>${title}</h2><span class="rule"></span><span class="pill">${String(n).padStart(2, '0')}</span></div>`
   const head = `<header class="top">${mark ? `<img src="${mark.svg}" alt="" class="tm">` : ''}<b>${esc(cfg.name)}</b><span>Brand guidelines</span><span class="r">Version ${esc(version)} · ${date}</span></header>`
   const foot = (n, total) => `<footer class="foot"><span>${esc(cfg.name)} · Brand guidelines</span><span>${n} / ${total}</span></footer>`
@@ -163,30 +168,45 @@ ${foot(3, total)}</section>`
   // ── Pages 4–5: templates (when export made them) ──
   const site = String(cfg.contact?.website || cfg.website || '').replace(/^https?:\/\//, '').replace(/\/$/, '')
   const p4 = previews ? `<section class="page">${head}
-${section(5, 'Email signature')}
+${section(sn(5), 'Email signature')}
 <img class="shot" src="${previews.email}" alt="">
 <div class="cols">
   <p class="note">Files in <code>templates/email/</code>. Host <code>logo.png</code> (set <code>templates.email.logoUrl</code> and export again), open <code>signature.html</code> in a browser, select all, copy and paste it into the mail client’s signature setting. <code>signature.txt</code> is the plain-text version.</p>
   <p class="note">One table with inline styles, so Gmail and Outlook keep it. The logo is the app-icon art on its own tile so it survives dark mode, and the text falls back to Arial where ${esc(disp?.family || 'the brand face')} isn’t installed. Keep it to name, role, contact and site: no quotes, banners or icon rows.</p>
 </div>
-${section(6, 'Business card')}
+${section(sn(6), 'Business card')}
 <div class="cards"><figure><img src="${previews.cardFront}" alt=""><figcaption>Front</figcaption></figure><figure><img src="${previews.cardBack}" alt=""><figcaption>Back</figcaption></figure></div>
 <div class="cols">
   <p class="note"><b>Size</b> 3.5 × 2 in trim (85 × 55 mm in Europe), with 0.125 in bleed on every side: <code>business-card.pdf</code> is 3.75 × 2.25 in, one page per side, fonts embedded and the logo in vector. Keep text 0.25 in inside the trim.</p>
   <p class="note"><b>Layout</b> The front carries only the logo, on the brand colour; the back carries the person: name in ${esc(disp?.family || 'the display face')} 10.5 pt, role and up to four contact lines at 7.5 pt, never under 6.5 pt. Order a proof: printers convert RGB to CMYK, so check the colour against the values on page 3.</p>
 </div>
-${foot(4, total)}</section>` : ''
+${foot(pn(4), total)}</section>` : ''
   const sizeNames = { 'post-square': 'Square post · 1080 × 1080', 'post-portrait': 'Portrait post · 1080 × 1350', story: 'Story · 1080 × 1920', 'kofi-cover': 'Ko-fi cover · 1200 × 400', 'x-header': 'X header · 1500 × 500' }
   const socialFig = (p) => `<figure><img src="${p}" alt=""><figcaption>${sizeNames[p.split('/').pop().replace('.png', '')] || ''}</figcaption></figure>`
   const p5 = previews ? `<section class="page">${head}
-${section(7, 'Slides')}
+${section(sn(7), 'Slides')}
 <div class="slides">${previews.slides.map((p, i) => `<figure><img src="${p}" alt=""><figcaption>${['Title', 'Section', 'Content', 'Two columns', 'Statement', 'Closing'][i] || ''}</figcaption></figure>`).join('')}</div>
 <p class="note">Files in <code>templates/slides/</code>: an editable <code>.pptx</code> (each layout is a slide master with placeholders; opens in PowerPoint, Keynote and Google Slides) and a PDF. 16:9 with 0.75 in margins; titles in ${esc(disp?.family || 'the display face')} 38 pt (54 on the title slide), body 22–24 pt and never under 18; six points at most. Brand colour on title, section and closing slides, paper behind content. The full logo opens and closes the deck; content slides carry only the small mark.</p>
-${section(8, 'Social')}
+${section(sn(8), 'Social')}
 <div class="posts">${previews.social.filter((p) => !/kofi|x-header/.test(p)).map(socialFig).join('')}<figure><img src="social/og-image.png" alt=""><figcaption>Link preview · 1200 × 630</figcaption></figure></div>
 <div class="banners">${previews.social.filter((p) => /kofi|x-header/.test(p)).map(socialFig).join('')}</div>
 <p class="note">Files in <code>templates/social/</code>, each with a <code>-blank</code> version (field, logo and bar, no text) for designing posts in Canva or Figma. One headline of eight words or fewer per image, the dark logo small in the top corner, the ${accent ? 'accent' : 'brand'} bar along the bottom. Stories keep text out of the top 250 and bottom 300 px; the Ko-fi cover crops its sides on phones, and the X header’s lower left sits under the profile picture.${site ? '' : ''}</p>
-${foot(5, total)}</section>` : ''
+${foot(pn(5), total)}</section>` : ''
+
+  // ── Page 4: website colour (when export made the palette) ──
+  const pv = pal ? preview(pal, { display: ff(disp), body: ff(body), name: cfg.name }) : null
+  const KEY = [['text', 'bg'], ['text-muted', 'bg'], ['on-brand', 'brand'], ['border-strong', 'bg']]
+  const keyChecks = pal ? pal.checks.filter((c) => KEY.some(([f, g]) => c.fg === f && c.bg === g)) : []
+  const fails = pal ? pal.checks.filter((c) => !c.pass) : []
+  const pPal = pal ? `<section class="page">${head}
+${section(5, 'Website colour')}
+<p class="note">Every colour a website needs, made from the brand colours in OKLCH so steps of equal lightness look equal. Each scale has twelve steps, each with one job: <b>1–2</b> page and panel backgrounds, <b>3–5</b> component fills (rest, hover, pressed), <b>6–8</b> borders, <b>9–10</b> solid fills and their hover, <b>11–12</b> text. The brand colours themselves are kept exactly where they read.</p>
+${pv.html}
+<div class="cols">
+  <div><h3>Build with roles, not steps</h3><p class="note">Components use the named roles (<code>--bg</code>, <code>--surface</code>, <code>--text</code>, <code>--text-muted</code>, <code>--brand</code> with <code>--on-brand</code>, <code>--border</code>, <code>--danger-subtle</code> with <code>--danger-text</code> …). Each role has a light and a dark value, so dark mode follows the system on its own, or <code>data-theme</code> on the page forces either. Files in <code>web/</code>: <code>palette.css</code>, <code>palette.tailwind.css</code> for Tailwind v4, <code>tokens.json</code> (W3C Design Tokens) for Figma and Style Dictionary, and <code>palette.html</code> with every value.</p></div>
+  <div><h3>Contrast</h3><table class="ct">${keyChecks.map((c) => `<tr><td>${c.mode}</td><td>${esc(c.label)}</td><td>${c.ratio}:1</td><td>Lc ${Math.round(c.lc)}</td></tr>`).join('')}</table><p class="note">${fails.length ? `${fails.length} pair${fails.length > 1 ? 's' : ''} below WCAG 2.2 AA; see <code>web/palette.html</code>.` : 'Every pair in <code>web/palette.html</code> passes WCAG 2.2 AA'} (4.5:1 for text, 3:1 for edges). Lc is the APCA score from the WCAG 3 draft: 75 for body text, 60 for other text.</p></div>
+</div>
+${foot(4, total)}</section>` : ''
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(cfg.name)} brand guidelines</title>
 ${gf ? `<link rel="stylesheet" href="${gf}">` : ''}<style>
@@ -241,7 +261,9 @@ code{font:10px ui-monospace,Menlo,monospace}
 .slides{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.slides img{width:100%;border-radius:4px;box-shadow:0 0 0 1px #e3e3e3}
 .posts{display:flex;gap:12px;align-items:flex-end}.posts img{height:1.55in;border-radius:4px;box-shadow:0 0 0 1px #e3e3e3}
 .banners{display:flex;gap:12px}.banners figure{flex:1}.banners img{width:100%;border-radius:4px}
-</style></head><body>${p1}${p2}${p3}${p4}${p5}</body></html>`
+${pv ? pv.css : ''}
+.ct{border-collapse:collapse;width:100%;font-size:9.5px;margin-bottom:6px}.ct td{padding:2px 4px;border-bottom:1px solid #eee}.ct td:nth-child(n+3){text-align:right;white-space:nowrap}
+</style></head><body>${p1}${p2}${p3}${pPal}${p4}${p5}</body></html>`
 
   const file = join(out, 'brand-guidelines.html')
   writeFileSync(file, html)
