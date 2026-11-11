@@ -37,9 +37,9 @@ If the user is away, don't wait. Take the defaults, say so in the checkpoint mes
 | 2 | Considered | One clever idea: a modified letter, a shape found inside a letter, a mark that doubles as something. | Adds humanist, serif-classic and slab. One letter may change. | Primary plus one accent, used once. | None. The Harbor example sits here. |
 | 3 | Characterful | A less obvious metaphor, about what the product feels like rather than what it does. | Adds rounded, display and condensed. | A brighter accent; a two-colour mark is fine. | Asymmetry. |
 | 4 | Odd | Lateral metaphors from the far end of the concept list; a character or object built from the letters. | Adds script and mono; mixed weights within the wordmark. | Unexpected pairings (acid green with maroon, lilac with rust), still passing contrast. | Letters off the baseline, overlapping shapes, a broken grid that still snaps to half units. |
-| 5 | Weird | The joke, the dream, the wrong answer on purpose. Write fifteen or more concepts and keep the strangest three that still pass small sizes and the silhouette test. | Any face in `typefaces.json`, or any Google Font added with `--font`, including the one nobody would pick. | Anything that passes contrast. | Any style rule in `SKILL.md`, but none of the review checklist. |
+| 5 | Weird | The joke, the dream, the wrong answer on purpose, and the weirdness is in the idea's structure: two things fused into one, a thing cut apart and reused, something doing what it can't (see "What makes a 5"). Write fifteen or more concepts and keep the strangest three that still pass small sizes and the silhouette test. | Any face in `typefaces.json`, or any Google Font added with `--font`, including the one nobody would pick. | Anything that passes contrast. | Any style rule in `SKILL.md`, but none of the review checklist. |
 
-`examples/harbor/weirdness/` draws the Harbor brief at the other four levels (Harbor as shipped is the 2): 1, an H tile and a grotesque wordmark; 3, a paper boat with a rounded face; 4, a crab holding a bookmark up between its claws, in a mono face with two weights; 5, a whale with the beacon in its belly, a bookmark for a spout and a wordmark bobbing on a swell. Read its `draw.mjs` to see how far each level goes in code.
+`examples/harbor/weirdness/` draws the Harbor brief at the other four levels (Harbor as shipped is the 2): 1, an H tile and a grotesque wordmark; 3, a paper boat with a rounded face; 4, a crab holding a bookmark up between its claws, in a mono face with two weights; 5, a whale cut in half and stood up as bookends around a bookmark, with the wordmark split by a bookmark the same way. Read its `draw.mjs` to see how far each level goes in code.
 
 For a sense of scale on another brief, Tinkerkit (a browser pixel-art game maker) at each level: 1, TINKERKIT in a clean grotesque, ink only, with a single brass square for a full stop. 2, a T built from pixel tiles. 3, a pixel spanner whose jaw is a D-pad. 4, a small pixel creature whose body is the letter K, holding a wrench. 5, a wordmark where every letter is a different tool, beside a melting gear.
 
@@ -50,6 +50,19 @@ For a sense of scale on another brief, Tinkerkit (a browser pixel-art game maker
 If the user doesn't pick a level, round 1 shows the three concepts at different levels: one at 2, one at 3 and one at 4, labelled with their level. Most people can't say how weird they want to go until they see it, and the pick tells you. Round 2 and the refinement stay at the level of the chosen concept, and `direction.weirdness` records it.
 
 If they did pick a level, all three concepts sit at that level and differ by metaphor and structure, as usual.
+
+### What makes a 5
+
+A 4 puts an unexpected thing in the logo. A 5 changes what the thing *is*. The test: if the concept can be said as "an X with a Y on it, or in it" (a whale with a bookmark for a spout, a crab holding a bookmark), it's a 4 at most. A 5 reads as "an X that is a Y" or "an X doing something it can't": a whale cut in half and used as bookends, a whale whose open mouth swallows the wordmark, a lighthouse made of stacked pages.
+
+Ways to get there, from the concept list:
+
+- **Fuse two things into one object** instead of placing them side by side: the metaphor and the product's own thing (the whale and the bookmark become one piece of furniture).
+- **Cut, split or reassemble** something familiar so it does a new job.
+- **Break physics or scale:** something huge held by something tiny, something soft used as something hard.
+- **Make the logo hold the word:** the wordmark lives inside the mark, or the mark's idea runs through the word (the bookmark splits "har" from "bor").
+
+Decoration doesn't raise the level: an odd colour, a circle on a body, tilted or bobbing letters are level 3 or 4 moves. If the weirdest thing about a level 5 concept is its colour or its type, start again from the concept list.
 
 ### Weird still has to be well drawn
 

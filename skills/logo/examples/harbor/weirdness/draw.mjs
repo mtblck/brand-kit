@@ -83,36 +83,34 @@ const out = (f) => join(here, f)
 }
 
 // ── 5 · Weird ──
-// The wrong answer on purpose: the safest harbour is a whale. Everything you saved
-// is in its belly, lit by the beacon, and its spout is a bookmark. The whale is one
-// smooth outline (blunt head, back, a tail stalk rising into two flukes), so nothing
-// floats. Aubergine and acid green; the wordmark bobs on a swell.
+// Two things mashed into one: a whale cut in half and stood up as a pair of
+// bookends, holding a bookmark between them. Everything you saved, kept on the
+// shelf by a whale. Both halves are flat-bottomed so they stand; the bookmark rises
+// above them, 8 units clear of each cut face. The wordmark splits the same way.
 {
   const plum = '#3d1a5b', acid = '#c8f031'
-  const outline = smooth([
-    [10, 150], [18, 110, 'corner'], [60, 98], [116, 100], [156, 112], // snout, forehead, back
-    [184, 112], [200, 92],                                            // the stalk rising
-    [176, 52, 'corner'], [212, 76, 'corner'], [248, 44, 'corner'],    // flukes and notch
-    [232, 108], [208, 152], [164, 188], [100, 200], [40, 194], [14, 182], // back of stalk, belly, jaw
-  ])
-  // Porthole r 26 with the beacon r 15 inside it; eye r 9. Holes by evenodd.
-  const holes = circle(110, 152, 26) + circle(40, 132, 9)
-  const beacon = circle(110, 152, 15)
-  // Spout: a bookmark 52 × 70, its notch 12 units above the head.
-  const spout = poly([[40, 16], [92, 16], [92, 86], [66, 70], [40, 86]])
-  // Trim to the art: x 8–248, y 16–200.
-  const mark = (b, a) => ({ body: `<g transform="translate(-8 -16)"><path d="${outline}${holes}" fill="${b}" fill-rule="evenodd"/><path d="${beacon}" fill="${a}"/><path d="${spout}" fill="${a}"/></g>`, w: 240, h: 184 })
-  write(out('level-5-mark.svg'), svg({ w: 240, h: 184, title: 'Harbor', body: mark(plum, acid).body }))
-  // Wordmark: Unbounded 800, letters riding a sine swell, alternate letters tilted ±6°.
+  const G = 56 // how far apart the halves stand
+  const head = smooth([[10, 150], [18, 110, 'corner'], [60, 98], [104, 98, 'corner'], [104, 200, 'corner'], [36, 200], [14, 182]])
+  const eye = circle(44, 132, 9)
+  const tail = smooth([
+    [104, 98, 'corner'], [148, 104], [184, 100], [200, 84],
+    [176, 52, 'corner'], [212, 76, 'corner'], [248, 44, 'corner'],
+    [232, 108], [216, 156], [196, 200, 'corner'], [104, 200, 'corner'],
+  ].map(([x, y, c]) => [x + G, y, c]))
+  const bookmark = poly([[112, 16], [152, 16], [152, 200], [132, 184], [112, 200]])
+  // Trim to the art: x 10–304, y 16–200.
+  const mark = (b, a) => ({ body: `<g transform="translate(-10 -16)"><path d="${head}${eye}" fill="${b}" fill-rule="evenodd"/><path d="${tail}" fill="${b}"/><path d="${bookmark}" fill="${a}"/></g>`, w: 294, h: 184 })
+  write(out('level-5-mark.svg'), svg({ w: 294, h: 184, title: 'Harbor', body: mark(plum, acid).body }))
+  // Wordmark: Unbounded 800, "har" and "bor" held apart by a bookmark that stands
+  // on the baseline and rises above the x-height, as in the mark.
   const font = await loadFont('Unbounded', 800)
-  const size = 92
-  const cap = text(font, 'h', { size }).capHeight
-  let x = 240 + 64, word = ''
-  const base = 120 + cap / 2
-  ;[...'harbor'].forEach((ch, i) => {
-    const t = text(font, ch, { size, x, y: base + round(Math.sin(i * 1.15) * 14) })
-    word += `<path d="${t.d}" fill="${plum}" transform="rotate(${i % 2 ? 6 : -6} ${round(x + t.width / 2)} ${round(base)})"/>`
-    x += t.width - 0.02 * size
-  })
-  write(out('level-5-horizontal.svg'), svg({ w: round(x + 8), h: 200, title: 'Harbor', body: mark(plum, acid).body + word }))
+  const size = 96
+  const probe = text(font, 'harbor', { size })
+  const base = 184 / 2 + probe.capHeight / 2
+  const gap = round(probe.capHeight * 0.14), bw = round(probe.capHeight * 0.44), bh = round(probe.capHeight * 1.5)
+  const a = text(font, 'har', { size, x: 294 + 64, y: base })
+  const bx = a.x + a.width + gap
+  const mini = poly([[bx, base - bh], [bx + bw, base - bh], [bx + bw, base], [bx + bw / 2, base - bw * 0.45], [bx, base]])
+  const b = text(font, 'bor', { size, x: bx + bw + gap, y: base })
+  write(out('level-5-horizontal.svg'), svg({ w: round(b.x + b.width + 4), h: 184, title: 'Harbor', body: mark(plum, acid).body + `<path d="${a.d}${b.d}" fill="${plum}"/><path d="${mini}" fill="${acid}"/>` }))
 }

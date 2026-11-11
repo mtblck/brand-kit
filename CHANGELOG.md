@@ -18,6 +18,9 @@
   smallest part, three drafts and two passes), a silhouette line in the review
   checklist, and `smooth()`, `limb()` and `ellipse()` in `brand.mjs` for
   organic outlines.
+- Level 5 is stricter: "What makes a 5" in `direction.md` (fuse, cut apart,
+  break physics, the logo holds the word; decoration doesn't count). Harbor's 5
+  is now a whale cut in half as bookends around a bookmark.
 
 ## 1.2.0 (2026-11-10)
 
