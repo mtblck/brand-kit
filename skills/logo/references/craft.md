@@ -56,6 +56,18 @@ A mark that depicts something (an animal, a character, a tool) has to be recogni
 - **Pairing** One family for the wordmark and headings; a text face for body copy that is calmer than it (see the group's `text` list). A serif display face pairs with a sans text face more often than the other way round. Never more than two families.
 - **Licensing** Every face in `typefaces.json` is SIL OFL or Apache 2.0, which allow outlined use in a logo. For any other font, check its licence on fonts.google.com or the foundry's site before using it.
 
+### Decorative faces
+
+The voices that open at weirdness 3 and up (chunky, stencil, marker, odd-serif, then retro, pixel, blackletter, and experimental at 5) are characters, not workhorses. They follow the rules above, plus these:
+
+- **One loud thing.** A decorative wordmark goes with a quiet mark (or no separate mark: at 5 the word can be the mark), and a loud mark goes with a calm face. Two loud halves fight.
+- **Wordmark only.** The decorative face sets the name and perhaps a headline. Everything else (templates, the website palette page, guidelines body copy) uses a face from the group's `text` list, which goes in `brand.json` as `type.text`.
+- **Check it small on the sheet.** `specimen.mjs` draws each name about 12 px tall in the cell's corner. A face that turns to mush there, or one marked `small: false` ("large only" on the sheet), can still win at 4 and 5, but the horizontal lockup must then hold at 24 px of word height, and the email signature and small uses take the mark alone. The favicon never uses the decorative word.
+- **Short names.** Experimental and blackletter faces suit names of about eight letters or fewer; a long name in them reads as texture.
+- **Respect the face's own rules.** Each group's `note` says what breaks it: pixel faces snap to their pixel grid, blackletter never goes all capitals, stencil bridges stay open, a repeated letter in a marker face gets nudged so it looks drawn, retro faces commit to one era.
+- **No colour fonts.** Outlining keeps one layer, so colour fonts (Nabla, Foldit, Bungee Spice, Honk) arrive flat. If a `--font` face looks plainer on the sheet than on fonts.google.com, that's why.
+- **Customise less.** These faces already carry the character, so tracking and case are usually enough; modifying a letter mostly adds noise. The exception is the mark's object entering the word at 4 and 5 (`direction.md`), which still works when the letter it replaces is simple.
+
 ## Lockups
 
 - **Horizontal** The word's cap height is 40–55 % of the mark's height (`capRatio`, default 0.46), centred on the mark's vertical middle. The gap is 25–40 % of the mark's height (default 0.32).

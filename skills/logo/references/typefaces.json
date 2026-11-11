@@ -1,7 +1,8 @@
 {
-  "_about": "Curated Google Fonts for wordmarks, grouped by voice. Every family here is free for commercial logo use (SIL OFL or Apache 2.0). `weights` are the ones worth trying for a wordmark; `text` lists body faces that sit well beside the group. specimen.mjs reads this file: --group <key>.",
+  "_about": "Curated Google Fonts for wordmarks, grouped by voice. Every family here is free for commercial logo use (SIL OFL or Apache 2.0). `weirdness` is the lowest level on the weirdness dial (references/direction.md) where a group is in play; a group stays available at every level above it. `weights` are the ones worth trying for a wordmark; `text` lists calmer body faces that sit well beside the group; `note` is a rule for using the group. `small: false` marks a face whose detail clogs below about 24 px of word height: use it only where the wordmark is shown large, and keep a plainer lockup for small uses (craft.md, \"Decorative faces\"). specimen.mjs reads this file: --group <key>, or --weirdness <n> for every group up to that level.",
   "groups": {
     "geometric": {
+      "weirdness": 1,
       "voice": "Clean, modern, confident, built from circles and straight lines. Tech products, tools, startups.",
       "families": [
         { "family": "Outfit", "weights": [500, 600, 700] },
@@ -18,6 +19,7 @@
       "text": ["Inter", "DM Sans", "Plus Jakarta Sans"]
     },
     "grotesque": {
+      "weirdness": 1,
       "voice": "Neutral, sturdy, matter-of-fact. Lets the symbol do the talking; good for utilities and dev tools.",
       "families": [
         { "family": "Inter Tight", "weights": [600, 800] },
@@ -32,6 +34,7 @@
       "text": ["Inter", "IBM Plex Sans", "Public Sans"]
     },
     "humanist": {
+      "weirdness": 2,
       "voice": "Warm, readable, human; calligraphic stress in the curves. Services, community, education, health.",
       "families": [
         { "family": "Figtree", "weights": [600, 800] },
@@ -46,6 +49,7 @@
       "text": ["Source Sans 3", "Figtree", "Work Sans"]
     },
     "rounded": {
+      "weirdness": 3,
       "voice": "Friendly, soft, playful. Consumer apps, kids, food, games.",
       "families": [
         { "family": "Nunito", "weights": [700, 900] },
@@ -58,6 +62,7 @@
       "text": ["Nunito", "DM Sans", "Figtree"]
     },
     "display": {
+      "weirdness": 3,
       "voice": "Loud, characterful, made to be noticed. Events, media, games, music, bold consumer brands.",
       "families": [
         { "family": "Syne", "weights": [700, 800] },
@@ -72,6 +77,7 @@
       "text": ["Inter", "Space Grotesk", "DM Sans"]
     },
     "condensed": {
+      "weirdness": 3,
       "voice": "Tall, compact, urgent. Sport, outdoor, signage, labels, anything that must fit a narrow space.",
       "families": [
         { "family": "Oswald", "weights": [500, 700] },
@@ -84,6 +90,7 @@
       "text": ["Barlow", "Inter", "Source Sans 3"]
     },
     "serif-modern": {
+      "weirdness": 1,
       "voice": "High contrast, fashionable, editorial. Beauty, fashion, magazines, premium goods.",
       "families": [
         { "family": "Playfair Display", "weights": [600, 800] },
@@ -96,6 +103,7 @@
       "text": ["Inter", "Source Serif 4", "DM Sans"]
     },
     "serif-classic": {
+      "weirdness": 2,
       "voice": "Literary, established, crafted. Publishing, food and drink, law, heritage and makers.",
       "families": [
         { "family": "Fraunces", "weights": [600, 800] },
@@ -110,6 +118,7 @@
       "text": ["Source Serif 4", "Literata", "Inter"]
     },
     "slab": {
+      "weirdness": 2,
       "voice": "Solid, dependable, a little mechanical or rustic. Hardware, workshops, coffee, outdoors.",
       "families": [
         { "family": "Zilla Slab", "weights": [600, 700] },
@@ -121,6 +130,7 @@
       "text": ["Inter", "Source Sans 3", "Bitter"]
     },
     "mono": {
+      "weirdness": 4,
       "voice": "Technical, precise, terminal-flavoured. Developer tools, data, infrastructure.",
       "families": [
         { "family": "JetBrains Mono", "weights": [600, 800] },
@@ -132,6 +142,7 @@
       "text": ["Inter", "IBM Plex Sans", "Space Grotesk"]
     },
     "script": {
+      "weirdness": 4,
       "voice": "Personal, handmade, nostalgic. Bakeries, cafés, craft, personal brands. Use only when the brand truly is handmade.",
       "families": [
         { "family": "Caveat", "weights": [600, 700] },
@@ -141,6 +152,123 @@
         { "family": "Kaushan Script", "weights": [400] }
       ],
       "text": ["Nunito Sans", "Work Sans", "Lora"]
+    },
+    "chunky": {
+      "weirdness": 3,
+      "voice": "Fat, soft, poster-weight letters with personality that still read at a glance. Food and drink, kids, games, friendly consumer brands.",
+      "families": [
+        { "family": "Dela Gothic One", "weights": [400] },
+        { "family": "Titan One", "weights": [400] },
+        { "family": "Lilita One", "weights": [400] },
+        { "family": "Bowlby One", "weights": [400] },
+        { "family": "Chango", "weights": [400] },
+        { "family": "Bagel Fat One", "weights": [400] },
+        { "family": "Shrikhand", "weights": [400] },
+        { "family": "Grandstander", "weights": [700, 900] }
+      ],
+      "text": ["DM Sans", "Nunito", "Figtree"]
+    },
+    "stencil": {
+      "weirdness": 3,
+      "voice": "Cut, sprayed and stamped. Hardware, outdoor gear, logistics, workshops, anything shipped in a crate.",
+      "families": [
+        { "family": "Big Shoulders Stencil Display", "weights": [700, 900] },
+        { "family": "Saira Stencil One", "weights": [400] },
+        { "family": "Stardos Stencil", "weights": [700] }
+      ],
+      "text": ["Barlow", "Inter", "IBM Plex Sans"],
+      "note": "The bridges are the character: keep them at least 1/32 of the cap height or they close up when small."
+    },
+    "marker": {
+      "weirdness": 3,
+      "voice": "Drawn by a person with a pen, not a calligrapher. Makers, zines, indie games, community projects, teachers.",
+      "families": [
+        { "family": "Shantell Sans", "weights": [600, 800] },
+        { "family": "Permanent Marker", "weights": [400] },
+        { "family": "Gochi Hand", "weights": [400] },
+        { "family": "Londrina Solid", "weights": [900] }
+      ],
+      "text": ["Work Sans", "Nunito Sans", "Figtree"],
+      "note": "Repeated letters look stamped, not drawn: if the name repeats a letter, take the second one from another word set in the same face, or nudge it a degree or two."
+    },
+    "odd-serif": {
+      "weirdness": 3,
+      "voice": "Serifs with a twist: extreme contrast, odd joins, cut-in shapes. Indie publishing, restaurants, culture, small luxury.",
+      "families": [
+        { "family": "Gloock", "weights": [400] },
+        { "family": "Kalnia", "weights": [500, 700] },
+        { "family": "Limelight", "weights": [400] },
+        { "family": "Erica One", "weights": [400] }
+      ],
+      "text": ["Inter", "Instrument Sans", "Source Serif 4"]
+    },
+    "retro": {
+      "weirdness": 4,
+      "voice": "Period pieces: deco, 70s groove, western, neon signs, space age. Use when the era is the idea, not as decoration.",
+      "families": [
+        { "family": "Monoton", "weights": [400], "small": false },
+        { "family": "Rye", "weights": [400] },
+        { "family": "Poiret One", "weights": [400] },
+        { "family": "Fascinate", "weights": [400], "small": false },
+        { "family": "Bungee Shade", "weights": [400], "small": false },
+        { "family": "Bungee Inline", "weights": [400] },
+        { "family": "Climate Crisis", "weights": [400] },
+        { "family": "Syncopate", "weights": [700] }
+      ],
+      "text": ["Inter", "DM Sans", "Jost"],
+      "note": "Pick the decade on purpose and let the colour and the mark agree with it; one era per logo."
+    },
+    "pixel": {
+      "weirdness": 4,
+      "voice": "Bitmap and screen type. Games, retro computing, dev tools that wink, anything made of pixels.",
+      "families": [
+        { "family": "Silkscreen", "weights": [400] },
+        { "family": "Pixelify Sans", "weights": [500, 700] },
+        { "family": "Press Start 2P", "weights": [400] },
+        { "family": "Jersey 10", "weights": [400] },
+        { "family": "Micro 5", "weights": [400] },
+        { "family": "VT323", "weights": [400] }
+      ],
+      "text": ["IBM Plex Mono", "Space Grotesk", "Inter"],
+      "note": "Set the size so one font pixel is a whole number of units, and snap the word to that grid; a pixel mark beside it uses the same pixel size."
+    },
+    "blackletter": {
+      "weirdness": 4,
+      "voice": "Gothic and fraktur. Metal, tattoo, brewing, print shops and newspapers, or the wrong-genre joke at level 5.",
+      "families": [
+        { "family": "Pirata One", "weights": [400] },
+        { "family": "Grenze Gotisch", "weights": [600, 800] },
+        { "family": "UnifrakturMaguntia", "weights": [400], "small": false },
+        { "family": "Jacquard 24", "weights": [400], "small": false },
+        { "family": "Fruktur", "weights": [400] }
+      ],
+      "text": ["Source Serif 4", "Inter", "EB Garamond"],
+      "note": "Title case or lower case only; blackletter capitals in a row are unreadable. Short names."
+    },
+    "experimental": {
+      "weirdness": 5,
+      "voice": "Type that is already a drawing: glitched, dripping, inflated, striped, 3-D or tangled. It is usually the whole idea, so the mark goes quiet or merges with the word.",
+      "families": [
+        { "family": "Rubik Glitch", "weights": [400], "small": false },
+        { "family": "Rubik Wet Paint", "weights": [400], "small": false },
+        { "family": "Rubik Puddles", "weights": [400], "small": false },
+        { "family": "Rubik Beastly", "weights": [400], "small": false },
+        { "family": "Rubik Doodle Shadow", "weights": [400], "small": false },
+        { "family": "Kablammo", "weights": [400], "small": false },
+        { "family": "Tilt Prism", "weights": [400], "small": false },
+        { "family": "Rampart One", "weights": [400], "small": false },
+        { "family": "Zen Tokyo Zoo", "weights": [400], "small": false },
+        { "family": "Major Mono Display", "weights": [400] },
+        { "family": "Monofett", "weights": [400], "small": false },
+        { "family": "Workbench", "weights": [400], "small": false },
+        { "family": "Danfo", "weights": [400], "small": false },
+        { "family": "Nosifer", "weights": [400], "small": false },
+        { "family": "Sedgwick Ave Display", "weights": [400] },
+        { "family": "Modak", "weights": [400] },
+        { "family": "Sixtyfour", "weights": [400], "small": false }
+      ],
+      "text": ["Inter", "Space Grotesk", "DM Sans"],
+      "note": "One loud thing: the mark gets simpler (or becomes the word). Names of about eight letters or fewer. Colour fonts (Nabla, Foldit, Bungee Spice, Honk) are left out because outlining keeps only one layer."
     }
   }
 }
