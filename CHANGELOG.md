@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.0 (2026-11-11)
+
+- Creative direction. Before concepts, the `logo` skill asks five quick
+  questions, each with a default: three feeling words, four either/ors (serious
+  or playful, classic or futuristic, quiet or loud, handmade or engineered),
+  reference brands, where the logo lives most, and weirdness.
+- Weirdness dial, 1 (quiet) to 5 (weird). It widens the concepts, type voices
+  and colour, and lets some style rules bend from level 3 up; the review
+  checklist never bends. With no level given, round 1 shows one concept each at
+  2, 3 and 4. See `references/direction.md`.
+- `brand.json` takes an optional `direction` record of the answers.
+
 ## 1.2.0 (2026-11-10)
 
 - Website colour palette. The export now writes `web/`: 12-step OKLCH scales for
