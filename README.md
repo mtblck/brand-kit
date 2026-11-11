@@ -44,8 +44,16 @@ as `brand-kit@mtblck`.
 
 Ask for what you need: "design a logo for my bakery, Crumb", "make favicons
 from this SVG", "add a slide template to our brand kit". The `logo` skill asks
-for a short brief, shows concepts and a typeface specimen, and checks in before
-it draws the final kit.
+for a short brief and five quick creative-direction questions, shows concepts
+and a typeface specimen, and checks in before it draws the final kit.
+
+One of those questions is **weirdness**, from 1 (quiet and professional) to 5
+(plain weird). It sets how far the ideas, type and colour may stray, never
+whether the logo still works at 16 px and in one colour. Say it up front
+("weirdness 4") or leave it out, and the first round shows one concept each at
+2, 3 and 4 so you can pick by eye.
+
+![Harbor at weirdness 1 to 5; the shipped logo is the 2](docs/harbor-weirdness.png)
 
 ## What it does
 

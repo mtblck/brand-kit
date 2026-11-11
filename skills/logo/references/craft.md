@@ -25,6 +25,18 @@ The rules `logo` draws by. Read the section you need: before drawing, before loc
 - **Near-misses** Either align things exactly or offset them clearly (by at least a stroke width). Edges 2 units apart, or tangents that almost touch, look like errors at every size.
 - **Tiny parts** Anything thinner or smaller than about 1/32 of the mark's height (8 units on 256) vanishes at 16–32 px. Enlarge it, merge it, or drop it from the favicon version.
 
+## Creatures and objects
+
+A mark that depicts something (an animal, a character, a tool) has to be recognised before it can be clever. Weird marks lean on this most, so the higher the weirdness, the more these rules matter.
+
+- **Name the tells first.** Before drawing, write down the two or three features that make the thing recognisable at a glance: a crab is two big raised pincers, a wide shell and legs splayed sideways; a whale is a blunt head flowing into a tail stalk and two flukes. Make the tells the largest shapes, and pick the view that shows them best (a crab head on, a whale side on). Anything that isn't a tell is a candidate to cut.
+- **Silhouette test.** Fill the mark solid black and look at it at 64 px. Someone who has never seen it should name it in one word. If they'd say "blob", "bug" or "fish" when you meant "crab" or "whale", it isn't done, however good the colour version looks.
+- **One connected silhouette.** Parts of one body join: draw the body, tail and fins as one outline with `smooth()`, and overlap limbs into the body rather than butting them against it. A part that floats (a tail that doesn't meet the body) reads as a mistake. A deliberate gap (a held object, a separate spout) is even all round and at least 1/16 of the mark, so it's clearly on purpose.
+- **Organic shapes are curves.** Build animals and soft objects from `smooth()` outlines and `ellipse`, with `'corner'` points only where the real thing is sharp (fin tips, claw points, notches). Pills, rectangles and triangles bolted together look like clip art.
+- **One limb weight.** Legs, arms, stalks and handles are `limb()` strokes of one width, about 1/14 of the mark (18 on 256), with a second width only for something clearly finer, such as eye stalks at two thirds of it.
+- **The idea is never the smallest thing.** The part that carries the concept (the bookmark, the beacon) is at least a fifth of the mark's height. If it has to be small to fit, the composition is wrong: move it, or make the creature hold it.
+- **Draft more, not less.** For a figurative mark, draw at least three silhouettes of the chosen idea (different poses, views or proportions), compare them in black at 64 px, and refine the best one in two passes before it goes on a concept sheet. Look at it at 512 px and ask whether a designer would ship it as it is: even curves, no lumps where shapes meet, consistent weights, the tells obvious.
+
 ## Type
 
 - **Voice first** Match the face to the brief's adjectives using the groups in `typefaces.json`, then choose by eye on the specimen sheet.
