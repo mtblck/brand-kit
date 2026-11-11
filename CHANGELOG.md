@@ -11,6 +11,8 @@
   checklist never bends. With no level given, round 1 shows one concept each at
   2, 3 and 4. See `references/direction.md`.
 - `brand.json` takes an optional `direction` record of the answers.
+- `examples/harbor/weirdness/`: Harbor drawn at weirdness 1, 3 and 5, shown in
+  the README.
 
 ## 1.2.0 (2026-11-10)
 
