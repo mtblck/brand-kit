@@ -4,6 +4,7 @@
  *
  *   node render.mjs logo.svg [more.svg …] [--width 1024] [--bg '#fff'] [--out DIR]
  *   node render.mjs a.svg b.svg c.svg --sheet concepts.png
+ *   node render.mjs 1.svg … 9.svg --sheet round-1.png --mono --rows "Symbol,Monogram,Wordmark" --cols "Weirdness 2,Weirdness 3,Weirdness 4" --title "Wren: sketches"
  *
  * Writes <name>-<width>.png next to each SVG (or into --out), transparent
  * unless --bg is given. --sheet instead puts all the SVGs on one numbered
@@ -105,17 +106,30 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const cell = (file, i) => {
       const uri = dataUri(readFileSync(resolve(file), 'utf8'))
       const im = (h) => `<img src="${uri}" style="height:${h}px;width:auto;max-width:100%">`
-      return `<div class="c"><b>${i + 1}</b><div class="big">${im(200)}</div><div class="sm">${im(32)}${im(16)}<span>${basename(file, '.svg')}</span></div><div class="sm dk">${im(32)}${im(16)}</div></div>`
+      // --mono: black sketches, so the dark strip shows them reversed rather than black on black.
+      const dk = (h) => im(h).replace('style="', `style="${args.includes('--mono') ? 'filter:invert(1);' : ''}`)
+      return `<div class="c"><b>${i + 1}</b><div class="big">${im(200)}</div><div class="sm">${im(32)}${im(16)}<span>${basename(file, '.svg')}</span></div><div class="sm dk">${dk(32)}${dk(16)}</div></div>`
     }
-    const html = `<!doctype html><html><body style="margin:0;padding:24px;background:#eee;font:13px system-ui,sans-serif;width:${Math.min(files.length, 3) * 380 + 48}px;box-sizing:border-box">
-<style>.g{display:flex;flex-wrap:wrap;gap:16px}.c{width:364px;background:#fff;border-radius:10px;padding:16px;box-sizing:border-box;position:relative}
+    // --rows and --cols (comma lists) label a grid: the 3 × 3 concept round uses
+    // structures for rows and weirdness levels for columns. --title heads the sheet.
+    const rows = opt('--rows')?.split(',').map((x) => x.trim()), cols = opt('--cols')?.split(',').map((x) => x.trim())
+    const n = cols?.length || Math.min(files.length, 3)
+    const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    const cells = files.map(cell)
+    const body = rows || cols
+      ? `<div class="t" style="grid-template-columns:${rows ? '120px ' : ''}repeat(${n},364px)">${rows ? '<i></i>' : ''}${(cols || []).map((c) => `<h3>${esc(c)}</h3>`).join('')}${cells.map((c, i) => (rows && i % n === 0 ? `<h4>${esc(rows[i / n] || '')}</h4>` : '') + c).join('')}</div>`
+      : `<div class="g">${cells.join('')}</div>`
+    const W = n * 380 + 48 + (rows ? 136 : 0)
+    const html = `<!doctype html><html><body style="margin:0;padding:24px;background:#eee;font:13px system-ui,sans-serif;width:${W}px;box-sizing:border-box">
+<style>.g{display:flex;flex-wrap:wrap;gap:16px}.t{display:grid;gap:16px}.t h3{margin:0;font-size:14px;text-align:center;color:#444}.t h4{margin:0;font-size:14px;color:#444;align-self:center;text-align:right;padding-right:8px}
+h1{font-size:18px;margin:0 0 16px}.c{width:364px;background:#fff;border-radius:10px;padding:16px;box-sizing:border-box;position:relative}
 .c b{position:absolute;top:10px;left:14px;font-size:18px}.big{height:240px;display:grid;place-items:center}
 .sm{display:flex;align-items:center;gap:16px;padding:10px;border-top:1px solid #eee}.sm span{color:#888;margin-left:auto}.dk{background:#1d1d1f;border-radius:6px}</style>
-<div class="g">${files.map(cell).join('')}</div></body></html>`
+${opt('--title') ? `<h1>${esc(opt('--title'))}</h1>` : ''}${body}</body></html>`
     const tmp = join(dirname(resolve(opt('--sheet'))), '.sheet.html')
     const { writeFileSync, rmSync } = await import('node:fs')
     writeFileSync(tmp, html)
-    console.log(await htmlShot(b, tmp, resolve(opt('--sheet')), { width: Math.min(files.length, 3) * 380 + 48 }))
+    console.log(await htmlShot(b, tmp, resolve(opt('--sheet')), { width: W }))
     rmSync(tmp)
     await b.close()
     process.exit(0)
