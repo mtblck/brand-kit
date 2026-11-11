@@ -13,6 +13,11 @@
 - `brand.json` takes an optional `direction` record of the answers.
 - `examples/harbor/weirdness/`: Harbor drawn at weirdness 1, 3, 4 and 5 (the
   shipped logo is the 2), shown side by side in the README.
+- Figurative marks: a "Creatures and objects" section in `craft.md` (name the
+  tells, the silhouette test, one connected outline, the idea never the
+  smallest part, three drafts and two passes), a silhouette line in the review
+  checklist, and `smooth()`, `limb()` and `ellipse()` in `brand.mjs` for
+  organic outlines.
 
 ## 1.2.0 (2026-11-10)
 

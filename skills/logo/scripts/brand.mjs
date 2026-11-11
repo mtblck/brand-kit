@@ -164,6 +164,41 @@ export function arcBand(cx, cy, r, w, a0, a1) {
   return `M${x1} ${y1}A${f(ro)} ${f(ro)} 0 ${large} 1 ${x2} ${y2}L${x3} ${y3}A${f(ri)} ${f(ri)} 0 ${large} 0 ${x4} ${y4}Z`
 }
 
+/** Ellipse as a path, like `circle`. */
+export const ellipse = (cx, cy, rx, ry) =>
+  `M${f(cx - rx)} ${f(cy)}a${f(rx)} ${f(ry)} 0 1 0 ${f(2 * rx)} 0a${f(rx)} ${f(ry)} 0 1 0 ${f(-2 * rx)} 0Z`
+
+/**
+ * A thick line with round ends (a capsule) from (x1, y1) to (x2, y2), `w` wide.
+ * For limbs, stalks and handles in figurative marks, so they share one weight.
+ */
+export function limb(x1, y1, x2, y2, w) {
+  const r = w / 2, len = Math.hypot(x2 - x1, y2 - y1)
+  const nx = (-(y2 - y1) / len) * r, ny = ((x2 - x1) / len) * r
+  return `M${f(x1 + nx)} ${f(y1 + ny)}L${f(x2 + nx)} ${f(y2 + ny)}A${f(r)} ${f(r)} 0 0 0 ${f(x2 - nx)} ${f(y2 - ny)}L${f(x1 - nx)} ${f(y1 - ny)}A${f(r)} ${f(r)} 0 0 0 ${f(x1 + nx)} ${f(y1 + ny)}Z`
+}
+
+/**
+ * A closed smooth outline through [[x, y], …] (Catmull-Rom turned into cubic
+ * Béziers). Add 'corner' as a third item to keep a point sharp, for a fin tip, a
+ * claw point or a notch. `tension` 0 is loose, 0.5 a standard Catmull-Rom curve (the
+ * default), 1 straight lines.
+ * The tool for organic silhouettes: one outline instead of a pill and triangles,
+ * so the parts of a creature flow into each other.
+ */
+export function smooth(pts, tension = 0.5) {
+  const n = pts.length, k = (1 - tension) / 3
+  const P = (i) => pts[(i + n) % n]
+  let d = `M${f(P(0)[0])} ${f(P(0)[1])}`
+  for (let i = 0; i < n; i++) {
+    const p0 = P(i - 1), p1 = P(i), p2 = P(i + 1), p3 = P(i + 2)
+    const c1 = p1[2] === 'corner' ? p1 : [p1[0] + (p2[0] - p0[0]) * k, p1[1] + (p2[1] - p0[1]) * k]
+    const c2 = p2[2] === 'corner' ? p2 : [p2[0] - (p3[0] - p1[0]) * k, p2[1] - (p3[1] - p1[1]) * k]
+    d += `C${f(c1[0])} ${f(c1[1])} ${f(c2[0])} ${f(c2[1])} ${f(p2[0])} ${f(p2[1])}`
+  }
+  return d + 'Z'
+}
+
 /** Wrap SVG markup in a translate/scale group. */
 export const place = (body, x = 0, y = 0, s = 1) => `<g transform="translate(${f(x)} ${f(y)})${s !== 1 ? ` scale(${round(s, 4)})` : ''}">${body}</g>`
 
