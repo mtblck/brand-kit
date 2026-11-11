@@ -99,9 +99,13 @@ registry for `opentype.js` and `pptxgenjs`.
 `skills/logo/examples/harbor/` is a complete worked logo (a harbour arch with a beacon,
 Space Grotesk wordmark): `node draw.mjs && node ../../scripts/export.mjs brand.json`.
 
-`references/typefaces.json` lists around 70 Google Fonts that are free for
-commercial logo use (SIL OFL or Apache 2.0), in eleven voices, each with text
-faces that pair with it.
+`references/typefaces.json` lists about 130 Google Fonts that are free for
+commercial logo use (SIL OFL or Apache 2.0), in nineteen voices, each with text
+faces that pair with it and tagged with the weirdness level where it opens:
+chunky, stencil, marker and odd serifs from 3, retro, pixel and blackletter from
+4, and glitched, dripping and inflated experimental type at 5.
+
+![The decorative voices, each with the name at full size and about 12 px tall](docs/type-voices.png)
 
 ![Page one of Harbor's brand guidelines](docs/harbor-guidelines-1.png)
 

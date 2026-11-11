@@ -3,14 +3,18 @@
  * Sets a name in many candidate typefaces on one numbered sheet, so a wordmark
  * face can be chosen by eye ("3 and 11, but tighter").
  *
- *   node specimen.mjs "Name" [--group geometric,humanist] [--font "Inter:700" …]
+ *   node specimen.mjs "Name" [--group geometric,humanist] [--weirdness 4] [--font "Inter:700" …]
  *                    [--case upper|lower] [--tracking 0.01] [--ink '#111'] [--out DIR]
  *
  * --group takes keys from references/typefaces.json (every weight listed is set);
+ * --weirdness 4 (or 3,4) adds the groups that open up at those levels of the
+ * weirdness dial, in their lightest listed weight.
  * --font adds any Google Font as "Family:weight" (append "i" for italic: "Fraunces:600i").
  * Writes specimen.svg and, if a browser is available, specimen.png into --out
  * (default: the current folder). The sheet's labels are live text; the names
- * are outlined exactly as text() in brand.mjs would draw them.
+ * are outlined exactly as text() in brand.mjs would draw them. Each cell also
+ * shows the name about 12 px tall, bottom right, so faces that clog when small
+ * are caught on the sheet; faces marked `small: false` say "large only".
  */
 import { readFileSync } from 'node:fs'
 import { join, resolve, dirname } from 'node:path'
@@ -24,7 +28,7 @@ const many = (name) => args.flatMap((a, i) => (args[i - 1] === name ? [a] : []))
 const one = (name) => many(name)[0]
 const name = args.find((a, i) => !a.startsWith('--') && !(args[i - 1] || '').startsWith('--'))
 if (!name) {
-  console.error('usage: node specimen.mjs "Name" [--group geometric,humanist] [--font "Inter:700" …] [--case upper|lower] [--out DIR]')
+  console.error('usage: node specimen.mjs "Name" [--group geometric,humanist] [--weirdness 4] [--font "Inter:700" …] [--case upper|lower] [--out DIR]')
   process.exit(1)
 }
 const word = one('--case') === 'upper' ? name.toUpperCase() : one('--case') === 'lower' ? name.toLowerCase() : name
@@ -39,7 +43,17 @@ for (const key of (one('--group') || '').split(',').filter(Boolean)) {
     console.error(`No group "${key}". Groups: ${Object.keys(catalog).join(', ')}`)
     process.exit(1)
   }
-  for (const f of catalog[key].families) for (const w of f.weights) picks.push({ family: f.family, weight: w, italic: false, group: key })
+  for (const f of catalog[key].families) for (const w of f.weights) picks.push({ family: f.family, weight: w, italic: false, group: key, small: f.small })
+}
+for (const level of (one('--weirdness') || '').split(',').filter(Boolean).map(Number)) {
+  if (!(level >= 1 && level <= 5)) {
+    console.error('--weirdness wants levels from 1 to 5, such as 4 or 3,4')
+    process.exit(1)
+  }
+  for (const [key, g] of Object.entries(catalog)) {
+    if (g.weirdness !== level) continue
+    for (const f of g.families) picks.push({ family: f.family, weight: f.weights[0], italic: false, group: `${key} · w${level}`, small: f.small })
+  }
 }
 for (const spec of many('--font')) {
   const m = spec.match(/^(.+?):(\d{3})(i?)$/)
@@ -53,7 +67,7 @@ if (!picks.length) picks.push(...['geometric', 'grotesque', 'humanist', 'serif-c
 
 // Each cell: the name with its cap height normalised to 56 units, so faces are
 // compared at the same optical size rather than the same nominal size.
-const COLS = 2, CELL_W = 600, CELL_H = 150, CAP = 56, PAD = 40
+const COLS = 2, CELL_W = 600, CELL_H = 150, CAP = 56, SMALL = 9, PAD = 40
 const cells = []
 for (const [i, p] of picks.entries()) {
   try {
@@ -62,11 +76,18 @@ for (const [i, p] of picks.entries()) {
     const size = (100 * CAP) / probe.capHeight
     let t = text(font, word, { size, tracking })
     const maxW = CELL_W - 2 * PAD
-    if (t.bbox.w > maxW) t = text(font, word, { size: (size * maxW) / t.bbox.w, tracking })
+    // Shrink to fit the cell: too wide, or drips and swashes reaching into the label.
+    const fit = Math.min(1, maxW / t.bbox.w, t.bbox.y2 > 22 ? 22 / t.bbox.y2 : 1, t.bbox.y1 < -84 ? 84 / -t.bbox.y1 : 1)
+    if (fit < 1) t = text(font, word, { size: size * fit, tracking })
+    const set = size * fit
     const col = i % COLS, row = Math.floor(i / COLS)
     const x = col * CELL_W + PAD - t.bbox.x1, y = row * CELL_H + 92
+    // The same name about 12 px tall (cap height 9 at the sheet's 1:1 width).
+    const s = text(font, word, { size: (set * SMALL) / CAP, tracking })
+    const sx = (col + 1) * CELL_W - PAD - s.bbox.x2, sy = row * CELL_H + 128
     cells.push(`<g transform="translate(${x.toFixed(1)} ${y})"><path d="${t.d}" fill="${ink}"/></g>
-<text x="${col * CELL_W + PAD}" y="${row * CELL_H + 128}" class="l">${i + 1} · ${esc(font.label)} · ${p.group}</text>`)
+<g transform="translate(${sx.toFixed(1)} ${sy})"><path d="${s.d}" fill="${ink}"/></g>
+<text x="${col * CELL_W + PAD}" y="${row * CELL_H + 128}" class="l">${i + 1} · ${esc(font.label)} · ${p.group}${p.small === false ? ' · large only' : ''}</text>`)
   } catch (e) {
     console.error(`skipped ${p.family} ${p.weight}: ${e.message}`)
   }
