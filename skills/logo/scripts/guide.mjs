@@ -240,12 +240,12 @@ h1{font-size:68px;line-height:.98;font-weight:${disp?.weight || 700};letter-spac
 .tile img{max-width:80%}.tile figcaption{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase}
 .note{color:#555;margin:0;font-size:10.5px}
 h3{font-size:13px;margin:4px 0 8px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
 .grid{border-radius:12px;overflow:hidden;height:3in;display:grid;place-items:center;margin-bottom:8px;
   background-color:#fafafa;background-image:linear-gradient(#e9e9e9 1px,transparent 1px),linear-gradient(90deg,#e9e9e9 1px,transparent 1px);background-size:15px 15px}
 .csbox{outline:1.5px dashed #d33;outline-offset:0;background:rgba(255,255,255,.6)}.csbox img{display:block}.cons{position:relative}.cons .overlay{position:absolute;max-width:none;opacity:.85}
-.mins{display:flex;align-items:flex-end;gap:26px;margin-bottom:10px;padding:14px 16px;border-radius:12px;background:#fafafa}.min{margin:0;display:flex;flex-direction:column;gap:8px;font-size:9.5px;color:#555}.min div{display:flex;align-items:flex-end;min-height:20px}.min figcaption{line-height:1.3}
-.row{display:flex;gap:10px}.mono{flex:1;height:.95in;border-radius:10px;display:grid;place-items:center}.mono img{max-width:78%;max-height:44%}
+.mins{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 26px;margin-bottom:10px;padding:14px 16px;border-radius:12px;background:#fafafa}.min{margin:0;display:flex;flex-direction:column;gap:8px;font-size:9.5px;color:#555}.min div{display:flex;align-items:flex-end;min-height:20px}.min figcaption{line-height:1.3}
+.row{display:flex;gap:10px}.mono{flex:1;min-width:0;height:.95in;border-radius:10px;display:grid;place-items:center}.mono img{max-width:78%;max-height:44%}
 .donts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .dont{margin:0}.dont div{height:1.15in;border-radius:10px;background:#f6f6f6;display:grid;place-items:center;overflow:hidden}.dont img{height:54px}
 .dont figcaption{font-size:9.5px;color:#555;margin-top:5px;display:flex;gap:6px;align-items:center}.dont i{font-style:normal;color:#fff;background:#d33;border-radius:50%;width:14px;height:14px;display:grid;place-items:center;font-size:8px}
