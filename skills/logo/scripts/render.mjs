@@ -4,7 +4,7 @@
  *
  *   node render.mjs logo.svg [more.svg …] [--width 1024] [--bg '#fff'] [--out DIR]
  *   node render.mjs a.svg b.svg c.svg --sheet concepts.png
- *   node render.mjs 1.svg … 9.svg --sheet round-1.png --mono --rows "Symbol,Monogram,Wordmark" --cols "Weirdness 2,Weirdness 3,Weirdness 4" --title "Wren: sketches"
+ *   node render.mjs 1.svg … 9.svg --sheet round-1.png --mono --rows "Symbol,Monogram,Wordmark" --cols "Weirdness 2,Weirdness 3,Weirdness 4" --title "Wren · round 1 · nine unrefined sketches"
  *
  * Writes <name>-<width>.png next to each SVG (or into --out), transparent
  * unless --bg is given. --sheet instead puts all the SVGs on one numbered

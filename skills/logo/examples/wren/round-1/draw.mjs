@@ -121,4 +121,4 @@ cells.forEach((d, i) => {
   write(out(`${i + 1}.svg`), svg({ w: b.w + p * 2, h: b.h + p * 2, title: `Wren sketch ${i + 1}`, body: `<path d="${d}" fill="#000" transform="translate(${p - b.x} ${p - b.y})"/>` }))
 })
 const render = join(here, '../../../scripts/render.mjs')
-execFileSync('node', [render, ...cells.map((_, i) => out(`${i + 1}.svg`)), '--sheet', out('round-1.png'), '--rows', 'Symbol,Lettermark,Wordmark', '--cols', 'Weirdness 2,Weirdness 3,Weirdness 4', '--title', 'Wren · round 1 · nine sketches, pick one to three', '--mono'], { stdio: 'inherit' })
+execFileSync('node', [render, ...cells.map((_, i) => out(`${i + 1}.svg`)), '--sheet', out('round-1.png'), '--rows', 'Symbol,Lettermark,Wordmark', '--cols', 'Weirdness 2,Weirdness 3,Weirdness 4', '--title', 'Wren · round 1 · nine unrefined sketches, pick one to three', '--mono'], { stdio: 'inherit' })

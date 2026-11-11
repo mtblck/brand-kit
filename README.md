@@ -45,11 +45,11 @@ as `brand-kit@mtblck`.
 Ask for what you need: "design a logo for my bakery, Crumb", "make favicons
 from this SVG", "add a slide template to our brand kit". The `logo` skill asks
 for a short brief and five quick creative-direction questions, shows nine
-quick sketches on a 3 × 3 grid (structures down, weirdness across) and a
+unrefined sketches on a 3 × 3 grid (structures down, weirdness across) and a
 typeface specimen, draws your one to three picks properly, and builds the kit
 only once you've locked the logo.
 
-![Wren, round 1: nine sketches on a 3 × 3 grid](docs/wren-round-1.png)
+![Wren, round 1: nine unrefined sketches on a 3 × 3 grid](docs/wren-round-1.png)
 
 One of those questions is **weirdness**, from 1 (quiet and professional) to 5
 (plain weird). It sets how far the ideas, type and colour may stray, never

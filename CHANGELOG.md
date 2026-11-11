@@ -23,7 +23,7 @@
   versions (irradiation), the size ladder, a "Dynamic" structure, a Process
   section (volume then choose, Haviv's three tests, a category audit), and
   rotate, mirror and blur tests in the review checklist.
-- Concepts are now a funnel. Round 1 is nine black sketches on a 3 × 3 grid
+- Concepts are now a funnel. Round 1 is nine unrefined black sketches on a 3 × 3 grid
   (rows are structures, columns are weirdness levels; the old spread of 2, 3
   and 4 becomes the columns). The user picks one to three, those are drawn
   properly in round 2, and the kit is built only after the user locks the
