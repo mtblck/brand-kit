@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 (2026-11-11)
+## 1.4.0 (2026-11-11)
 
 - More type for the weirdness dial. `typefaces.json` grows from about 70 to
   about 130 Google Fonts (all SIL OFL or Apache 2.0) with eight new voices:
