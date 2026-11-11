@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.4.0 (2026-11-11)
+
+- More type for the weirdness dial. `typefaces.json` grows from about 70 to
+  about 130 Google Fonts (all SIL OFL or Apache 2.0) with eight new voices:
+  chunky, stencil, marker and odd-serif from level 3; retro, pixel and
+  blackletter from 4; experimental (glitched, dripping, inflated, striped) at
+  5. Every voice now carries a `weirdness` level, some a `note`, and faces that
+  clog when small are marked `small: false`.
+- `specimen.mjs --weirdness 4` (or `3,4`) sets every voice that opens at those
+  levels. Each cell also shows the name about 12 px tall and says "large only"
+  for `small: false` faces; names with drips or tall swashes are shrunk to fit
+  their cell.
+- "Decorative faces" in `craft.md`: one loud thing, wordmark only, check it
+  small, short names, each group's own rules, no colour fonts, customise less.
+  The dial table in `direction.md` lists the new voices per level.
+
 ## 1.3.0 (2026-11-11)
 
 - Creative direction. Before concepts, the `logo` skill asks five quick
