@@ -7,11 +7,15 @@ The rules `logo` draws by. Read the section you need: before drawing, before loc
 | Structure | When it fits | Watch out for |
 |---|---|---|
 | **Symbol + wordmark** | Most products: the symbol becomes the app icon and favicon, the lockup does the rest | Two ideas in one logo. The symbol carries the idea; the wordmark stays plain |
-| **Lettermark / monogram** | Long names, or names whose initial is distinctive | An initial in a circle is not a concept. Find something the letter can *do* |
+| **Lettermark** | Long names, or names whose initial is distinctive | An initial in a circle is not a concept. Find something the letter can *do* |
+| **Monogram** | Two-word names, initials, personal and heritage brands | Generator clichés and unreadable pairs. Choose the structure from the letters (`monograms.md`) |
 | **Wordmark only** | Short, distinctive names; editorial or fashion voice | It still needs a favicon: take one letter, or the word's distinctive detail |
 | **Wordmark with one modified letter** | The idea lives in a letter (a counter becomes a lens, a stem becomes a pin) | Modify one letter only, and keep it readable as that letter |
 | **Abstract mark** | The product is abstract (infrastructure, finance, a platform) | Generic blobs and swooshes. Base it on a real property of the product, like flow, layers or a grid |
 | **Emblem / badge** | Crafts, food and drink, clubs, heritage | Detail that dies at small sizes: make a simplified inner mark for icons |
+| **Dynamic** | A system that changes (per person, per season, per page) | Variety that loses the brand: MIT Media Lab's 40,000 generated marks were replaced because nothing stayed constant. Keep one fixed element |
+
+Construction is a separate choice from structure. Any figurative or round mark can be built on a **circle grid** (every curve an arc of one set of circles; see `circle-grid.md`), which is what makes a bird or a leaf look engineered rather than drawn.
 
 ## Construction
 
@@ -21,7 +25,8 @@ The rules `logo` draws by. Read the section you need: before drawing, before loc
 - **Radii** One corner radius for the whole logo, or zero. Inner corners of a band are its outer radius minus its width.
 - **Holes and overlaps** Holes are subpaths with `fill-rule="evenodd"` (or cut out of the geometry). Never paint a shape in the background colour to fake a hole: the one-colour and dark versions will expose it.
 - **Strokes** Fine while sketching, but outline them before export: everything in the final SVG is a filled path. Use `arcBand`, `rect` and `poly` to draw thick lines as shapes from the start.
-- **Optical corrections** Round and pointed shapes overshoot the flat ones by 1–3 % (a circle next to a square is drawn slightly larger, and a triangle's apex pokes past the line). Horizontal bars are drawn about 5–10 % thinner than vertical stems to look equal. The visual centre of a mark sits slightly above the geometric centre. Triangles and asymmetric marks need nudging toward their heavy side to look centred in a tile.
+- **Optical corrections** Round shapes overshoot the flat ones by 1–3 % of their height (type designers use about 3 % for an O) and pointed ones by 3–5 % (the apex of an A or a triangle). Next to a square, a circle looks the same size at about 113 % of the square's side (equal area); use that as a starting point, not a law. Horizontal bars are drawn about 5–10 % thinner than vertical stems to look equal. The visual centre of a mark sits slightly above the geometric centre. Triangles, arrows and asymmetric marks are centred by their centroid, not their bounding box, which moves a play triangle toward its point.
+- **Joins** Where heavy strokes meet at a sharp angle (a V, a K, a crossing), the corner fills in and looks darker than the rest. Thin the strokes into the join, or cut a small notch (an ink trap); the heavier the weight and the tighter the angle, the more it needs.
 - **Near-misses** Either align things exactly or offset them clearly (by at least a stroke width). Edges 2 units apart, or tangents that almost touch, look like errors at every size.
 - **Tiny parts** Anything thinner or smaller than about 1/32 of the mark's height (8 units on 256) vanishes at 16–32 px. Enlarge it, merge it, or drop it from the favicon version.
 
@@ -37,10 +42,16 @@ A mark that depicts something (an animal, a character, a tool) has to be recogni
 - **The idea is never the smallest thing.** The part that carries the concept (the bookmark, the beacon) is at least a fifth of the mark's height. If it has to be small to fit, the composition is wrong: move it, or make the creature hold it.
 - **Draft more, not less.** For a figurative mark, draw at least three silhouettes of the chosen idea (different poses, views or proportions), compare them in black at 64 px, and refine the best one in two passes before it goes on a concept sheet. Look at it at 512 px and ask whether a designer would ship it as it is: even curves, no lumps where shapes meet, consistent weights, the tells obvious.
 
+## Process
+
+- **Volume, then choose.** Professionals sketch dozens to thousands of variations before one survives. In code that's cheap: when a concept is chosen, draw it five or more ways (proportions, weights, crop, which part carries the accent), and look across the set for things nobody planned. The FedEx arrow was found in the kerning, not designed in.
+- **Appropriate, distinctive, simple.** Sagi Haviv's three tests. Appropriate doesn't mean expressive: a logo can't tell the whole story, and meaning accrues through use (Bierut), so don't stack three symbols into one mark to say everything.
+- **Category audit.** Before concepts, list how five to eight competitors' logos look (colours, shapes, type voices) and aim to stand apart from the pattern, not inside it.
+
 ## Type
 
 - **Voice first** Match the face to the brief's adjectives using the groups in `typefaces.json`, then choose by eye on the specimen sheet.
-- **Customise lightly** In order of effort: set tracking (wordmarks in bold weights usually want −1 to −3 %, all-caps wants +4 to +10 %); choose case; swap in an alternate; modify one letter (cut a terminal, join two letters, replace a counter with the symbol). Redrawing the whole word is a bigger job than it looks: avoid it unless asked.
+- **Customise lightly** A known face with tuned spacing and one or two custom letters or a ligature gets most of the distinctiveness of fully custom type at a fraction of the work. In order of effort: set tracking (wordmarks in bold weights usually want −1 to −3 %, all-caps wants +4 to +10 %); choose case; swap in an alternate; modify one letter (cut a terminal, join two letters, replace a counter with the symbol). Redrawing the whole word is a bigger job than it looks: avoid it unless asked.
 - **Spacing** Kerning comes from the font, but check the classic gaps (`r` before a round letter, `T`, `V`, `W`, `Y`, `A`, `L` next to anything) and fix them by splitting the word: `text()` on parts and position them by hand.
 - **Pairing** One family for the wordmark and headings; a text face for body copy that is calmer than it (see the group's `text` list). A serif display face pairs with a sans text face more often than the other way round. Never more than two families.
 - **Licensing** Every face in `typefaces.json` is SIL OFL or Apache 2.0, which allow outlined use in a logo. For any other font, check its licence on fonts.google.com or the foundry's site before using it.
@@ -71,10 +82,12 @@ The voices that open at weirdness 3 and up (chunky, stencil, marker, odd-serif, 
 - The primary colour carries the wordmark, so it needs 4.5:1 or more on white; the guidelines show each contrast ratio.
 - The accent goes on one part of the mark, the part that carries the idea (Harbor's beacon).
 - The dark version swaps the primary colour for the paper and keeps the accent if it still has 3:1 or more against the dark. If not, lighten the accent for the dark version.
+- Light shapes on a dark ground look heavier than the same shapes dark on light (irradiation). For a mark with fine lines or tight counters, draw the dark version 2–5 % lighter (thinner strokes, slightly larger holes) and compare the two on the check sheet. In print the opposite can happen, as ink spreads into reversed hairlines, so print proofs win over rules.
 - Every logo also exists in pure black and pure white. `export.mjs` makes these by recolouring every fill, which is why holes must be real holes.
 
 ## Icons
 
+- **The size ladder** Full lockup, then the mark, then the favicon: each step drops detail but keeps the geometry. Redraw the small steps with heavier parts rather than shrinking the big one, and check them on whole pixels (a 16 px favicon wants edges on the pixel grid).
 - **Favicon** At 16 px only the silhouette survives. If the mark has fine detail, draw a `favicon.svg` with the detail enlarged or removed, often on a rounded tile in the primary colour so it holds up in both light and dark tabs (`icon.favicon`, or `icon.faviconBackground` to have the export add the tile).
 - **App icon** The art fills about 60–65 % of the tile (`icon.scale`, default 0.62) on an opaque background. iOS adds its own rounded corners, so `app-icon-1024.png` and `apple-touch-icon.png` are square and opaque.
 - **Maskable (Android)** Launchers crop to a circle, squircle or other shape, so the art stays inside the central 80 % circle: `icon.maskableScale`, default 0.5. Check the circle crop on `check.png`.

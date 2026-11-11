@@ -44,8 +44,12 @@ as `brand-kit@mtblck`.
 
 Ask for what you need: "design a logo for my bakery, Crumb", "make favicons
 from this SVG", "add a slide template to our brand kit". The `logo` skill asks
-for a short brief and five quick creative-direction questions, shows concepts
-and a typeface specimen, and checks in before it draws the final kit.
+for a short brief and five quick creative-direction questions, shows nine
+unrefined sketches on a 3 × 3 grid (structures down, weirdness across) and a
+typeface specimen, draws your one to three picks properly, and builds the kit
+only once you've locked the logo.
+
+![Wren, round 1: nine unrefined sketches on a 3 × 3 grid](docs/wren-round-1.png)
 
 One of those questions is **weirdness**, from 1 (quiet and professional) to 5
 (plain weird). It sets how far the ideas, type and colour may stray, never
@@ -54,6 +58,18 @@ whether the logo still works at 16 px and in one colour. Say it up front
 2, 3 and 4 so you can pick by eye.
 
 ![Harbor at weirdness 1 to 5; the shipped logo is the 2](docs/harbor-weirdness.png)
+
+Round and figurative marks can be built on a **circle grid**: every curve an
+arc of one set of circles, drawn in code with path booleans, with the
+construction drawing to show for it (and on the guidelines' construction page).
+
+![Wren, a circle-grid mark: the circles over the shape, over the colour, and the clean mark](docs/wren-construction.png)
+
+Names with two words or initials always get a **monogram** concept, with the
+structure chosen from the letters: a shared stem, a stepped serif, a monoline in
+a ring, a weave, a knockout tile.
+
+![Marlow & Finch: M and F as a shared-stem serif, a monoline in a ring and a ligature in a tile](docs/monograms.png)
 
 ## What it does
 

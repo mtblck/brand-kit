@@ -1,0 +1,84 @@
+{
+  "name": "Wren",
+  "tagline": "A few lines a day.",
+  "about": "Wren is a small journal for a few lines a day: quick to open, quiet to use, and kind about the days you miss.\n\nThe mark is a wren, the smallest bird with the loudest song, drawn entirely from arcs of one set of circles so it stays round, calm and even at any size.",
+  "construction": "Every curve is an arc of a circle from one Fibonacci set (8, 16, 24, 40, 64, 104 on a 256 grid): body 64, head 40, a tail lens of two 64s, a beak lens of two 40s, an eye of 8, and a wing crescent between a 64 and a 104. The red circles are the grid.",
+  "website": "wren.example",
+  "colors": [
+    {
+      "name": "Bark",
+      "hex": "#3d2b22",
+      "role": "primary",
+      "usage": "The mark, the wordmark and headings."
+    },
+    {
+      "name": "Berry",
+      "hex": "#d9603b",
+      "role": "accent",
+      "usage": "One highlight per layout: a button, a date, a rule."
+    },
+    {
+      "name": "Cream",
+      "hex": "#f7f1e8",
+      "role": "paper",
+      "usage": "Pages and the mark on Bark."
+    },
+    {
+      "name": "Moss",
+      "hex": "#dfe3d3",
+      "role": "support",
+      "usage": "Panels and quiet backgrounds."
+    }
+  ],
+  "type": {
+    "display": {
+      "family": "Fraunces",
+      "weight": 600
+    },
+    "text": {
+      "family": "Figtree",
+      "weight": 400
+    }
+  },
+  "logos": {
+    "mark": {
+      "file": "mark.svg",
+      "dark": "mark-dark.svg",
+      "minWidth": 16,
+      "construction": "construction.svg"
+    },
+    "horizontal": {
+      "file": "logo-horizontal.svg",
+      "dark": "logo-horizontal-dark.svg",
+      "minWidth": 96
+    },
+    "stacked": {
+      "file": "logo-stacked.svg",
+      "dark": "logo-stacked-dark.svg",
+      "minWidth": 64
+    }
+  },
+  "icon": {
+    "file": "mark-dark.svg",
+    "background": "#3d2b22",
+    "faviconBackground": "#3d2b22",
+    "favicon": "mark-dark.svg"
+  },
+  "direction": {
+    "words": [
+      "calm",
+      "warm",
+      "crafted"
+    ],
+    "pairs": {
+      "tone": "between",
+      "era": "classic",
+      "volume": "quiet",
+      "finish": "engineered"
+    },
+    "lives": "app",
+    "weirdness": 2
+  },
+  "clearSpace": 0.25,
+  "out": "dist"
+}

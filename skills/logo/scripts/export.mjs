@@ -90,6 +90,14 @@ if (!onlyIcons) {
         wrote(await png(b, text, join(out, 'png', `${key}${suffix}-${w}.png`), { width: w }))
       }
     }
+    // The construction drawing (circles or grid lines alone, in the mark's coordinates),
+    // laid over the mark on the guidelines' construction panel.
+    if (l.construction) {
+      const c = join(out, 'svg', `${key}-construction.svg`)
+      writeFileSync(c, read(l.construction))
+      wrote(c)
+      entry.construction = `svg/${key}-construction.svg`
+    }
   }
 }
 
@@ -226,7 +234,8 @@ if (!onlyIcons) {
     if (msg) console.error(msg)
   }
   const markVb = cfg.logos?.mark ? viewBox(read(cfg.logos.mark.file)) : null
-  for (const f of await guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, previews, pal })) wrote(f)
+  const constructionVb = cfg.logos?.mark?.construction ? viewBox(read(cfg.logos.mark.construction)) : null
+  for (const f of await guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, constructionVb, previews, pal })) wrote(f)
 
   // ── Print PDFs, README and the zip ──────────────────────────────────────────
   for (const f of await pdfLogos({ b, out })) wrote(f)

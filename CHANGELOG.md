@@ -1,5 +1,38 @@
 # Changelog
 
+## 1.5.0 (2026-11-11)
+
+- Circle-grid construction. `references/circle-grid.md` covers building a mark
+  from one set of radii (Fibonacci or golden-ratio): lenses, crescents,
+  tangents and fillets, the construction drawing, failure modes, and being
+  honest about the golden ratio.
+- `scripts/geometry.mjs`: path booleans (`union`, `subtract`, `intersect`,
+  `exclude`, `dilate`, `erode`, `outline`) on paper.js; circle grids that
+  record every circle (`circleGrid`, `fib`, `series`, `grid.touch`,
+  `grid.fillet`, `through`, `meet`, `grid.check`); `constructionSheet()` for
+  the three-panel concept drawing and `constructionOverlay()` for the
+  guidelines; monogram tools (`solid`, `bar`, `polyline`, `weave`, `knockout`).
+- Monograms. `references/monograms.md`: seven structures, letter pairing by
+  stroke family, reading order, collisions, weave gaps, small-size and
+  rotation checks, the generator clichés, and styles by voice. Concepts now
+  always include a monogram when the name has two words or goes by initials.
+- `logos.mark.construction` in `brand.json`: the guidelines' construction
+  panel lays the circles over the mark.
+- From research on logo practice, in `craft.md` and the checklist: overshoot
+  and circle-vs-square numbers, centroid centring, thinned joins, lighter dark
+  versions (irradiation), the size ladder, a "Dynamic" structure, a Process
+  section (volume then choose, Haviv's three tests, a category audit), and
+  rotate, mirror and blur tests in the review checklist.
+- Concepts are now a funnel. Round 1 is nine unrefined black sketches on a 3 × 3 grid
+  (rows are structures, columns are weirdness levels; the old spread of 2, 3
+  and 4 becomes the columns). The user picks one to three, those are drawn
+  properly in round 2, and the kit is built only after the user locks the
+  logo: the skill always waits at both steps instead of going ahead on its own
+  recommendation. `render.mjs --sheet` takes `--rows`, `--cols`, `--title` and
+  `--mono` for the grid; `examples/wren/round-1/` is the example.
+- Examples: `examples/wren/` (a circle-grid wren with its full kit) and
+  `examples/marlow/` (MF three ways), shown in the README.
+
 ## 1.4.0 (2026-11-11)
 
 - More type for the weirdness dial. `typefaces.json` grows from about 70 to

@@ -24,7 +24,8 @@ If the user is away, don't wait. Take the defaults, say so in the checkpoint mes
 | Serious or playful | Type voice (grotesque, serif-modern, serif-classic toward rounded and display) and corner radius (sharp toward soft). |
 | Classic or futuristic | Serif-classic and slab toward geometric, condensed and mono; traditional emblems toward abstract marks. |
 | Quiet or loud | Colour contrast and saturation, the weight of the wordmark, and how much of the mark the accent covers. |
-| Handmade or engineered | Strict grid geometry with even strokes, or shapes that feel drawn: a slightly irregular curve, an uneven tile, a deliberate wobble that is still built from numbers you chose. |
+| Handmade or engineered | Strict grid geometry with even strokes (and for round or figurative marks, a circle grid: `circle-grid.md`), or shapes that feel drawn: a slightly irregular curve, an uneven tile, a deliberate wobble that is still built from numbers you chose. |
+| Classic + luxurious, crafted or personal | Put a monogram in the round (`monograms.md`): a high-contrast serif or a contained monoline. |
 | References | Qualities to borrow, named in the concept notes ("the confidence of X's wordmark"). Every concept is checked against the brands named so none is a near copy. |
 | Where it lives | App icon or favicon first: a symbol or lettermark that fills a square. Website header or print: a wordmark-led logo is fine. Avatar first: the mark must sit well in a circle. |
 | Weirdness | How far concepts may stray, which type voices are in play, how bold the colour gets, and which style rules may bend (below). |
@@ -49,9 +50,9 @@ For a sense of scale on another brief, Tinkerkit (a browser pixel-art game maker
 
 ### No level given: the spread
 
-If the user doesn't pick a level, round 1 shows the three concepts at different levels: one at 2, one at 3 and one at 4, labelled with their level. Most people can't say how weird they want to go until they see it, and the pick tells you. Round 2 and the refinement stay at the level of the chosen concept, and `direction.weirdness` records it.
+If the user doesn't pick a level, the round 1 grid's three columns are levels 2, 3 and 4, so every structure is shown at each. Most people can't say how weird they want to go until they see it, and the pick tells you. Round 2 and the refinement stay at the level of the chosen sketch, and `direction.weirdness` records it.
 
-If they did pick a level, all three concepts sit at that level and differ by metaphor and structure, as usual.
+If they did pick a level, the columns are that level and its neighbours (a 3 gets 2, 3, 4; a 1 gets 1, 1, 2; a 5 gets 4, 5, 5), so the grid still shows a little range.
 
 ### Putting the mark into the word
 
@@ -76,4 +77,4 @@ Levels 4 and 5 usually mean a creature, a character or an object, and those fail
 
 ### At the checkpoint
 
-Label each concept with its level. At 4 and 5, say plainly which concept is the risky one and what it gives up (recognisability, seriousness, ease of use on a busy background), so a wild pick is an informed one. Your recommendation can be any level; don't default to the safest.
+Label each concept with its level (the grid's columns do this in round 1). At 4 and 5, say plainly which concept is the risky one and what it gives up (recognisability, seriousness, ease of use on a busy background), so a wild pick is an informed one. Your recommendation can be any level; don't default to the safest.
