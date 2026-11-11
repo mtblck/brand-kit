@@ -24,7 +24,8 @@ If the user is away, don't wait. Take the defaults, say so in the checkpoint mes
 | Serious or playful | Type voice (grotesque, serif-modern, serif-classic toward rounded and display) and corner radius (sharp toward soft). |
 | Classic or futuristic | Serif-classic and slab toward geometric, condensed and mono; traditional emblems toward abstract marks. |
 | Quiet or loud | Colour contrast and saturation, the weight of the wordmark, and how much of the mark the accent covers. |
-| Handmade or engineered | Strict grid geometry with even strokes, or shapes that feel drawn: a slightly irregular curve, an uneven tile, a deliberate wobble that is still built from numbers you chose. |
+| Handmade or engineered | Strict grid geometry with even strokes (and for round or figurative marks, a circle grid: `circle-grid.md`), or shapes that feel drawn: a slightly irregular curve, an uneven tile, a deliberate wobble that is still built from numbers you chose. |
+| Classic + luxurious, crafted or personal | Put a monogram in the round (`monograms.md`): a high-contrast serif or a contained monoline. |
 | References | Qualities to borrow, named in the concept notes ("the confidence of X's wordmark"). Every concept is checked against the brands named so none is a near copy. |
 | Where it lives | App icon or favicon first: a symbol or lettermark that fills a square. Website header or print: a wordmark-led logo is fine. Avatar first: the mark must sit well in a circle. |
 | Weirdness | How far concepts may stray, which type voices are in play, how bold the colour gets, and which style rules may bend (below). |

@@ -9,7 +9,7 @@ brand-kit is original work under the MIT license (see LICENSE).
   on ideas from kaankiziltug/logo-design-skill (MIT, © 2026 kaankiziltug),
   tryopendata/skills `svg-design` and its OpenData write-up, and plosson's Logo
   Creator skill. Written from scratch; no text or code copied.
-- At run time the scripts download `opentype.js` (MIT) and `pptxgenjs` (MIT)
+- At run time the scripts download `opentype.js` (MIT), `paper.js` (MIT, for the path booleans in `geometry.mjs`) and `pptxgenjs` (MIT)
   into a cache folder (`~/.cache/brand-kit`), and fonts from Google Fonts (SIL
   OFL / Apache 2.0). None of them is in this repo.
 - Fonts in the Harbor example and in exported kits are Google Fonts under the

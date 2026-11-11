@@ -48,7 +48,7 @@ function saturation(hex) {
 }
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
 
-export async function guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, previews, pal }) {
+export async function guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, constructionVb, previews, pal }) {
   const type = cfg.type || {}
   const disp = type.display || type.text, body = type.text || type.display
   const fams = [disp, body].filter(Boolean)
@@ -109,12 +109,18 @@ ${foot(1, total)}</section>`
     ['Don’t recolour it', 'filter:hue-rotate(150deg) saturate(1.6)'],
     ['Don’t add effects', 'filter:drop-shadow(4px 6px 3px rgba(0,0,0,.45)) blur(.4px)'],
   ].map(([label, style]) => `<figure class="dont"><div><img src="${(files.mark || hero).svg}" alt="" style="${style}"></div><figcaption><i>✕</i>${label}</figcaption></figure>`).join('') : ''
+  // A construction overlay (logos.mark.construction) shares the mark's coordinates,
+  // so it is scaled and offset by the same factor as the mark's 150 px height.
+  const overlay = mark?.construction && markVb && constructionVb ? (() => {
+    const k = 150 / markVb.h
+    return `<img src="${mark.construction}" alt="" class="overlay" style="left:${(constructionVb.x - markVb.x) * k}px;top:${(constructionVb.y - markVb.y) * k}px;width:${constructionVb.w * k}px;height:${constructionVb.h * k}px">`
+  })() : ''
   const p2 = `<section class="page">${head}
 ${section(2, 'Logo rules')}
 <div class="two">
   <div>
     <h3>Construction</h3>
-    <div class="grid">${mark ? `<div class="csbox" style="padding:${cs * 150}px"><img src="${mark.svg}" alt="" style="height:150px;width:${150 * markW}px"></div>` : ''}</div>
+    <div class="grid">${mark ? `<div class="csbox" style="padding:${cs * 150}px"><div class="cons"><img src="${mark.svg}" alt="" style="height:150px;width:${150 * markW}px">${overlay}</div></div>` : ''}</div>
     <p class="note">${esc(cfg.construction || 'The mark is drawn from simple geometry on a fixed grid; never redraw or trace it, use the master files.')} The dashed line is the clear space: ${Math.round(cs * 100)} % of the mark’s height on every side, kept free of text and other graphics.</p>
   </div>
   <div>
@@ -235,9 +241,9 @@ h1{font-size:68px;line-height:.98;font-weight:${disp?.weight || 700};letter-spac
 .note{color:#555;margin:0;font-size:10.5px}
 h3{font-size:13px;margin:4px 0 8px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.grid{border-radius:12px;height:3in;display:grid;place-items:center;margin-bottom:8px;
+.grid{border-radius:12px;overflow:hidden;height:3in;display:grid;place-items:center;margin-bottom:8px;
   background-color:#fafafa;background-image:linear-gradient(#e9e9e9 1px,transparent 1px),linear-gradient(90deg,#e9e9e9 1px,transparent 1px);background-size:15px 15px}
-.csbox{outline:1.5px dashed #d33;outline-offset:0;background:rgba(255,255,255,.6)}.csbox img{display:block}
+.csbox{outline:1.5px dashed #d33;outline-offset:0;background:rgba(255,255,255,.6)}.csbox img{display:block}.cons{position:relative}.cons .overlay{position:absolute;max-width:none;opacity:.85}
 .mins{display:flex;align-items:flex-end;gap:26px;margin-bottom:10px;padding:14px 16px;border-radius:12px;background:#fafafa}.min{margin:0;display:flex;flex-direction:column;gap:8px;font-size:9.5px;color:#555}.min div{display:flex;align-items:flex-end;min-height:20px}.min figcaption{line-height:1.3}
 .row{display:flex;gap:10px}.mono{flex:1;height:.95in;border-radius:10px;display:grid;place-items:center}.mono img{max-width:78%;max-height:44%}
 .donts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}

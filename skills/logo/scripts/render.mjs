@@ -46,9 +46,9 @@ export async function browser() {
 /** The viewBox size of an SVG string, for its aspect ratio. */
 export function viewBox(svgText) {
   const vb = svgText.match(/viewBox="([^"]+)"/)?.[1]?.trim().split(/[\s,]+/).map(Number)
-  if (vb?.length === 4) return { w: vb[2], h: vb[3] }
+  if (vb?.length === 4) return { x: vb[0], y: vb[1], w: vb[2], h: vb[3] }
   const w = Number(svgText.match(/\bwidth="([\d.]+)/)?.[1]), h = Number(svgText.match(/\bheight="([\d.]+)/)?.[1])
-  if (w && h) return { w, h }
+  if (w && h) return { x: 0, y: 0, w, h }
   throw new Error('SVG has no viewBox (and no width/height)')
 }
 

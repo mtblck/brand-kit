@@ -55,6 +55,18 @@ whether the logo still works at 16 px and in one colour. Say it up front
 
 ![Harbor at weirdness 1 to 5; the shipped logo is the 2](docs/harbor-weirdness.png)
 
+Round and figurative marks can be built on a **circle grid**: every curve an
+arc of one set of circles, drawn in code with path booleans, with the
+construction drawing to show for it (and on the guidelines' construction page).
+
+![Wren, a circle-grid mark: the circles over the shape, over the colour, and the clean mark](docs/wren-construction.png)
+
+Names with two words or initials always get a **monogram** concept, with the
+structure chosen from the letters: a shared stem, a stepped serif, a monoline in
+a ring, a weave, a knockout tile.
+
+![Marlow & Finch: M and F as a shared-stem serif, a monoline in a ring and a ligature in a tile](docs/monograms.png)
+
 ## What it does
 
 - **`logo`** designs a logo in SVG. It works from a brief, writes concepts from
