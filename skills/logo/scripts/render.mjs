@@ -120,7 +120,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       ? `<div class="t" style="grid-template-columns:${rows ? '120px ' : ''}repeat(${n},364px)">${rows ? '<i></i>' : ''}${(cols || []).map((c) => `<h3>${esc(c)}</h3>`).join('')}${cells.map((c, i) => (rows && i % n === 0 ? `<h4>${esc(rows[i / n] || '')}</h4>` : '') + c).join('')}</div>`
       : `<div class="g">${cells.join('')}</div>`
     const W = n * 380 + 48 + (rows ? 136 : 0)
-    const html = `<!doctype html><html><body style="margin:0;padding:24px;background:#eee;font:13px system-ui,sans-serif;width:${W}px;box-sizing:border-box">
+    const html = `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:24px;background:#eee;font:13px system-ui,sans-serif;width:${W}px;box-sizing:border-box">
 <style>.g{display:flex;flex-wrap:wrap;gap:16px}.t{display:grid;gap:16px}.t h3{margin:0;font-size:14px;text-align:center;color:#444}.t h4{margin:0;font-size:14px;color:#444;align-self:center;text-align:right;padding-right:8px}
 h1{font-size:18px;margin:0 0 16px}.c{width:364px;background:#fff;border-radius:10px;padding:16px;box-sizing:border-box;position:relative}
 .c b{position:absolute;top:10px;left:14px;font-size:18px}.big{height:240px;display:grid;place-items:center}

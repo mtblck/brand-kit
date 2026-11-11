@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.1 (2026-11-11)
+
+- Guidelines page 2 no longer runs off the right edge when the kit has four
+  logos (mark, horizontal, stacked and wordmark): the two columns can't grow
+  past half the page, the minimum-size row wraps and the one-colour panels shrink.
+- `render.mjs --sheet` declares UTF-8, so a `·` in `--title` no longer shows as `Â·`.
+
 ## 1.5.0 (2026-11-11)
 
 - Circle-grid construction. `references/circle-grid.md` covers building a mark
