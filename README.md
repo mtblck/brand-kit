@@ -53,7 +53,7 @@ whether the logo still works at 16 px and in one colour. Say it up front
 ("weirdness 4") or leave it out, and the first round shows one concept each at
 2, 3 and 4 so you can pick by eye.
 
-![Harbor at weirdness 1, 3 and 5](docs/harbor-weirdness.png)
+![Harbor at weirdness 1 to 5; the shipped logo is the 2](docs/harbor-weirdness.png)
 
 ## What it does
 

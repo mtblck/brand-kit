@@ -1,6 +1,6 @@
-// Harbor at weirdness 1, 3 and 5 (see references/direction.md).
+// Harbor at weirdness 1, 3, 4 and 5 (see references/direction.md).
 // Same brief as ../draw.mjs (a read-it-later app: "everything you saved, safe in
-// one place"), drawn three times with the dial at 1, 3 and 5. Harbor itself is a 2.
+// one place"), drawn again with the dial at 1, 3, 4 and 5. Harbor itself is the 2.
 //
 //   node draw.mjs     (writes level-N-mark.svg and level-N-horizontal.svg next to this file)
 //
@@ -43,6 +43,32 @@ const out = (f) => join(here, f)
   const font = await loadFont('Fredoka', 600)
   const l = lockup({ mark: mark(water, signal, '#d9461d'), font, name: 'harbor', color: water, tracking: -0.01, capRatio: 0.5 })
   write(out('level-3-horizontal.svg'), svg({ w: l.w, h: l.h, title: 'Harbor', body: l.body }))
+}
+
+// ── 4 · Odd ──
+// A lateral metaphor, and a character: a hermit crab that carries what you saved
+// as its shell, and the shell is a bookmark. Rust and lilac, a mono face with two
+// weights in one word, and the shell overlapping the crab's back.
+{
+  const rust = '#a8401c', lilac = '#b9a6ff'
+  // Shell: a bookmark ribbon 88 wide, its notch 8 units clear of the body.
+  const shell = poly([[96, 0], [184, 0], [184, 120], [140, 96], [96, 120]])
+  // Body: a pill 168 × 64 (radius 32), three legs, a claw and two eyes on stalks.
+  const body = rect(16, 128, 168, 56, 28)
+  const legs = rect(48, 176, 16, 32, 8) + rect(96, 176, 16, 32, 8) + rect(144, 176, 16, 32, 8)
+  const claw = circle(20, 140, 20)
+  const eyes = rect(36, 72, 10, 60) + rect(60, 84, 10, 48) + circle(41, 68, 13) + circle(65, 80, 13)
+  const mark = (b, a) => ({ body: `<path d="${body}${legs}${claw}${eyes}" fill="${b}"/><path d="${shell}" fill="${a}"/>`, w: 208, h: 208 })
+  write(out('level-4-mark.svg'), svg({ w: 208, h: 208, title: 'Harbor', body: mark(rust, lilac).body }))
+  // Wordmark: Space Mono, "har" in 700 and "bor" in 400, on one baseline.
+  const bold = await loadFont('Space Mono', 700), reg = await loadFont('Space Mono', 400)
+  const size = 96
+  const probe = text(bold, 'H', { size })
+  const base = 104 + probe.capHeight / 2
+  const a = text(bold, 'har', { size, x: 208 + 64, y: base })
+  const b = text(reg, 'bor', { size, x: a.x + a.width, y: base })
+  const w = round(b.x + b.width + 4)
+  write(out('level-4-horizontal.svg'), svg({ w, h: 208, title: 'Harbor', body: mark(rust, lilac).body + `<path d="${a.d}${b.d}" fill="${rust}"/>` }))
 }
 
 // ── 5 · Weird ──

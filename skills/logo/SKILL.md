@@ -31,7 +31,7 @@ Paths are relative to this skill's folder.
 | `references/palette.md` | How the website palette is built (scales, step jobs, roles, contrast) and how to use it on a site. Read it before tuning colours for a website. |
 | `references/direction.md` | The direction questions asked before concepts, how each answer changes the work, and the weirdness dial (1 quiet to 5 weird) with what each level allows. Read it before step 2. |
 | `references/brand-json.md` | Every `brand.json` field and what it does. |
-| `examples/harbor/` | A complete worked logo: `draw.mjs` (mark, favicon, both lockups and their dark versions, `brand.json`). Run it and then `export.mjs` to see every output. Read it before writing your own draw script. `examples/harbor/weirdness/draw.mjs` draws the same brief at weirdness 1, 3 and 5. |
+| `examples/harbor/` | A complete worked logo: `draw.mjs` (mark, favicon, both lockups and their dark versions, `brand.json`). Run it and then `export.mjs` to see every output. Read it before writing your own draw script. `examples/harbor/weirdness/draw.mjs` draws the same brief at weirdness 1, 3, 4 and 5 (Harbor itself is a 2). |
 
 The scripts need Node 18+. Rendering uses Playwright's Chromium if one is installed; exit 2 means there's no browser, so deliver the SVGs and say the PNGs couldn't be made. Fonts and the one dependency (`opentype.js`, installed once into the cache folder) need network access to `fonts.googleapis.com`, `fonts.gstatic.com` and the npm registry.
 
