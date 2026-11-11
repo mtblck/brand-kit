@@ -21,6 +21,9 @@
 - Level 5 is stricter: "What makes a 5" in `direction.md` (fuse, cut apart,
   break physics, the logo holds the word; decoration doesn't count). Harbor's 5
   is now a whale cut in half as bookends around a bookmark.
+- "Putting the mark into the word" in `direction.md`: how far the mark's idea
+  may enter the wordmark at each level. Harbor's 4 now uses the bookmark as the
+  stem of its b, in a violet that passes 4.5:1.
 
 ## 1.2.0 (2026-11-10)
 

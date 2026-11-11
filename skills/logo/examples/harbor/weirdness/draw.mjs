@@ -49,10 +49,10 @@ const out = (f) => join(here, f)
 // A lateral metaphor, and a character: a crab that won't let go of what you saved.
 // Seen head on, so its tells are all there: two big pincers raised, a wide shell,
 // three legs a side, eyes on stalks. It holds a bookmark up between its claws,
-// clear of them so the one-colour version still reads. Rust and lilac, and a mono
+// clear of them so the one-colour version still reads. Rust and violet, and a mono
 // face with two weights in one word.
 {
-  const rust = '#a8401c', lilac = '#b9a6ff'
+  const rust = '#a8401c', violet = '#7a5ae6' // violet passes 4.5:1 on white, since it forms part of a letter
   const W = 18 // one weight for every leg and arm
   const shell = smooth([[128, 120], [184, 128], [212, 160], [184, 196], [128, 204], [72, 196], [44, 160], [72, 128]])
   // A pincer: a rounded palm and two fingers making a V; s = 1 opens toward the right.
@@ -70,16 +70,26 @@ const out = (f) => join(here, f)
   const bookmark = poly([[98, 8], [158, 8], [158, 80], [128, 64], [98, 80]])
   // Trim to the art: x 13–243, y 8–235.
   const mark = (b, a) => ({ body: `<g transform="translate(-13 -8)">${[shell, claws, arms, legs, eyes].map((d) => `<path d="${d}" fill="${b}"/>`).join('')}<path d="${bookmark}" fill="${a}"/></g>`, w: 230, h: 227 })
-  write(out('level-4-mark.svg'), svg({ w: 230, h: 227, title: 'Harbor', body: mark(rust, lilac).body }))
-  // Wordmark: Space Mono, "har" in 700 and "bor" in 400, on one baseline.
+  write(out('level-4-mark.svg'), svg({ w: 230, h: 227, title: 'Harbor', body: mark(rust, violet).body }))
+  // Wordmark: Space Mono, "har" in 700 and "bor" in 400, on one baseline. The b's
+  // stem is the bookmark, in violet, so the mark's idea runs into the word; its
+  // bowl is the font's own o, tucked under the stem.
   const bold = await loadFont('Space Mono', 700), reg = await loadFont('Space Mono', 400)
   const size = 104
   const cap = text(bold, 'H', { size }).capHeight
   const base = 227 / 2 + cap / 2
   const a = text(bold, 'har', { size, x: 230 + 72, y: base })
-  const b = text(reg, 'bor', { size, x: a.x + a.width, y: base })
-  const w = round(b.x + b.width + 4)
-  write(out('level-4-horizontal.svg'), svg({ w, h: 227, title: 'Harbor', body: mark(rust, lilac).body + `<path d="${a.d}${b.d}" fill="${rust}"/>` }))
+  const bx = a.x + a.width
+  const bGlyph = text(reg, 'b', { size, x: bx, y: base })
+  const sw = round(size * 0.15), notch = round(size * 0.07)
+  const sx = bGlyph.bbox.x1, top = bGlyph.bbox.y1 - round(size * 0.1) // pokes out above the ascender, like a bookmark from a book
+  const stem = poly([[sx, top], [sx + sw, top], [sx + sw, base], [sx + sw / 2, base - notch], [sx, base]])
+  const o0 = text(reg, 'o', { size, x: 0, y: base })
+  const bowl = text(reg, 'o', { size, x: sx + sw * 0.35 - o0.bbox.x1, y: base }) // its left side tucked under the stem
+  const rest = text(reg, 'or', { size, x: Math.max(bx + text(reg, 'b', { size }).width, bowl.bbox.x2 + size * 0.06), y: base })
+  const w = round(rest.x + rest.width + 4)
+  const word = `<path d="${a.d}${bowl.d}${rest.d}" fill="${rust}"/><path d="${stem}" fill="${violet}"/>`
+  write(out('level-4-horizontal.svg'), svg({ w, h: 227, title: 'Harbor', body: mark(rust, violet).body + word }))
 }
 
 // ── 5 · Weird ──
