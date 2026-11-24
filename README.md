@@ -81,7 +81,11 @@ a ring, a weave, a knockout tile.
 - **`icons`** makes favicons, app icons and PWA icons from a logo that already
   exists (or a few matching UI icons), using the same export.
 
-What one `node scripts/export.mjs brand.json` writes:
+What one `node scripts/export.mjs brand.json` writes. The skill first asks which
+parts you want, all of them by default: icons, guidelines, website palette,
+social images, email signature, business card, slides and social posts can each
+be left out (`brand.json`'s `exports`). The logo files, `check.png`, `README.md`,
+`LICENSE`, `TRADEMARKS.md` and the zip are always made.
 
 | Folder / file | Contents |
 | --- | --- |
@@ -106,6 +110,7 @@ Scripts (in `skills/logo/scripts/`, Node 18+):
 - `render.mjs`: PNGs of any SVG, or a numbered concept comparison sheet.
 - `palette.mjs`: the website palette (also runs alone: `node palette.mjs brand.json`).
 - `legal.mjs`: the brand folder's `LICENSE` and `TRADEMARKS.md`.
+- `exports.mjs`: the menu of optional exports, and which ones `brand.json` asks for.
 - `export.mjs`: everything above from `brand.json`.
 
 Rendering uses Playwright's Chromium if it's installed (as in Claude's cloud

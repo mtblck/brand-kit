@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.7.0 (2026-11-24)
+
+- Pick the exports. The skill asks which parts of the kit to make, with the
+  direction questions, and makes all of them unless the user picks fewer:
+  icons, brand guidelines, website palette, social images, email signature,
+  business card, slide template and social post templates. The logo files
+  (SVG, PNG, PDF), `check.png`, the kit's README, the brand's `LICENSE` and
+  `TRADEMARKS.md`, and the zip are always made. New `scripts/exports.mjs`
+  prints the menu and turns an answer ("1, 3, slides") into the new
+  `brand.json` field `exports` (`"all"` or a list of ids); `export.mjs
+  --exports` overrides it for one run. A part dropped from the list is removed
+  from the export folder, so the zip holds only what was chosen. The
+  guidelines show pages and sections only for what was made and number them to
+  match; without icons, `check.png` leaves out the tab and home-screen tests.
+  `"templates": false` and `"palette": false` still work.
+
 ## 1.6.0 (2026-11-24)
 
 - Brand files get their own license, as a requirement. Everything made for a

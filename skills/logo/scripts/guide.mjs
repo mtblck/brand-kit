@@ -48,7 +48,7 @@ function saturation(hex) {
 }
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')
 
-export async function guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, constructionVb, previews, pal }) {
+export async function guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, constructionVb, previews, pal, icons = true, social = true }) {
   const type = cfg.type || {}
   const disp = type.display || type.text, body = type.text || type.display
   const fams = [disp, body].filter(Boolean)
@@ -69,9 +69,17 @@ export async function guide({ b, cfg, files, out, colors, ink, paper, dark, acce
   const cs = cfg.clearSpace ?? 0.25
   const logos = Object.entries(cfg.logos || {})
 
-  const total = 3 + (pal ? 1 : 0) + (previews ? 2 : 0)
-  const pn = (n) => n + (pal && n >= 4 ? 1 : 0) // page numbers after the palette page move up one
-  const sn = (n) => n + (pal && n >= 5 ? 1 : 0) // and so do section numbers
+  // Template pages appear only for the templates that were exported: email and card share
+  // a page, slides and posts share the next. Page and section numbers follow what's there.
+  const tp = previews || {}
+  const hasP4 = !!(tp.email || tp.cardFront)
+  const hasP5 = !!(tp.slides?.length || tp.social?.length)
+  const total = 3 + (pal ? 1 : 0) + (hasP4 ? 1 : 0) + (hasP5 ? 1 : 0)
+  const palPage = 4
+  const p4Page = 4 + (pal ? 1 : 0)
+  const p5Page = p4Page + (hasP4 ? 1 : 0)
+  let nextSection = pal ? 6 : 5 // sections 1–4 are pages 1–3; the palette is section 5
+  const sn = () => nextSection++
   const section = (n, title) => `<div class="sec"><h2>${title}</h2><span class="rule"></span><span class="pill">${String(n).padStart(2, '0')}</span></div>`
   const head = `<header class="top">${mark ? `<img src="${mark.svg}" alt="" class="tm">` : ''}<b>${esc(cfg.name)}</b><span>Brand guidelines</span><span class="r">Version ${esc(version)} · ${date}</span></header>`
   const foot = (n, total) => `<footer class="foot"><span>${esc(cfg.name)} · Brand guidelines</span><span>${n} / ${total}</span></footer>`
@@ -135,13 +143,13 @@ ${section(2, 'Logo rules')}
 </div>
 <h3>Misuse</h3>
 <div class="donts">${misuse}</div>
-<h3>App and web icons</h3>
+${icons ? `<h3>App and web icons</h3>
 <div class="icons">
   <figure><img src="icons/app-icon-1024.png" alt="" style="width:96px;border-radius:21px"><figcaption>App icon</figcaption></figure>
   <figure><img src="icons/icon-maskable-512.png" alt="" style="width:96px;border-radius:50%"><figcaption>Android (masked)</figcaption></figure>
   <figure><img src="icons/favicon-48.png" alt="" style="width:32px;margin:32px"><figcaption>Favicon</figcaption></figure>
   <p class="note">Files in <code>icons/</code>. Platforms round or mask the corners themselves; supply the square art as it is.</p>
-</div>
+</div>` : ''}
 ${foot(2, total)}</section>`
 
   // ── Page 3: typography and colour ──
@@ -173,31 +181,31 @@ ${foot(3, total)}</section>`
 
   // ── Pages 4–5: templates (when export made them) ──
   const site = String(cfg.contact?.website || cfg.website || '').replace(/^https?:\/\//, '').replace(/\/$/, '')
-  const p4 = previews ? `<section class="page">${head}
-${section(sn(5), 'Email signature')}
+  const p4 = hasP4 ? `<section class="page">${head}
+${tp.email ? `${section(sn(), 'Email signature')}
 <img class="shot" src="${previews.email}" alt="">
 <div class="cols">
   <p class="note">Files in <code>templates/email/</code>. Host <code>logo.png</code> (set <code>templates.email.logoUrl</code> and export again), open <code>signature.html</code> in a browser, select all, copy and paste it into the mail client’s signature setting. <code>signature.txt</code> is the plain-text version.</p>
   <p class="note">One table with inline styles, so Gmail and Outlook keep it. The logo is the app-icon art on its own tile so it survives dark mode, and the text falls back to Arial where ${esc(disp?.family || 'the brand face')} isn’t installed. Keep it to name, role, contact and site: no quotes, banners or icon rows.</p>
-</div>
-${section(sn(6), 'Business card')}
+</div>` : ''}
+${tp.cardFront ? `${section(sn(), 'Business card')}
 <div class="cards"><figure><img src="${previews.cardFront}" alt=""><figcaption>Front</figcaption></figure><figure><img src="${previews.cardBack}" alt=""><figcaption>Back</figcaption></figure></div>
 <div class="cols">
   <p class="note"><b>Size</b> 3.5 × 2 in trim (85 × 55 mm in Europe), with 0.125 in bleed on every side: <code>business-card.pdf</code> is 3.75 × 2.25 in, one page per side, fonts embedded and the logo in vector. Keep text 0.25 in inside the trim.</p>
   <p class="note"><b>Layout</b> The front carries only the logo, on the brand colour; the back carries the person: name in ${esc(disp?.family || 'the display face')} 10.5 pt, role and up to four contact lines at 7.5 pt, never under 6.5 pt. Order a proof: printers convert RGB to CMYK, so check the colour against the values on page 3.</p>
-</div>
-${foot(pn(4), total)}</section>` : ''
+</div>` : ''}
+${foot(p4Page, total)}</section>` : ''
   const sizeNames = { 'post-square': 'Square post · 1080 × 1080', 'post-portrait': 'Portrait post · 1080 × 1350', story: 'Story · 1080 × 1920', 'kofi-cover': 'Ko-fi cover · 1200 × 400', 'x-header': 'X header · 1500 × 500' }
   const socialFig = (p) => `<figure><img src="${p}" alt=""><figcaption>${sizeNames[p.split('/').pop().replace('.png', '')] || ''}</figcaption></figure>`
-  const p5 = previews ? `<section class="page">${head}
-${section(sn(7), 'Slides')}
+  const p5 = hasP5 ? `<section class="page">${head}
+${tp.slides?.length ? `${section(sn(), 'Slides')}
 <div class="slides">${previews.slides.map((p, i) => `<figure><img src="${p}" alt=""><figcaption>${['Title', 'Section', 'Content', 'Two columns', 'Statement', 'Closing'][i] || ''}</figcaption></figure>`).join('')}</div>
-<p class="note">Files in <code>templates/slides/</code>: an editable <code>.pptx</code> (each layout is a slide master with placeholders; opens in PowerPoint, Keynote and Google Slides) and a PDF. 16:9 with 0.75 in margins; titles in ${esc(disp?.family || 'the display face')} 38 pt (54 on the title slide), body 22–24 pt and never under 18; six points at most. Brand colour on title, section and closing slides, paper behind content. The full logo opens and closes the deck; content slides carry only the small mark.</p>
-${section(sn(8), 'Social')}
-<div class="posts">${previews.social.filter((p) => !/kofi|x-header/.test(p)).map(socialFig).join('')}<figure><img src="social/og-image.png" alt=""><figcaption>Link preview · 1200 × 630</figcaption></figure></div>
-<div class="banners">${previews.social.filter((p) => /kofi|x-header/.test(p)).map(socialFig).join('')}</div>
-<p class="note">Files in <code>templates/social/</code>, each with a <code>-blank</code> version (field, logo and bar, no text) for designing posts in Canva or Figma. One headline of eight words or fewer per image, the dark logo small in the top corner, the ${accent ? 'accent' : 'brand'} bar along the bottom. Stories keep text out of the top 250 and bottom 300 px; the Ko-fi cover crops its sides on phones, and the X header’s lower left sits under the profile picture.${site ? '' : ''}</p>
-${foot(pn(5), total)}</section>` : ''
+<p class="note">Files in <code>templates/slides/</code>: an editable <code>.pptx</code> (each layout is a slide master with placeholders; opens in PowerPoint, Keynote and Google Slides) and a PDF. 16:9 with 0.75 in margins; titles in ${esc(disp?.family || 'the display face')} 38 pt (54 on the title slide), body 22–24 pt and never under 18; six points at most. Brand colour on title, section and closing slides, paper behind content. The full logo opens and closes the deck; content slides carry only the small mark.</p>` : ''}
+${tp.social?.length ? `${section(sn(), 'Social')}
+<div class="posts">${tp.social.filter((p) => !/kofi|x-header/.test(p)).map(socialFig).join('')}${social ? `<figure><img src="social/og-image.png" alt=""><figcaption>Link preview · 1200 × 630</figcaption></figure>` : ''}</div>
+<div class="banners">${tp.social.filter((p) => /kofi|x-header/.test(p)).map(socialFig).join('')}</div>
+<p class="note">Files in <code>templates/social/</code>, each with a <code>-blank</code> version (field, logo and bar, no text) for designing posts in Canva or Figma. One headline of eight words or fewer per image, the dark logo small in the top corner, the ${accent ? 'accent' : 'brand'} bar along the bottom. Stories keep text out of the top 250 and bottom 300 px; the Ko-fi cover crops its sides on phones, and the X header’s lower left sits under the profile picture.</p>` : ''}
+${foot(p5Page, total)}</section>` : ''
 
   // ── Page 4: website colour (when export made the palette) ──
   const pv = pal ? preview(pal, { display: ff(disp), body: ff(body), name: cfg.name }) : null
@@ -212,7 +220,7 @@ ${pv.html}
   <div><h3>Build with roles, not steps</h3><p class="note">Components use the named roles (<code>--bg</code>, <code>--surface</code>, <code>--text</code>, <code>--text-muted</code>, <code>--brand</code> with <code>--on-brand</code>, <code>--border</code>, <code>--danger-subtle</code> with <code>--danger-text</code> …). Each role has a light and a dark value, so dark mode follows the system on its own, or <code>data-theme</code> on the page forces either. Files in <code>web/</code>: <code>palette.css</code>, <code>palette.tailwind.css</code> for Tailwind v4, <code>tokens.json</code> (W3C Design Tokens) for Figma and Style Dictionary, and <code>palette.html</code> with every value.</p></div>
   <div><h3>Contrast</h3><table class="ct">${keyChecks.map((c) => `<tr><td>${c.mode}</td><td>${esc(c.label)}</td><td>${c.ratio}:1</td><td>Lc ${Math.round(c.lc)}</td></tr>`).join('')}</table><p class="note">${fails.length ? `${fails.length} pair${fails.length > 1 ? 's' : ''} below WCAG 2.2 AA; see <code>web/palette.html</code>.` : 'Every pair in <code>web/palette.html</code> passes WCAG 2.2 AA'} (4.5:1 for text, 3:1 for edges). Lc is the APCA score from the WCAG 3 draft: 75 for body text, 60 for other text.</p></div>
 </div>
-${foot(4, total)}</section>` : ''
+${foot(palPage, total)}</section>` : ''
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(cfg.name)} brand guidelines</title>
 ${gf ? `<link rel="stylesheet" href="${gf}">` : ''}<style>

@@ -2,7 +2,7 @@
 /**
  * Turns a finished logo into everything that ships, from one brand.json.
  *
- *   node export.mjs path/to/brand.json [--only icons]
+ *   node export.mjs path/to/brand.json [--exports icons,palette] [--only icons]
  *
  * Writes into brand.json's "out" folder (default: dist/ next to it):
  *   svg/     every logo, its dark version, and generated one-colour black/white versions
@@ -22,6 +22,12 @@
  *   <name>-brand-kit.zip     everything above in one download
  * --only icons skips the logos, guidelines, social images, PDFs and zip (for the icons skill).
  *
+ * Which of the optional parts are made (icons, guidelines, palette, social, email, card,
+ * slides, posts) comes from brand.json's "exports" (default "all"), or --exports for one run;
+ * see exports.mjs. The logo files, check sheet, README, LICENSE, TRADEMARKS.md and zip are
+ * always made. A part left out is removed from "out" if an earlier export made it, so the
+ * zip only holds what was asked for.
+ *
  * brand.json (paths relative to it; see references/brand-json.md):
  * {
  *   "name": "Harbor",
@@ -32,24 +38,34 @@
  *   "clearSpace": 0.25
  * }
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs'
 import { join, resolve, dirname, relative } from 'node:path'
 import { browser, png, htmlShot, viewBox } from './render.mjs'
 import { guide, darkest } from './guide.mjs'
 import { social, pdfLogos, readme, zip } from './package.mjs'
 import { templates } from './templates.mjs'
 import { writeLegal } from './legal.mjs'
+import { chosen, summary, EXPORTS } from './exports.mjs'
 import * as web from './palette.mjs'
 
 const args = process.argv.slice(2)
 const cfgPath = args.find((a) => a.endsWith('.json'))
 if (!cfgPath) {
-  console.error('usage: node export.mjs brand.json [--only icons]')
+  console.error('usage: node export.mjs brand.json [--exports icons,palette] [--only icons]')
   process.exit(1)
 }
 const onlyIcons = args.includes('--only') && args[args.indexOf('--only') + 1] === 'icons'
 const base = dirname(resolve(cfgPath))
 const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'))
+const slug = String(cfg.name || 'brand').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'brand'
+const askedAt = args.indexOf('--exports')
+let want
+try {
+  want = onlyIcons ? new Set(['icons']) : chosen(cfg, askedAt >= 0 ? args[askedAt + 1] ?? '' : undefined)
+} catch (e) {
+  console.error(`export.mjs: ${e.message}`)
+  process.exit(1)
+}
 const out = resolve(base, cfg.out || 'dist')
 const at = (p) => resolve(base, p)
 const read = (p) => readFileSync(at(p), 'utf8')
@@ -65,7 +81,23 @@ if (!iconFile && !logos.length) {
   console.error('brand.json needs "logos" (with at least "mark") or "icon.file"')
   process.exit(1)
 }
-for (const d of ['svg', 'png', 'icons']) mkdirSync(join(out, d), { recursive: true })
+for (const d of ['svg', 'png']) mkdirSync(join(out, d), { recursive: true })
+if (!onlyIcons) {
+  console.log(summary(want))
+  // Clear what an earlier export made for a part now left out, so the kit and zip match the choice.
+  // Only in a folder an earlier export made (it holds the kit's zip), never one that just shares a name.
+  const earlier = existsSync(join(out, `${slug}-brand-kit.zip`))
+  for (const e of earlier ? EXPORTS.filter((x) => !want.has(x.id)) : []) {
+    for (const p of e.paths) {
+      const gone = typeof p === 'string' ? [p].filter((f) => existsSync(join(out, f))) : readdirSync(out).filter((f) => p.test(f))
+      for (const f of gone) {
+        rmSync(join(out, f), { recursive: true, force: true })
+        console.log(`removed ${relative(process.cwd(), join(out, f)) || f} (not in exports)`)
+      }
+    }
+  }
+  if (earlier && !want.has('email') && !want.has('card') && !want.has('slides') && !want.has('posts') && existsSync(join(out, 'templates')) && !readdirSync(join(out, 'templates')).length) rmSync(join(out, 'templates'), { recursive: true })
+}
 const b = await browser()
 const wrote = (p) => {
   const r = relative(process.cwd(), p)
@@ -108,52 +140,56 @@ if (!onlyIcons) {
 const iconSvg = read(iconFile)
 const tile = icon.background || paper
 const scale = icon.scale ?? 0.62
-const favSrc = icon.favicon ? read(icon.favicon) : iconSvg
-const favTile = icon.faviconBackground // optional: favicon drawn on a rounded tile
-const fav = (size, file) =>
-  png(b, favSrc, file, favTile ? { width: size, height: size, bg: favTile, scale: icon.faviconScale ?? 0.78, radius: 0.22 } : { width: size, height: size })
 const I = (f) => join(out, 'icons', f)
-const icoParts = []
-for (const s of [16, 32, 48]) {
-  wrote(await fav(s, I(`favicon-${s}.png`)))
-  icoParts.push([s, readFileSync(I(`favicon-${s}.png`))])
-}
-writeFileSync(I('favicon.ico'), ico(icoParts))
-wrote(I('favicon.ico'))
-writeFileSync(I('favicon.svg'), favTile ? tileSvg(favSrc, favTile, icon.faviconScale ?? 0.78, 0.22) : favSrc)
-wrote(I('favicon.svg'))
-// Apple and app stores want an opaque square; the OS rounds the corners itself.
-wrote(await png(b, iconSvg, I('apple-touch-icon.png'), { width: 180, height: 180, bg: tile, scale }))
-wrote(await png(b, iconSvg, I('app-icon-1024.png'), { width: 1024, height: 1024, bg: tile, scale }))
-// PWA "any" icons: rounded tile. "maskable": full bleed, art inside the 80 % safe circle.
-wrote(await png(b, iconSvg, I('icon-192.png'), { width: 192, height: 192, bg: tile, scale, radius: 0.2 }))
-wrote(await png(b, iconSvg, I('icon-512.png'), { width: 512, height: 512, bg: tile, scale, radius: 0.2 }))
-wrote(await png(b, iconSvg, I('icon-maskable-512.png'), { width: 512, height: 512, bg: tile, scale: icon.maskableScale ?? 0.5 }))
-const manifest = {
-  name: cfg.name,
-  short_name: cfg.shortName || cfg.name,
-  icons: [
-    { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-    { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
-    { src: '/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-  ],
-  theme_color: icon.themeColor || tile,
-  background_color: icon.themeColor || tile,
-  display: 'standalone',
-}
-writeFileSync(I('site.webmanifest'), JSON.stringify(manifest, null, 2) + '\n')
-wrote(I('site.webmanifest'))
-writeFileSync(
-  I('head.html'),
-  `<!-- Copy icons/ to the site root (public/), then paste into <head>. -->
+if (want.has('icons')) {
+  mkdirSync(join(out, 'icons'), { recursive: true })
+  const favSrc = icon.favicon ? read(icon.favicon) : iconSvg
+  const favTile = icon.faviconBackground // optional: favicon drawn on a rounded tile
+  const fav = (size, file) =>
+    png(b, favSrc, file, favTile ? { width: size, height: size, bg: favTile, scale: icon.faviconScale ?? 0.78, radius: 0.22 } : { width: size, height: size })
+  const icoParts = []
+  for (const s of [16, 32, 48]) {
+    wrote(await fav(s, I(`favicon-${s}.png`)))
+    icoParts.push([s, readFileSync(I(`favicon-${s}.png`))])
+  }
+  writeFileSync(I('favicon.ico'), ico(icoParts))
+  wrote(I('favicon.ico'))
+  writeFileSync(I('favicon.svg'), favTile ? tileSvg(favSrc, favTile, icon.faviconScale ?? 0.78, 0.22) : favSrc)
+  wrote(I('favicon.svg'))
+  // Apple and app stores want an opaque square; the OS rounds the corners itself.
+  wrote(await png(b, iconSvg, I('apple-touch-icon.png'), { width: 180, height: 180, bg: tile, scale }))
+  wrote(await png(b, iconSvg, I('app-icon-1024.png'), { width: 1024, height: 1024, bg: tile, scale }))
+  // PWA "any" icons: rounded tile. "maskable": full bleed, art inside the 80 % safe circle.
+  wrote(await png(b, iconSvg, I('icon-192.png'), { width: 192, height: 192, bg: tile, scale, radius: 0.2 }))
+  wrote(await png(b, iconSvg, I('icon-512.png'), { width: 512, height: 512, bg: tile, scale, radius: 0.2 }))
+  wrote(await png(b, iconSvg, I('icon-maskable-512.png'), { width: 512, height: 512, bg: tile, scale: icon.maskableScale ?? 0.5 }))
+  const manifest = {
+    name: cfg.name,
+    short_name: cfg.shortName || cfg.name,
+    icons: [
+      { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+    theme_color: icon.themeColor || tile,
+    background_color: icon.themeColor || tile,
+    display: 'standalone',
+  }
+  writeFileSync(I('site.webmanifest'), JSON.stringify(manifest, null, 2) + '\n')
+  wrote(I('site.webmanifest'))
+  writeFileSync(
+    I('head.html'),
+    `<!-- Copy icons/ to the site root (public/), then paste into <head>. -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="${icon.themeColor || tile}">
 `
-)
-wrote(I('head.html'))
+  )
+  wrote(I('head.html'))
+}
+const hasIcons = want.has('icons')
 
 // ── Check sheet ──────────────────────────────────────────────────────────────
 const shown = onlyIcons ? [] : logos
@@ -197,14 +233,14 @@ ${markKey ? `<h2>One colour: black, white on ink, white on accent</h2><div class
 <div class="panel" style="background:${ink}">${img(files.mark.white, 96)}</div>
 ${byRole('accent') ? `<div class="panel" style="background:${byRole('accent')}">${img(files.mark.white, 96)}</div>` : ''}
 ${files.horizontal ? `<div class="panel" style="background:#fff">${img(files.horizontal.black, 240)}</div>` : ''}</div>` : ''}
-<h2>Favicon in a browser tab (16 px), light and dark</h2><div class="row">
+${hasIcons ? `<h2>Favicon in a browser tab (16 px), light and dark</h2><div class="row">
 <div style="background:#dee1e6;padding:8px 8px 0;border-radius:10px 10px 0 0"><div class="tab" style="background:#fff;color:#333"><img src="icons/favicon-32.png">${esc(cfg.name)}</div></div>
 <div style="background:#202124;padding:8px 8px 0;border-radius:10px 10px 0 0"><div class="tab" style="background:#35363a;color:#eee"><img src="icons/favicon-32.png">${esc(cfg.name)}</div></div>
 <div class="ramp" style="background:#fff">${[16, 32, 48].map((s) => `<figure><img src="icons/favicon-${s}.png" style="width:${s}px"><figcaption>${s}</figcaption></figure>`).join('')}</div></div>
 <h2>App icon: iOS home screen, Android circle mask, maskable safe zone</h2><div class="row">
 <div class="home"><i></i><img src="icons/app-icon-1024.png"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="panel" style="background:#e9e9ef"><img class="circ" src="icons/icon-maskable-512.png" style="width:108px"><img class="circ" src="icons/icon-maskable-512.png" style="width:48px"><img src="icons/icon-512.png" style="width:96px"><img src="icons/apple-touch-icon.png" style="width:60px;border-radius:13.4px"></div>
-</div></body></html>`
+</div>` : ''}</body></html>`
 writeFileSync(join(out, 'check.html'), check)
 wrote(await htmlShot(b, join(out, 'check.html'), join(out, 'check.png'), { width: 1216 }))
 
@@ -217,15 +253,15 @@ for (const w of legal.warnings) console.warn(`warning: ${w}`)
 if (!onlyIcons) {
   // ── Social images and templates first: the guidelines show them ────────────
   const accent = byRole('accent')
-  for (const f of await social({ b, cfg, out, files, iconSvg, tile, scale: cfg.social?.avatarScale ?? icon.maskableScale ?? Math.min(scale, 0.6), paper, ink, accent })) wrote(f)
+  if (want.has('social')) for (const f of await social({ b, cfg, out, files, iconSvg, tile, scale: cfg.social?.avatarScale ?? icon.maskableScale ?? Math.min(scale, 0.6), paper, ink, accent })) wrote(f)
   let previews = null
-  if (cfg.templates !== false) {
-    const t = await templates({ b, cfg, out, files, iconSvg, tile, scale, colors, ink, paper })
+  if (['email', 'card', 'slides', 'posts'].some((id) => want.has(id))) {
+    const t = await templates({ b, cfg, out, files, iconSvg, tile, scale, colors, ink, paper, want })
     t.written.forEach(wrote)
     previews = t.previews
   }
   // ── Website palette: OKLCH scales and light/dark roles, checked for contrast ─
-  const pal = web.palette(cfg)
+  const pal = want.has('palette') ? web.palette(cfg) : null
   if (pal) {
     mkdirSync(join(out, 'web'), { recursive: true })
     const W = (f, text) => (writeFileSync(join(out, 'web', f), text), wrote(join(out, 'web', f)))
@@ -243,12 +279,13 @@ if (!onlyIcons) {
   }
   const markVb = cfg.logos?.mark ? viewBox(read(cfg.logos.mark.file)) : null
   const constructionVb = cfg.logos?.mark?.construction ? viewBox(read(cfg.logos.mark.construction)) : null
-  for (const f of await guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, constructionVb, previews, pal })) wrote(f)
+  // Pages from an earlier, longer set of guidelines would otherwise stay behind.
+  if (existsSync(join(out, `${slug}-brand-kit.zip`))) for (const f of readdirSync(out).filter((n) => /^brand-guidelines-\d+\.png$/.test(n))) rmSync(join(out, f))
+  if (want.has('guidelines')) for (const f of await guide({ b, cfg, files, out, colors, ink, paper, dark, accent, markVb, constructionVb, previews, pal, icons: hasIcons, social: want.has('social') })) wrote(f)
 
   // ── Print PDFs, README and the zip ──────────────────────────────────────────
   for (const f of await pdfLogos({ b, out })) wrote(f)
   wrote(readme({ cfg, out, files }))
-  const slug = String(cfg.name || 'brand').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'brand'
   wrote(zip({ out, name: `${slug}-brand-kit` }))
 }
 await b.close()

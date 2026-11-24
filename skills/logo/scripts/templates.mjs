@@ -27,10 +27,11 @@ const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').
 const dataUri = (svgText) => 'data:image/svg+xml;base64,' + Buffer.from(svgText).toString('base64')
 
 /**
- * Writes every template and returns { written, previews }, where previews holds
- * paths (relative to out) for the brand guidelines' template pages.
+ * Writes the templates in `want` (email, card, slides, posts; all by default) and
+ * returns { written, previews }, where previews holds paths (relative to out) for
+ * the brand guidelines' template pages, only for the templates it made.
  */
-export async function templates({ b, cfg, out, files, iconSvg, tile, scale, colors, ink, paper }) {
+export async function templates({ b, cfg, out, files, iconSvg, tile, scale, colors, ink, paper, want = new Set(['email', 'card', 'slides', 'posts']) }) {
   const t = cfg.templates || {}
   const byRole = (role) => colors.find((c) => c.role === role)?.hex
   const accent = byRole('accent')
@@ -70,7 +71,7 @@ export async function templates({ b, cfg, out, files, iconSvg, tile, scale, colo
   }
 
   // ── Email signature ─────────────────────────────────────────────────────────
-  {
+  if (want.has('email')) {
     const d = dir('email')
     const k = scale >= 0.95 ? 0 : 0.2 // full-bleed art keeps square corners
     const logoPng = await png(b, iconSvg, join(d, 'logo.png'), { width: 128, height: 128, bg: tile, scale, radius: k })
@@ -121,7 +122,7 @@ body{margin:0;background:#eceeed;padding:28px;display:flex;gap:28px;font-family:
   }
 
   // ── Business card ──────────────────────────────────────────────────────────
-  {
+  if (want.has('card')) {
     const d = dir('business-card')
     const IN = 96, bleed = 0.125, W = 3.5, H = 2, m = 0.25
     const front = svgOf(lock, true)
@@ -164,7 +165,7 @@ html,body{margin:0}body{-webkit-print-color-adjust:exact;print-color-adjust:exac
   }
 
   // ── Slides ──────────────────────────────────────────────────────────────────
-  {
+  if (want.has('slides')) {
     const d = dir('slides')
     const tmp = mkdtempSync(join(tmpdir(), 'brand-kit-'))
     const W = 13.333, H = 7.5, M = 0.75
@@ -289,7 +290,7 @@ html,body{margin:0}body{-webkit-print-color-adjust:exact;print-color-adjust:exac
   }
 
   // ── Social posts ────────────────────────────────────────────────────────────
-  {
+  if (want.has('posts')) {
     const d = dir('social')
     const logo = svgOf(lock, true)
     const headline = t.social?.headline || cfg.tagline || cfg.name
