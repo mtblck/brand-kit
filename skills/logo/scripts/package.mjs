@@ -5,7 +5,7 @@
  *   social/og-image.png  1200 × 630 link preview (Open Graph, X, Slack, iMessage)
  *   social/avatar.png    800 × 800 profile picture (GitHub, X, Ko-fi, Bluesky)
  *   pdf/<logo>.pdf       each logo and its versions as a vector PDF, for print shops
- *   README.md            what each file is for
+ *   README.md            what each file is for, and that the brand has its own license
  *   <slug>-brand-kit.zip everything above plus svg/, png/, icons/ and the guidelines
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from 'node:fs'
@@ -106,10 +106,13 @@ export function readme({ cfg, out, files }) {
       ['templates/', 'email signature, business card, slide template and social posts'],
       ['web/', 'the website palette: 12-step OKLCH scales and light and dark roles as CSS, a Tailwind v4 theme and W3C design tokens, with a preview and contrast report'],
       ['check.png', 'the logo at real pixel sizes, on light and dark, in browser tabs and on a home screen'],
+      ['LICENSE', 'the license for everything here: all rights reserved, and not covered by any code license'],
+      ['TRADEMARKS.md', 'what anyone may do with the name and logo without asking, and what not'],
     ]
       .filter(([p]) => has(p))
       .map(([p, d]) => `- \`${p}\`: ${d}`),
     '',
+    has('LICENSE') ? `## Using the name and logo\n\nThe ${cfg.name || 'brand'} name, logos and everything in this kit are all rights reserved and are not covered by the license of any code they ship with. \`TRADEMARKS.md\` says what you may do without asking, such as linking to ${cfg.name || 'the brand'} or saying your project works with it. Anything else needs permission.\n` : '',
     cfg.type?.display ? `Typefaces: ${[...new Set([cfg.type.display?.family, cfg.type.text?.family].filter(Boolean))].join(' and ')}, free from fonts.google.com. The wordmark is already outlined, so the logo files don't need the font installed.` : '',
     '',
   ]

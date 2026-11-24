@@ -13,7 +13,7 @@ The scripts live in the `logo` skill: `../logo/scripts/` from this skill's folde
 
 1. **Find the mark.** Look for the project's logo SVG (`public/`, `src/assets/`, `static/`, the README's image, an existing `favicon.svg`). Prefer the symbol on its own to the full lockup, since a wordmark is unreadable at 16 px. If there's only a PNG or no logo at all, say so. Then either redraw the mark as SVG with `../logo/scripts/brand.mjs` (keep it faithful: same shapes and colours, cleaner geometry) or offer the `logo` skill.
 2. **Make it icon-ready.** The SVG needs a `viewBox` trimmed to the art. If the mark has detail finer than about 1/32 of its size, or disappears on a dark tab, draw a separate `favicon.svg`: bolder, simpler, often the mark on a rounded tile in the brand colour.
-3. **Write a small brand.json** next to it (see `../logo/references/brand-json.md`):
+3. **Write a small brand.json** in the project's `brand/` folder, creating it if there isn't one (see `../logo/references/brand-json.md`). The export writes the brand's own `LICENSE` and `TRADEMARKS.md` there, which keep the icons out of the code license; the logo skill's "Where the work lives" says why, and what to add to the root README:
    ```json
    { "name": "Inlay", "icon": { "file": "mark.svg", "background": "#1d1d1f", "favicon": "favicon.svg" } }
    ```

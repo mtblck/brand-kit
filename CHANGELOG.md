@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.6.0 (2026-11-24)
+
+- Brand files get their own license, as a requirement. Everything made for a
+  project goes in a `brand/` folder (source, rounds and export). `export.mjs`
+  writes a `LICENSE` (all rights reserved: the name, logos and brand material
+  are excluded from the project's code license) and a short `TRADEMARKS.md`
+  usage policy (allowed: referring, "works with", linking with the unmodified
+  logo, unchanged copies in forks; not allowed: forks or products under the
+  name, changed logos, implied endorsement) into the kit and its zip, and at
+  the top of `brand/` when they're missing. `scripts/legal.mjs` reads the code
+  license from the repo's LICENSE and warns when `brand.json` isn't in a
+  `brand/` folder or the root README doesn't mention it. New `brand.json`
+  field `legal` (`owner`, `year`, `contact`, `codeLicense`). The kit's README
+  says the brand has its own license.
+
 ## 1.5.0 (2026-11-11)
 
 - Circle-grid construction. `references/circle-grid.md` covers building a mark
