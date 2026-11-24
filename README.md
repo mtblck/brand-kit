@@ -105,6 +105,7 @@ Scripts (in `skills/logo/scripts/`, Node 18+):
 - `specimen.mjs`: the name in every face of the chosen typeface groups.
 - `render.mjs`: PNGs of any SVG, or a numbered concept comparison sheet.
 - `palette.mjs`: the website palette (also runs alone: `node palette.mjs brand.json`).
+- `legal.mjs`: the brand folder's `LICENSE` and `TRADEMARKS.md`.
 - `export.mjs`: everything above from `brand.json`.
 
 Rendering uses Playwright's Chromium if it's installed (as in Claude's cloud
@@ -133,6 +134,19 @@ The process and craft rules are original, informed by reading
 its write-up "Using Claude as a logo design agency", and the Logo Creator skill
 on MCP Market. No text or code was copied from them; see THIRD_PARTY_NOTICES.md.
 
+## Brand files get their own license
+
+Everything the skills make for a project goes in a `brand/` folder with its own
+`LICENSE` and `TRADEMARKS.md`, which `export.mjs` writes. The name, logos and
+brand material are all rights reserved and excluded from the project's code
+license by default, because a code license like MIT would otherwise let anyone
+reuse the logo as freely as the code. `TRADEMARKS.md` is a short usage policy:
+talking about the project, saying something works with it and linking with the
+unmodified logo are fine; a fork or product under the name, changed logos and
+implied endorsement are not. The skill also adds a line to the project's README
+saying so. These are sensible defaults, not legal advice.
+
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE). The example logos in `skills/logo/examples/` are
+made-up brands drawn to show the skill, and are MIT like the rest.

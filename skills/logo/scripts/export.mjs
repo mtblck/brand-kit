@@ -17,6 +17,8 @@
  *   web/     the website palette: palette.css, palette.tailwind.css, tokens.json, palette.html/.png (palette.mjs)
  *   pdf/     every logo in svg/ as a vector PDF, for print
  *   README.md                which file to use for what
+ *   LICENSE, TRADEMARKS.md   the brand's own license (not the code's) and usage policy (legal.mjs),
+ *                            also written at the top of the brand/ folder when missing
  *   <name>-brand-kit.zip     everything above in one download
  * --only icons skips the logos, guidelines, social images, PDFs and zip (for the icons skill).
  *
@@ -36,6 +38,7 @@ import { browser, png, htmlShot, viewBox } from './render.mjs'
 import { guide, darkest } from './guide.mjs'
 import { social, pdfLogos, readme, zip } from './package.mjs'
 import { templates } from './templates.mjs'
+import { writeLegal } from './legal.mjs'
 import * as web from './palette.mjs'
 
 const args = process.argv.slice(2)
@@ -204,6 +207,11 @@ ${files.horizontal ? `<div class="panel" style="background:#fff">${img(files.hor
 </div></body></html>`
 writeFileSync(join(out, 'check.html'), check)
 wrote(await htmlShot(b, join(out, 'check.html'), join(out, 'check.png'), { width: 1216 }))
+
+// ── The brand's own license and usage policy (also with --only icons) ────────
+const legal = writeLegal({ cfg, base, out })
+for (const f of legal.written) wrote(f)
+for (const w of legal.warnings) console.warn(`warning: ${w}`)
 
 // ── Brand guidelines (US Letter pages: HTML, PDF, PNG per page) ────────────
 if (!onlyIcons) {
