@@ -74,7 +74,7 @@ export function readme({ cfg, out, files }) {
     `# ${cfg.name} brand kit`,
     '',
     cfg.tagline ? `${cfg.tagline}\n` : '',
-    'Start with `brand-guidelines.pdf`: it shows the logo, how to use it, the typefaces and the colours.',
+    has('brand-guidelines.pdf') ? 'Start with `brand-guidelines.pdf`: it shows the logo, how to use it, the typefaces and the colours.' : 'Start with `svg/` and `check.png`: the logo files, and the logo at real sizes on light and dark.',
     '',
     '## Which file to use',
     '',
@@ -84,15 +84,15 @@ export function readme({ cfg, out, files }) {
     '| The logo in a document, slide or email | `png/` at the width you need (transparent background) |',
     '| The logo for a printer, sign shop or merch | `pdf/` (vector), or `svg/` if they accept it |',
     '| Only one ink available (stamps, embroidery, engraving) | `svg/*-black.svg` or `svg/*-white.svg` |',
-    has('icons') ? '| Favicons and app icons for a website | `icons/`: copy the files to the site root and paste `icons/head.html` into the page `<head>` |' : '',
-    has('icons/app-icon-1024.png') ? '| An App Store or Play Store icon | `icons/app-icon-1024.png` (square, opaque; the store rounds the corners) |' : '',
-    has('social') ? '| A link preview (Open Graph) image | `social/og-image.png` (1200 × 630) |' : '',
-    has('social') ? '| A profile picture | `social/avatar.png` (800 × 800) |' : '',
-    has('templates/email') ? '| An email signature | `templates/email/`: host `logo.png`, open `signature.html` in a browser, copy it and paste it into the mail settings |' : '',
-    has('templates/business-card') ? '| Business cards | `templates/business-card/business-card.pdf` (US 3.5 × 2 in, bleed included, front and back): send it to the printer as is |' : '',
-    has('templates/slides') ? '| A presentation | `templates/slides/*.pptx` (PowerPoint, Keynote or Google Slides): add slides from its layouts |' : '',
-    has('templates/social') ? '| A social post, story, Ko-fi cover or X header | `templates/social/`: a sample of each, plus a `-blank` version to design on |' : '',
-    has('web/palette.css') ? '| Colours for a website or app, light and dark | `web/palette.css` (or `web/palette.tailwind.css` on Tailwind v4, `web/tokens.json` for Figma or Style Dictionary); open `web/palette.html` to see every value and its contrast |' : '',
+    has('icons') ? '| Favicons and app icons for a website | `icons/`: copy the files to the site root and paste `icons/head.html` into the page `<head>` |' : null,
+    has('icons/app-icon-1024.png') ? '| An App Store or Play Store icon | `icons/app-icon-1024.png` (square, opaque; the store rounds the corners) |' : null,
+    has('social') ? '| A link preview (Open Graph) image | `social/og-image.png` (1200 × 630) |' : null,
+    has('social') ? '| A profile picture | `social/avatar.png` (800 × 800) |' : null,
+    has('templates/email') ? '| An email signature | `templates/email/`: host `logo.png`, open `signature.html` in a browser, copy it and paste it into the mail settings |' : null,
+    has('templates/business-card') ? '| Business cards | `templates/business-card/business-card.pdf` (US 3.5 × 2 in, bleed included, front and back): send it to the printer as is |' : null,
+    has('templates/slides') ? '| A presentation | `templates/slides/*.pptx` (PowerPoint, Keynote or Google Slides): add slides from its layouts |' : null,
+    has('templates/social') ? '| A social post, story, Ko-fi cover or X header | `templates/social/`: a sample of each, plus a `-blank` version to design on |' : null,
+    has('web/palette.css') ? '| Colours for a website or app, light and dark | `web/palette.css` (or `web/palette.tailwind.css` on Tailwind v4, `web/tokens.json` for Figma or Style Dictionary); open `web/palette.html` to see every value and its contrast |' : null,
     '',
     '## Contents',
     '',
@@ -103,9 +103,9 @@ export function readme({ cfg, out, files }) {
       ['pdf/', 'every logo as a vector PDF'],
       ['icons/', '`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, PWA icons, `site.webmanifest`, `head.html`'],
       ['social/', 'link preview and avatar'],
-      ['templates/', 'email signature, business card, slide template and social posts'],
+      ['templates/', [['email', 'email signature'], ['business-card', 'business card'], ['slides', 'slide template'], ['social', 'social posts']].filter(([d]) => has(`templates/${d}`)).map(([, n]) => n).join(', ').replace(/, ([^,]*)$/, ' and $1')],
       ['web/', 'the website palette: 12-step OKLCH scales and light and dark roles as CSS, a Tailwind v4 theme and W3C design tokens, with a preview and contrast report'],
-      ['check.png', 'the logo at real pixel sizes, on light and dark, in browser tabs and on a home screen'],
+      ['check.png', `the logo at real pixel sizes, on light and dark${has('icons') ? ', in browser tabs and on a home screen' : ''}`],
       ['LICENSE', 'the license for everything here: all rights reserved, and not covered by any code license'],
       ['TRADEMARKS.md', 'what anyone may do with the name and logo without asking, and what not'],
     ]
@@ -117,7 +117,7 @@ export function readme({ cfg, out, files }) {
     '',
   ]
   const file = join(out, 'README.md')
-  writeFileSync(file, lines.filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'))
+  writeFileSync(file, lines.filter((l) => l != null).filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n'))
   return file
 }
 
