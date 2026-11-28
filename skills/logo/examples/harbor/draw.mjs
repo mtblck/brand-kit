@@ -72,6 +72,12 @@ write(
       },
       icon: { file: 'mark-dark.svg', background: C.water, favicon: 'favicon.svg' },
       clearSpace: 0.25,
+      // Portfolio art (portfolio/draw.mjs): the two covers, the alt text, and the icon from the app icon.
+      portfolio: {
+        cover: 'portfolio/cover.svg',
+        mobile: 'portfolio/cover-mobile.svg',
+        alt: 'Paper boats folded from pages sail across dark water toward a stone harbour arch, where a coral beacon glows and one boat already rests in the calm water inside.',
+      },
       out: 'dist',
     },
     null,

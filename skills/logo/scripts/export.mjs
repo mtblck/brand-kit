@@ -15,6 +15,8 @@
  *   social/  og-image.png (1200 × 630 link preview) and avatar.png (800 × 800)   (package.mjs)
  *   templates/  email signature, business card, slides (.pptx + PDF) and social posts (templates.mjs)
  *   web/     the website palette: palette.css, palette.tailwind.css, tokens.json, palette.html/.png (palette.mjs)
+ *   portfolio/  cover.webp (2400 × 800), cover-mobile.webp (1000 × 800), icon.png (512), alt.txt
+ *            and preview.png: art for a case-study page and Ko-fi (portfolio.mjs)
  *   pdf/     every logo in svg/ as a vector PDF, for print
  *   README.md                which file to use for what
  *   LICENSE, TRADEMARKS.md   the brand's own license (not the code's) and usage policy (legal.mjs),
@@ -23,7 +25,7 @@
  * --only icons skips the logos, guidelines, social images, PDFs and zip (for the icons skill).
  *
  * Which of the optional parts are made (icons, guidelines, palette, social, email, card,
- * slides, posts) comes from brand.json's "exports" (default "all"), or --exports for one run;
+ * slides, posts, portfolio) comes from brand.json's "exports" (default "all"), or --exports for one run;
  * see exports.mjs. The logo files, check sheet, README, LICENSE, TRADEMARKS.md and zip are
  * always made. A part left out is removed from "out" if an earlier export made it, so the
  * zip only holds what was asked for.
@@ -45,6 +47,7 @@ import { guide, darkest } from './guide.mjs'
 import { social, pdfLogos, readme, zip } from './package.mjs'
 import { templates } from './templates.mjs'
 import { writeLegal } from './legal.mjs'
+import { portfolio } from './portfolio.mjs'
 import { chosen, summary, EXPORTS } from './exports.mjs'
 import * as web from './palette.mjs'
 
@@ -259,6 +262,13 @@ if (!onlyIcons) {
     const t = await templates({ b, cfg, out, files, iconSvg, tile, scale, colors, ink, paper, want })
     t.written.forEach(wrote)
     previews = t.previews
+  }
+  // ── Portfolio art: the covers drawn for the project, its icon and alt text ──
+  if (want.has('portfolio')) {
+    const r = await portfolio({ b, cfg, base, out, iconSvg, tile, scale, paper, dark })
+    r.written.forEach(wrote)
+    for (const w of r.warnings) console.warn(`warning: ${w}`)
+    if (previews && existsSync(join(out, 'portfolio', 'cover.webp'))) previews.cover = 'portfolio/cover.webp'
   }
   // ── Website palette: OKLCH scales and light/dark roles, checked for contrast ─
   const pal = want.has('palette') ? web.palette(cfg) : null

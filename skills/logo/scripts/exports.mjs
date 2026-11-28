@@ -24,7 +24,8 @@ export const EXPORTS = [
   { id: 'email', label: 'Email signature', what: 'HTML and text signature with a hosted-logo PNG', paths: ['templates/email'], template: true },
   { id: 'card', label: 'Business card', what: 'print PDF with bleed, front and back', paths: ['templates/business-card'], template: true },
   { id: 'slides', label: 'Slide template', what: 'an editable .pptx with a master per layout, plus PDF', paths: ['templates/slides'], template: true },
-  { id: 'posts', label: 'Social post templates', what: 'square, portrait, story, Ko-fi cover and X header, each with a blank', paths: ['templates/social'], template: true },
+  { id: 'posts', label: 'Social post templates', what: 'square, portrait, story and X header, each with a blank', paths: ['templates/social'], template: true },
+  { id: 'portfolio', label: 'Portfolio art', what: 'a 2400 × 800 cover (also the Ko-fi cover), a 1000 × 800 phone cover, a 512 square icon and alt text, for a case-study page', paths: ['portfolio'] },
 ]
 
 export const CORE = 'Logo files (SVG, PNG and PDF, with dark and one-colour versions), check.png, README.md, LICENSE, TRADEMARKS.md and the zip'
@@ -40,6 +41,10 @@ const ALIASES = {
   colours: ['palette'],
   colors: ['palette'],
   favicons: ['icons'],
+  cover: ['portfolio'],
+  covers: ['portfolio'],
+  kofi: ['portfolio'],
+  'case-study': ['portfolio'],
   guide: ['guidelines'],
   og: ['social'],
   templates: EXPORTS.filter((e) => e.template).map((e) => e.id),

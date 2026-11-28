@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.8.0 (2026-11-28)
+
+- Portfolio art, a new export (menu item 9, `portfolio`): the pictures a
+  case-study page and Ko-fi show for the project, in `portfolio/`.
+  `cover.webp` is 2400 × 800 (shown 1200 × 400 across the top of the sheet
+  from 640 px wide up, and the Ko-fi cover), `cover-mobile.webp` is the same
+  scene re-framed at 1000 × 800 for phones, both WebP encoded at the best
+  quality under 250 KB and 150 KB. `icon.png` is 512 × 512 with square
+  corners, full bleed, from the app-icon art. `alt.txt` holds one sentence
+  describing the scene. The covers are drawn for each project (one verb, one
+  picture, the product's colours, one viewpoint, its own background, no
+  words), with the subject in the middle 60 % and the outer 40 px quiet; new
+  `references/portfolio.md` has the rules and a new workflow step draws them.
+  `preview.png` shows all three on a light and a dark page and the guides at
+  real size, and the export warns about a wrong shape, `<text>`, an embedded
+  image, a busy edge, an over-budget file, and missing or long alt text.
+  `node scripts/portfolio.mjs brand.json` remakes only this folder.
+  `brand.json` gets a `portfolio` field. Harbor's example has covers.
+- The social post templates no longer include a Ko-fi cover with a logo and
+  headline: the portfolio cover replaces it. The guidelines' social section
+  shows the portfolio cover beside the X header when both are made.
+
 ## 1.7.0 (2026-11-24)
 
 - Pick the exports. The skill asks which parts of the kit to make, with the

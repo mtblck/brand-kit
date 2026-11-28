@@ -83,8 +83,8 @@ a ring, a weave, a knockout tile.
 
 What one `node scripts/export.mjs brand.json` writes. The skill first asks which
 parts you want, all of them by default: icons, guidelines, website palette,
-social images, email signature, business card, slides and social posts can each
-be left out (`brand.json`'s `exports`). The logo files, `check.png`, `README.md`,
+social images, email signature, business card, slides, social posts and
+portfolio art can each be left out (`brand.json`'s `exports`). The logo files, `check.png`, `README.md`,
 `LICENSE`, `TRADEMARKS.md` and the zip are always made.
 
 | Folder / file | Contents |
@@ -97,7 +97,8 @@ be left out (`brand.json`'s `exports`). The logo files, `check.png`, `README.md`
 | `pdf/` | every logo as a vector PDF, for print shops |
 | `social/` | `og-image.png` (1200 × 630 link preview: logo, tagline, accent bar) and `avatar.png` (800 × 800, circle-safe) |
 | `web/` | the website palette: 12-step OKLCH scales (brand, accent, tinted neutral, success, warning, danger, info) and light and dark roles (`--bg`, `--text`, `--brand`, `--on-brand`, …) as `palette.css`, a Tailwind v4 theme and W3C design tokens, with `palette.html` showing every value and its WCAG 2.2 and APCA contrast |
-| `templates/` | email signature (HTML + text), business card (print PDF with bleed), slide template (`.pptx` + PDF) and social posts (square, portrait, story, Ko-fi cover, X header, each with a blank), with two pages about them in the guidelines |
+| `templates/` | email signature (HTML + text), business card (print PDF with bleed), slide template (`.pptx` + PDF) and social posts (square, portrait, story, X header, each with a blank), with two pages about them in the guidelines |
+| `portfolio/` | art for a case-study page and Ko-fi: `cover.webp` (2400 × 800) and `cover-mobile.webp` (1000 × 800), one scene drawn for the project with no words and re-framed for phones, `icon.png` (512, square corners, from the logo), `alt.txt`, and `preview.png` showing them on a light and a dark page with the composition guides |
 | `README.md` | which file to use for what |
 | `<name>-brand-kit.zip` | all of the above in one download |
 
@@ -110,6 +111,7 @@ Scripts (in `skills/logo/scripts/`, Node 18+):
 - `render.mjs`: PNGs of any SVG, or a numbered concept comparison sheet.
 - `palette.mjs`: the website palette (also runs alone: `node palette.mjs brand.json`).
 - `legal.mjs`: the brand folder's `LICENSE` and `TRADEMARKS.md`.
+- `portfolio.mjs`: the portfolio covers, icon and alt text (also runs alone: `node portfolio.mjs brand.json`).
 - `exports.mjs`: the menu of optional exports, and which ones `brand.json` asks for.
 - `export.mjs`: everything above from `brand.json`.
 
@@ -119,7 +121,8 @@ sessions) and never installs one. Fonts need network access to
 registry for `opentype.js` and `pptxgenjs`.
 
 `skills/logo/examples/harbor/` is a complete worked logo (a harbour arch with a beacon,
-Space Grotesk wordmark): `node draw.mjs && node ../../scripts/export.mjs brand.json`.
+Space Grotesk wordmark), with portfolio covers of paper boats sailing into the arch:
+`node draw.mjs && node portfolio/draw.mjs && node ../../scripts/export.mjs brand.json`.
 
 `references/typefaces.json` lists about 130 Google Fonts that are free for
 commercial logo use (SIL OFL or Apache 2.0), in nineteen voices, each with text
