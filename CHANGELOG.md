@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.9.0 (2026-11-28)
+
+- Object letters, a new structure for concepts: a letter of the name built
+  from objects in the brand's world, with one main object carrying the
+  outline, one accent symbol, and lines from the object's own parts finishing
+  the letter. `references/object-letters.md` has the recipe and rules, and
+  step 3 can give it a row of the round 1 grid when the name points to a
+  world. Pictorial wordmarks (a letter replaced by an object) follow the same
+  recipe, now with its own section and rules.
+- Emblems and badges (`references/emblems.md`): shapes, the anatomy of a
+  seal, and the inner mark every emblem needs. `geometry.mjs` gains
+  `arcText()`, which sets a line of type round a circle (top clockwise, bottom
+  upright and left to right).
+- Negative-space marks (`references/negative-space.md`): one shape that reads
+  two ways, four ways to make one, and checking both readings at 32 px.
+- Responsive logos (`references/responsive.md`): the ladder from the full
+  logo to the favicon, each step redrawn rather than shrunk, and flexible
+  systems.
+- `examples/pinewood/`: one made-up outdoor shop as an emblem, a
+  negative-space mark, a pictorial wordmark and a responsive ladder
+  (`docs/pinewood.png`).
+- The plugin's own brand kit, under the name Logowright, in `brand/`: a
+  drafting compass seen from its top whose arms make a W, with the north star
+  in front. It's the worked example for object letters. The name and logo
+  are all rights reserved (`brand/LICENSE`), `brand/TRADEMARKS.md` claims
+  them as trademarks of mtblck, and the root LICENSE and README say `brand/`
+  is not covered by MIT.
+
 ## 1.8.1 (2026-11-28)
 
 - Brand guidelines, page 2: with four logos (mark, horizontal, stacked and

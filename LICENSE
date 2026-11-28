@@ -22,3 +22,6 @@ SOFTWARE.
 
 Third-party plugins under plugins/ keep their own licenses; see
 THIRD_PARTY_NOTICES.md.
+
+The Logowright name and logos, and everything in brand/, are not covered by
+this license; see brand/LICENSE and brand/TRADEMARKS.md.

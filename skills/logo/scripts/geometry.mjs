@@ -17,6 +17,8 @@
  *              aligned to the mark's viewBox, for the brand guidelines.
  *   Letters    solid(text(...).d) turns a glyph into one clean outline; do it
  *              before any boolean on a letter.
+ *   Emblems    arcText() sets a line round a circle, along the top (reading
+ *              clockwise) or the bottom (reading left to right, upright).
  *   Monograms  bar() (a straight stroke with square ends), polyline() (a
  *              mitred monoline stroke through points), weave() (one letter
  *              passes under another, with a gap, only where you say), knockout()
@@ -28,7 +30,7 @@
 import { createRequire } from 'node:module'
 import { execFileSync } from 'node:child_process'
 import { join } from 'node:path'
-import { CACHE, circle, round, esc } from './brand.mjs'
+import { CACHE, circle, round, esc, text } from './brand.mjs'
 
 const PAPER = 'paper@0.12.18'
 let P
@@ -330,3 +332,36 @@ export function weave(over, under, { gap, at }) {
 
 /** `bottom` with `top` cut out of it plus a gap all round: the top letter sits in front. */
 export const knockout = (top, bottom, gap) => subtract(bottom, dilate(D(top), gap))
+
+/**
+ * A line of type set round a circle, for emblems, seals and badges. `r` is the
+ * middle of the band the capitals fill, so a top line and a bottom line given
+ * the same r sit in one ring. `at` is the angle of the line's middle in degrees
+ * (-90 the top, 90 the bottom; 0 is to the right, y down as in SVG). On the
+ * bottom the letters stand upright, their tops toward the centre, and read left
+ * to right. Each glyph keeps the font's spacing and kerning, measured on its
+ * baseline. Returns { d, a0, a1 } (the angles the line spans, for placing a
+ * divider such as a star between two lines). Each glyph is already through
+ * solid(), so the result can go straight into a boolean.
+ */
+export function arcText(font, str, { cx = 128, cy = 128, r = 100, size = 20, tracking = 0.08, at, bottom = false } = {}) {
+  if (at === undefined) at = bottom ? 90 : -90
+  const cap = text(font, 'H', { size }).capHeight
+  const base = bottom ? r + cap / 2 : r - cap / 2
+  const chars = [...str]
+  const total = text(font, str, { size, tracking }).width
+  const deg = 180 / Math.PI
+  let d = ''
+  chars.forEach((ch, i) => {
+    if (!ch.trim()) return
+    const g = text(font, ch, { size })
+    const start = i ? text(font, chars.slice(0, i + 1).join(''), { size, tracking }).width - g.width : 0
+    const along = start + g.width / 2 - total / 2
+    const th = bottom ? at - (along / base) * deg : at + (along / base) * deg
+    const glyph = text(font, ch, { size, anchor: 'middle' }).d
+    const t = (th * Math.PI) / 180
+    d += transform(solid(glyph), { rotate: bottom ? th - 90 : th + 90, x: cx + base * Math.cos(t), y: cy + base * Math.sin(t) })
+  })
+  const span = (total / base) * deg
+  return { d, a0: round(at - span / 2), a1: round(at + span / 2) }
+}

@@ -1,0 +1,112 @@
+{
+  "name": "Logowright",
+  "shortName": "Logowright",
+  "tagline": "Logos drawn in SVG, and the whole kit around them.",
+  "about": "Logowright is a Claude Code plugin that designs a logo as clean SVG from a short brief, sets the name in real typefaces so you choose by eye, and exports the whole brand kit around it from one file.\n\nThe mark is a drafting compass seen from its top: its arms and legs come down to two points and make a W, with the north star in front, for drawing and finding your way with one instrument.",
+  "construction": "On a 256 grid: arms 20 wide and legs, hinge ring and handle 10 wide (the one secondary weight), the legs fixed into the arms' feet; a four-point star of radius 40 on the centre line, set 6 clear of the compass.",
+  "website": "mattblack.space/skills/brand-kit",
+  "colors": [
+    {
+      "name": "Midnight",
+      "hex": "#1b2438",
+      "role": "primary",
+      "usage": "The compass, the wordmark, headings and the brand field."
+    },
+    {
+      "name": "North Star",
+      "hex": "#c99a3e",
+      "role": "accent",
+      "usage": "The star, and one highlight per layout; never body text."
+    },
+    {
+      "name": "Chart",
+      "hex": "#f7f3ea",
+      "role": "paper",
+      "usage": "Backgrounds, and the compass on Midnight."
+    },
+    {
+      "name": "Brass",
+      "hex": "#ecdfc2",
+      "role": "support",
+      "usage": "Panels, rules and quiet backgrounds."
+    },
+    {
+      "name": "Night",
+      "hex": "#10141d",
+      "role": "dark",
+      "usage": "The dark page."
+    }
+  ],
+  "type": {
+    "display": {
+      "family": "Outfit",
+      "weight": 600
+    },
+    "text": {
+      "family": "Inter",
+      "weight": 400
+    }
+  },
+  "logos": {
+    "mark": {
+      "file": "mark.svg",
+      "dark": "mark-dark.svg",
+      "minWidth": 20
+    },
+    "horizontal": {
+      "file": "logo-horizontal.svg",
+      "dark": "logo-horizontal-dark.svg",
+      "minWidth": 120
+    },
+    "stacked": {
+      "file": "logo-stacked.svg",
+      "dark": "logo-stacked-dark.svg",
+      "minWidth": 72
+    }
+  },
+  "icon": {
+    "file": "mark-dark.svg",
+    "background": "#1b2438",
+    "favicon": "favicon.svg"
+  },
+  "clearSpace": 0.25,
+  "exports": [
+    "icons",
+    "guidelines",
+    "palette",
+    "social",
+    "portfolio"
+  ],
+  "direction": {
+    "words": [
+      "crafted",
+      "precise",
+      "friendly"
+    ],
+    "pairs": {
+      "tone": "between",
+      "era": "classic",
+      "volume": "quiet",
+      "finish": "engineered"
+    },
+    "references": {
+      "like": [
+        "a generator mark Matt found: dividers in a ring with a four-point star"
+      ],
+      "avoid": []
+    },
+    "lives": "web",
+    "weirdness": 2
+  },
+  "legal": {
+    "owner": "mtblck",
+    "codeLicense": "MIT",
+    "contact": "https://github.com/mtblck/brand-kit/issues"
+  },
+  "portfolio": {
+    "cover": "portfolio/cover.svg",
+    "mobile": "portfolio/cover-mobile.svg",
+    "alt": "Seen from above on a navy chart, a brass drafting compass has its needle on a gold north star and its pencil leg partway round a gold circle, with the faint lines of a logo being drawn inside it."
+  },
+  "out": "dist"
+}
