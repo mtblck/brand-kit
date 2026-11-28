@@ -158,3 +158,7 @@ saying so. These are sensible defaults, not legal advice.
 
 MIT. See [LICENSE](LICENSE). The example logos in `skills/logo/examples/` are
 made-up brands drawn to show the skill, and are MIT like the rest.
+
+The code is MIT. The Logowright name and logos, and everything in `brand/`,
+are not; see [`brand/LICENSE`](brand/LICENSE) and
+[`brand/TRADEMARKS.md`](brand/TRADEMARKS.md).
