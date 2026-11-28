@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.9.0 (2026-11-28)
+
+- `TRADEMARKS.md` no longer says the code is open source when it isn't. It
+  names the license it finds ("The code in this project is open source under
+  the MIT license; the brand is not"). A repo with no license file, a
+  proprietary LICENSE, package.json's `"license": "UNLICENSED"`, or
+  `legal.codeLicense: "proprietary"` (or `false`) gets "The code in this
+  project is not open source, and the brand has its own license". With no repo,
+  or a license file it doesn't recognise, it says nothing about the code (an
+  unrecognised LICENSE used to count as open source). The brand `LICENSE`
+  says "any license that covers the code" unless it can name one.
+- When `brand/LICENSE` and `brand/TRADEMARKS.md` already exist, the export
+  copies them instead of making them again, so an owner's edits reach `dist/`
+  and the zip. The export warns when an existing `TRADEMARKS.md` still says the
+  code is open source and it isn't.
+- `scripts/legal.test.mjs` (`node --test skills/logo/scripts/legal.test.mjs`)
+  covers a repo with no LICENSE, MIT, proprietary, unknown, the setting and an
+  owner's edits.
+
 ## 1.8.1 (2026-11-28)
 
 - Brand guidelines, page 2: with four logos (mark, horizontal, stacked and
