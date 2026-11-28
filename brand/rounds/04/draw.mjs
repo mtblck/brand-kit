@@ -31,14 +31,16 @@ function compassW({ arm = 20, leg = 8, foot = [100, 150], top = [46, 56], hinge 
     // into the arm's foot, as a compass leg is fixed into its point
     const f = P(foot), t = P(top), L = Math.hypot(f[0] - t[0], f[1] - t[1])
     const into = [f[0] - ((f[0] - t[0]) / L) * arm * 0.6, f[1] - ((f[1] - t[1]) / L) * arm * 0.6]
-    return union(bar(...t, ...f, arm), bar(...hinge, ...into, leg))
+    const Lh = Math.hypot(into[0] - hinge[0], into[1] - hinge[1])
+    const from = [hinge[0] + ((into[0] - hinge[0]) / Lh) * hr * 0.75, hinge[1] + ((into[1] - hinge[1]) / Lh) * hr * 0.75] // start inside the ring, clear of the hole
+    return union(bar(...t, ...f, arm), bar(...from, ...into, leg))
   }
   const W = union(strokes(false), strokes(true))
   const ring = subtract(circle(...hinge, hr), circle(...hinge, hr * 0.42))
   const handle = rect(hinge[0] - 6, 26, 12, hinge[1] - 26, 3)
   const body = subtract(union(W, ring, handle), circle(...hinge, hr * 0.42))
   const s = star(128, sy, R)
-  return { compass: subtract(body, dilate(s, gap)), star: s }
+  return { compass: subtract(subtract(body, dilate(s, gap)), circle(...hinge, hr * 0.42)), star: s }
 }
 
 const variants = [
