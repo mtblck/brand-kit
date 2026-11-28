@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.1 (2026-11-28)
+
+- Brand guidelines, page 2: with four logos (mark, horizontal, stacked and
+  wordmark) the minimum-size row and the one-colour panels ran off the right
+  edge of the page. The minimum sizes now wrap onto a second row and the two
+  columns can't grow past half the page.
+
 ## 1.8.0 (2026-11-28)
 
 - Portfolio art, a new export (menu item 9, `portfolio`): the pictures a
