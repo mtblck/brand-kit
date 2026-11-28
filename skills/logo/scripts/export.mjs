@@ -8,14 +8,17 @@
  *   svg/     every logo, its dark version, and generated one-colour black/white versions
  *   png/     every logo at each width in "pngWidths", transparent
  *   icons/   favicon.ico (16/32/48), favicon.svg, favicon-*.png, apple-touch-icon.png,
- *            icon-192/512.png, icon-maskable-512.png, app-icon-1024.png,
- *            site.webmanifest and head.html (the <link> tags to paste)
+ *            icon-192/512.png, icon-maskable-192/512.png, app-icon-1024.png,
+ *            site.webmanifest and head.html (the <link> tags to paste),
+ *            ios/ (Xcode AppIcon.appiconset and every legacy size) and
+ *            android/ (mipmap densities, adaptive and themed layers, Play Store icon)  (appicons.mjs)
  *   check.html + check.png              small-size, dark, one-colour and icon-mask tests
  *   brand-guidelines.html / .pdf / -N.png  printable US Letter brand guidelines (guide.mjs)
  *   social/  og-image.png (1200 × 630 link preview) and avatar.png (800 × 800)   (package.mjs)
  *   templates/  email signature, business card, slides (.pptx + PDF) and social posts (templates.mjs)
  *   web/     the website palette: palette.css, palette.tailwind.css, tokens.json, palette.html/.png (palette.mjs)
- *   portfolio/  cover.webp (2400 × 800), cover-mobile.webp (1000 × 800), icon.png (512), alt.txt
+ *   portfolio/  cover.webp (2400 × 800), cover-mobile.webp (1000 × 800), the same as .png and .svg,
+ *            icon.png (512), alt.txt
  *            and preview.png: art for a case-study page and Ko-fi (portfolio.mjs)
  *   pdf/     every logo in svg/ as a vector PDF, for print
  *   README.md                which file to use for what
@@ -48,6 +51,7 @@ import { social, pdfLogos, readme, zip } from './package.mjs'
 import { templates } from './templates.mjs'
 import { writeLegal } from './legal.mjs'
 import { portfolio } from './portfolio.mjs'
+import { appIcons } from './appicons.mjs'
 import { chosen, summary, EXPORTS } from './exports.mjs'
 import * as web from './palette.mjs'
 
@@ -165,6 +169,7 @@ if (want.has('icons')) {
   // PWA "any" icons: rounded tile. "maskable": full bleed, art inside the 80 % safe circle.
   wrote(await png(b, iconSvg, I('icon-192.png'), { width: 192, height: 192, bg: tile, scale, radius: 0.2 }))
   wrote(await png(b, iconSvg, I('icon-512.png'), { width: 512, height: 512, bg: tile, scale, radius: 0.2 }))
+  wrote(await png(b, iconSvg, I('icon-maskable-192.png'), { width: 192, height: 192, bg: tile, scale: icon.maskableScale ?? 0.5 }))
   wrote(await png(b, iconSvg, I('icon-maskable-512.png'), { width: 512, height: 512, bg: tile, scale: icon.maskableScale ?? 0.5 }))
   const manifest = {
     name: cfg.name,
@@ -172,6 +177,7 @@ if (want.has('icons')) {
     icons: [
       { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
       { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/icon-maskable-192.png', sizes: '192x192', type: 'image/png', purpose: 'maskable' },
       { src: '/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
     theme_color: icon.themeColor || tile,
@@ -191,6 +197,8 @@ if (want.has('icons')) {
 `
   )
   wrote(I('head.html'))
+  // Native apps: iOS asset catalog and sizes, Android mipmaps and adaptive layers.
+  for (const f of await appIcons({ b, out: join(out, 'icons'), iconSvg, tile, scale, maskScale: icon.maskableScale ?? 0.5, roundScale: icon.roundScale })) wrote(f)
 }
 const hasIcons = want.has('icons')
 

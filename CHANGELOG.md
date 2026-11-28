@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.0 (2026-11-28)
+
+- The icons export now covers native apps. `icons/ios/` has a drop-in Xcode
+  `AppIcon.appiconset` (the 1024 icon with its dark and tinted versions and
+  `Contents.json`) and `ios/sizes/`, every legacy size from 20 pt to 83.5 pt
+  at each scale plus the 1024 marketing icon, all opaque with no alpha.
+  `icons/android/res/` has `ic_launcher` and `ic_launcher_round` for every
+  density (48 to 192), the adaptive foreground and themed monochrome layers
+  (108 to 432) with their `mipmap-anydpi-v26` XML and the background colour,
+  and `icons/android/play-store-512.png`. New in `scripts/appicons.mjs`.
+- `icon-maskable-192.png` joins the 512 one in the web manifest.
+- The portfolio covers ship in every format: `cover.png` and
+  `cover-mobile.png` (lossless, full size) and their `.svg` sources sit beside
+  the WebP files in `portfolio/`.
+
 ## 2.0.0 (2026-11-28)
 
 - brand-kit is now **Logowright**. The plugin and its marketplace are named

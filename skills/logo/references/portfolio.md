@@ -6,6 +6,8 @@ The `portfolio` export is the art a case-study page (mattblack.space's work sect
 | --- | --- | --- | --- |
 | `portfolio/cover.webp` | 2400 × 800 (3:1) | edge to edge across the top of the case-study sheet from 640 px wide up, at 1200 × 400 (2×); also the Ko-fi cover | WebP, under ~250 KB |
 | `portfolio/cover-mobile.webp` | 1000 × 800 (5:4) | edge to edge at the top of the sheet under 640 px wide, at 500 × 400 (2×), about 312 px tall on an iPhone | WebP, under ~150 KB |
+| `portfolio/cover.png`, `cover-mobile.png` | as above | the same covers, lossless, for a site or tool that takes no WebP (or to compress yourself) | PNG, no budget |
+| `portfolio/cover.svg`, `cover-mobile.svg` | | the scenes as drawn, copied from their sources, for editing or a site that serves vector art | SVG |
 | `portfolio/icon.png` | 512 × 512 | from 58 px on phones to 100 px on desktop; the site rounds the corners and adds the shadow | PNG, square corners, opaque, full bleed |
 | `portfolio/alt.txt` | | the alt text of both covers | one sentence |
 | `portfolio/preview.png` | | the three on a light and a dark page, as the sheet shows them, and the composition guides at real size | for checking, not for the site |

@@ -1,6 +1,6 @@
 ---
 name: icons
-description: Make favicons, app icons and PWA icons (favicon.ico and .svg, apple-touch-icon, maskable Android icons, a 1024 px App Store icon, webmanifest and the head tags) from an existing logo or mark, or draw a small set of matching UI icons as SVG. Use when a site or app needs its icons, or its icons look blurry, cropped or wrong in dark mode.
+description: Make favicons, app icons and PWA icons (favicon.ico and .svg, apple-touch-icon, maskable icons, an Xcode AppIcon set, Android launcher mipmaps with adaptive layers, store icons, webmanifest and the head tags) from an existing logo or mark, or draw a small set of matching UI icons as SVG. Use when a site or app needs its icons, or its icons look blurry, cropped or wrong in dark mode.
 ---
 
 # icons
@@ -19,7 +19,7 @@ The scripts live in the `logo` skill: `../logo/scripts/` from this skill's folde
    ```
    `background` is the tile colour for app icons. Use the brand's primary colour or its dark, with a mark that contrasts with it.
 4. **Export.** Run `node ../logo/scripts/export.mjs brand.json --only icons`, then read `dist/check.png`. It shows the favicon in light and dark tabs, the icon on a home screen and under Android's circle mask. Fix what fails and run it again.
-5. **Install** in a repo: copy `dist/icons/*` (except `head.html`) to the public root, paste `head.html` into the document head (or the framework's equivalent: Next.js `app/` takes `icon.svg`, `apple-icon.png` and `manifest`; Vite and Astro use `public/` plus the tags), and remove old icon files and tags so the two sets don't fight. Open a PR. Elsewhere, deliver the `icons/` folder and the snippet.
+5. **Install** in a repo: copy the files at the top of `dist/icons/` (not `head.html` or the `ios/` and `android/` folders) to the public root, paste `head.html` into the document head (or the framework's equivalent: Next.js `app/` takes `icon.svg`, `apple-icon.png` and `manifest`; Vite and Astro use `public/` plus the tags), and remove old icon files and tags so the two sets don't fight. Open a PR. For a native app, drag `dist/icons/ios/AppIcon.appiconset` into the Xcode project's Assets (replacing the old AppIcon) and copy `dist/icons/android/res/` over `app/src/main/res/`. Elsewhere, deliver the `icons/` folder and the snippet.
 
 ## Small UI icons for a brand
 
@@ -34,5 +34,6 @@ For a handful of interface icons that should match the logo (feature bullets, em
 
 - The favicon reads at 16 px in both a light and a dark tab, and isn't a squashed wordmark.
 - `apple-touch-icon.png` and `app-icon-1024.png` are opaque squares; the mark sits optically centred, filling about 60–65 %.
-- The maskable icon's art sits fully inside the circle crop on `check.png`.
+- The maskable icon's art sits fully inside the circle crop on `check.png`; the same scale sets Android's adaptive foreground.
+- Native apps get `icons/ios/` and `icons/android/`; nothing there has a transparent corner except the iOS dark and tinted variants and Android's foreground and monochrome layers, which are meant to.
 - `site.webmanifest` has the right `name`, `short_name` and `theme_color`, and the old icon tags are gone.

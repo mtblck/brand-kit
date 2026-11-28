@@ -7,6 +7,8 @@
  * Called by export.mjs when "portfolio" is in the exports. Writes <out>/portfolio/:
  *   cover.webp         2400 × 800 (shown 1200 × 400), the wide cover and Ko-fi cover, under ~250 KB
  *   cover-mobile.webp  1000 × 800 (shown 500 × 400), the same scene re-framed for phones, under ~150 KB
+ *   cover.png, cover-mobile.png  the same at full size, lossless, for sites and tools that take no WebP
+ *   cover.svg, cover-mobile.svg  the scenes as drawn, for editing or a site that serves vector art
  *   icon.png           512 × 512, square corners, full bleed (the site rounds it and adds the shadow)
  *   alt.txt            one sentence describing the scene, for both covers
  *   preview.png        the three as a case-study page shows them, light and dark, plus the composition guides
@@ -119,8 +121,9 @@ export async function portfolio({ b, cfg, base, out, iconSvg, tile, scale = 0.62
   for (const key of ['cover', 'mobile']) {
     const spec = PORTFOLIO[key]
     const file = join(d, spec.file)
+    const also = [file.replace(/\.webp$/, '.png'), file.replace(/\.webp$/, '.svg')]
     if (!p[key]) {
-      if (existsSync(file)) rmSync(file)
+      for (const f of [file, ...also]) if (existsSync(f)) rmSync(f)
       continue
     }
     if (!existsSync(at(p[key]))) {
@@ -137,6 +140,10 @@ export async function portfolio({ b, cfg, base, out, iconSvg, tile, scale = 0.62
     writeFileSync(file, r.data)
     written.push(file)
     made[key] = file
+    // Lossless PNG and the SVG source beside the WebP, so every format ships.
+    writeFileSync(also[0], (await draw(b, text, { w: spec.w, h: spec.h, bg, budget: null })).data)
+    writeFileSync(also[1], text)
+    written.push(...also)
     if (r.data.length > spec.budget) warn(`${spec.file} is ${Math.round(r.data.length / 1000)} KB even at quality ${r.quality}: simplify the scene (fewer tiny details, flat fills) to get under ${spec.budget / 1000} KB`)
     for (const side of ['left', 'right']) {
       if (r.busy[side] > 0.1) warn(`${spec.file}: the ${side} ${PORTFOLIO.quiet} px edge is busy (${Math.round(r.busy[side] * 100)} % of it stands out); keep the subject in the middle ${PORTFOLIO.subject * 100} % and only ground or a faint texture at the edges`)
