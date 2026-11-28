@@ -7,7 +7,7 @@
  *                            front.png, back.png, preview.png
  *   templates/slides/        <slug>-slides.pptx (one slide master per layout, real placeholders),
  *                            slides.pdf, slide-N.png
- *   templates/social/        square, portrait, story, kofi-cover and x-header posts, each
+ *   templates/social/        square, portrait, story and x-header posts, each
  *                            with a -blank version (field, logo and bar, no text)
  *
  * Needs pptxgenjs for the .pptx; it is installed once into the brand-kit cache
@@ -299,7 +299,6 @@ html,body{margin:0}body{-webkit-print-color-adjust:exact;print-color-adjust:exac
       { key: 'post-square', w: 1080, h: 1080 },
       { key: 'post-portrait', w: 1080, h: 1350 },
       { key: 'story', w: 1080, h: 1920, top: 250, bottom: 300 },
-      { key: 'kofi-cover', w: 1200, h: 400, banner: 'center' },
       { key: 'x-header', w: 1500, h: 500, banner: 'right' },
     ]
     const post = ({ w, h, top = 0, bottom = 0, banner }, blank) => {

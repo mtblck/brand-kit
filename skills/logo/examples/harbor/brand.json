@@ -69,5 +69,10 @@
     "favicon": "favicon.svg"
   },
   "clearSpace": 0.25,
+  "portfolio": {
+    "cover": "portfolio/cover.svg",
+    "mobile": "portfolio/cover-mobile.svg",
+    "alt": "Paper boats folded from pages sail across dark water toward a stone harbour arch, where a coral beacon glows and one boat already rests in the calm water inside."
+  },
   "out": "dist"
 }

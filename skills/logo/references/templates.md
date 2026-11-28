@@ -54,7 +54,9 @@ Install: host `logo.png`, set `templates.email.logoUrl`, export again, open `sig
 - **Logo** The full lockup on the title and closing slides; on content slides only the small mark in one corner (about 0.4 in), or nothing. Never a large logo on every slide.
 - **File** An editable `.pptx` with each layout as a slide master and real placeholders, so new slides keep the design. It opens in PowerPoint, Keynote and Google Slides. Fonts are referenced by name: Google Slides has every Google Font; PowerPoint and Keynote need the font installed, or they substitute.
 
-## Social and Ko-fi
+## Social
+
+The Ko-fi page cover isn't a template any more: it is the portfolio cover (`portfolio/cover.webp`, 2400 × 800), art drawn for the project with no words. See `references/portfolio.md`.
 
 | Image | Size | Keep clear |
 | --- | --- | --- |
@@ -62,7 +64,6 @@ Install: host `logo.png`, set `templates.email.logoUrl`, export again, open `sig
 | Square post (Instagram, Ko-fi, LinkedIn, Bluesky) | 1080 × 1080 | — |
 | Portrait post (Instagram) | 1080 × 1350 | grid crops to 4:5 or square: keep text central |
 | Story / Reel | 1080 × 1920 | top 250 px and bottom 300 px sit under the app's controls |
-| Ko-fi cover | 1200 × 400 (3:1) | sides crop on phones: keep content in the middle 800 px |
 | X header | 1500 × 500 | the profile picture covers the bottom left; keep content centre and right |
 | Avatar | 800 × 800 | most sites crop to a circle: keep art inside the middle 70 % |
 

@@ -195,16 +195,16 @@ ${tp.cardFront ? `${section(sn(), 'Business card')}
   <p class="note"><b>Layout</b> The front carries only the logo, on the brand colour; the back carries the person: name in ${esc(disp?.family || 'the display face')} 10.5 pt, role and up to four contact lines at 7.5 pt, never under 6.5 pt. Order a proof: printers convert RGB to CMYK, so check the colour against the values on page 3.</p>
 </div>` : ''}
 ${foot(p4Page, total)}</section>` : ''
-  const sizeNames = { 'post-square': 'Square post · 1080 × 1080', 'post-portrait': 'Portrait post · 1080 × 1350', story: 'Story · 1080 × 1920', 'kofi-cover': 'Ko-fi cover · 1200 × 400', 'x-header': 'X header · 1500 × 500' }
+  const sizeNames = { 'post-square': 'Square post · 1080 × 1080', 'post-portrait': 'Portrait post · 1080 × 1350', story: 'Story · 1080 × 1920', 'x-header': 'X header · 1500 × 500' }
   const socialFig = (p) => `<figure><img src="${p}" alt=""><figcaption>${sizeNames[p.split('/').pop().replace('.png', '')] || ''}</figcaption></figure>`
   const p5 = hasP5 ? `<section class="page">${head}
 ${tp.slides?.length ? `${section(sn(), 'Slides')}
 <div class="slides">${previews.slides.map((p, i) => `<figure><img src="${p}" alt=""><figcaption>${['Title', 'Section', 'Content', 'Two columns', 'Statement', 'Closing'][i] || ''}</figcaption></figure>`).join('')}</div>
 <p class="note">Files in <code>templates/slides/</code>: an editable <code>.pptx</code> (each layout is a slide master with placeholders; opens in PowerPoint, Keynote and Google Slides) and a PDF. 16:9 with 0.75 in margins; titles in ${esc(disp?.family || 'the display face')} 38 pt (54 on the title slide), body 22–24 pt and never under 18; six points at most. Brand colour on title, section and closing slides, paper behind content. The full logo opens and closes the deck; content slides carry only the small mark.</p>` : ''}
 ${tp.social?.length ? `${section(sn(), 'Social')}
-<div class="posts">${tp.social.filter((p) => !/kofi|x-header/.test(p)).map(socialFig).join('')}${social ? `<figure><img src="social/og-image.png" alt=""><figcaption>Link preview · 1200 × 630</figcaption></figure>` : ''}</div>
-<div class="banners">${tp.social.filter((p) => /kofi|x-header/.test(p)).map(socialFig).join('')}</div>
-<p class="note">Files in <code>templates/social/</code>, each with a <code>-blank</code> version (field, logo and bar, no text) for designing posts in Canva or Figma. One headline of eight words or fewer per image, the dark logo small in the top corner, the ${accent ? 'accent' : 'brand'} bar along the bottom. Stories keep text out of the top 250 and bottom 300 px; the Ko-fi cover crops its sides on phones, and the X header’s lower left sits under the profile picture.</p>` : ''}
+<div class="posts">${tp.social.filter((p) => !/x-header/.test(p)).map(socialFig).join('')}${social ? `<figure><img src="social/og-image.png" alt=""><figcaption>Link preview · 1200 × 630</figcaption></figure>` : ''}</div>
+<div class="banners">${tp.social.filter((p) => /x-header/.test(p)).map(socialFig).join('')}${tp.cover ? `<figure><img src="${tp.cover}" alt=""><figcaption>Portfolio and Ko-fi cover · 2400 × 800</figcaption></figure>` : ''}</div>
+<p class="note">Files in <code>templates/social/</code>, each with a <code>-blank</code> version (field, logo and bar, no text) for designing posts in Canva or Figma. One headline of eight words or fewer per image, the dark logo small in the top corner, the ${accent ? 'accent' : 'brand'} bar along the bottom. Stories keep text out of the top 250 and bottom 300 px, and the X header’s lower left sits under the profile picture.${tp.cover ? ' The portfolio cover is art with no words, drawn for the project; it is in <code>portfolio/</code> with its phone version, icon and alt text.' : ''}</p>` : ''}
 ${foot(p5Page, total)}</section>` : ''
 
   // ── Page 4: website colour (when export made the palette) ──
