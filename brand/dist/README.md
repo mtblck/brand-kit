@@ -13,10 +13,12 @@ Start with `brand-guidelines.pdf`: it shows the logo, how to use it, the typefac
 | The logo for a printer, sign shop or merch | `pdf/` (vector), or `svg/` if they accept it |
 | Only one ink available (stamps, embroidery, engraving) | `svg/*-black.svg` or `svg/*-white.svg` |
 | Favicons and app icons for a website | `icons/`: copy the files to the site root and paste `icons/head.html` into the page `<head>` |
-| An App Store or Play Store icon | `icons/app-icon-1024.png` (square, opaque; the store rounds the corners) |
+| An iPhone or iPad app icon | `icons/ios/AppIcon.appiconset/`: drag it into the Xcode project's Assets (it has the dark and tinted versions); `icons/ios/sizes/` has every size for older projects |
+| An Android app icon | `icons/android/res/`: copy it over `app/src/main/res/` (every density, the adaptive and themed layers); the Play Store listing takes `icons/android/play-store-512.png` |
+| An App Store icon, or any square icon | `icons/app-icon-1024.png` (square, opaque; the store rounds the corners) |
 | A link preview (Open Graph) image | `social/og-image.png` (1200 × 630) |
 | A profile picture | `social/avatar.png` (800 × 800) |
-| A case-study or portfolio page, or a Ko-fi cover | `portfolio/cover.webp` (2400 × 800, shown 1200 × 400) on wide screens, `portfolio/cover-mobile.webp` (1000 × 800) under 640 px, `portfolio/icon.png` (512, square corners), and `portfolio/alt.txt` as both covers' alt text |
+| A case-study or portfolio page, or a Ko-fi cover | `portfolio/cover.webp` (2400 × 800, shown 1200 × 400) on wide screens, `portfolio/cover-mobile.webp` (1000 × 800) under 640 px (each also as `.png` and `.svg`), `portfolio/icon.png` (512, square corners), and `portfolio/alt.txt` as both covers' alt text |
 | Colours for a website or app, light and dark | `web/palette.css` (or `web/palette.tailwind.css` on Tailwind v4, `web/tokens.json` for Figma or Style Dictionary); open `web/palette.html` to see every value and its contrast |
 
 ## Contents

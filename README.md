@@ -100,14 +100,14 @@ portfolio art can each be left out (`brand.json`'s `exports`). The logo files, `
 | --- | --- |
 | `svg/` | every logo, its dark version, one-colour black and white versions |
 | `png/` | every logo at 256–2048 px wide, transparent |
-| `icons/` | `favicon.ico` (16/32/48), `favicon.svg`, `apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-512.png`, `app-icon-1024.png`, `site.webmanifest`, `head.html` |
+| `icons/` | `favicon.ico` (16/32/48), `favicon.svg`, `apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-192/512.png`, `app-icon-1024.png`, `site.webmanifest`, `head.html`; `ios/` (an Xcode `AppIcon.appiconset` with dark and tinted versions, and every legacy size from 20 pt to 1024) and `android/` (launcher icons for every density, round, adaptive foreground and themed monochrome layers with their XML, and the 512 Play Store icon) |
 | `check.png` | size ramp from 16 px, light and dark, one-colour tests, favicon in browser tabs, app icon on a home screen and under Android's mask |
 | `brand-guidelines.pdf` (+ `.html`, one PNG per page) | printable US Letter brand guidelines: cover and logo versions; construction, clear space, minimum size, one colour, misuse and icons; typography; colour with HEX, RGB, CMYK and contrast; website colour |
 | `pdf/` | every logo as a vector PDF, for print shops |
 | `social/` | `og-image.png` (1200 × 630 link preview: logo, tagline, accent bar) and `avatar.png` (800 × 800, circle-safe) |
 | `web/` | the website palette: 12-step OKLCH scales (brand, accent, tinted neutral, success, warning, danger, info) and light and dark roles (`--bg`, `--text`, `--brand`, `--on-brand`, …) as `palette.css`, a Tailwind v4 theme and W3C design tokens, with `palette.html` showing every value and its WCAG 2.2 and APCA contrast |
 | `templates/` | email signature (HTML + text), business card (print PDF with bleed), slide template (`.pptx` + PDF) and social posts (square, portrait, story, X header, each with a blank), with two pages about them in the guidelines |
-| `portfolio/` | art for a case-study page and Ko-fi: `cover.webp` (2400 × 800) and `cover-mobile.webp` (1000 × 800), one scene drawn for the project with no words and re-framed for phones, `icon.png` (512, square corners, from the logo), `alt.txt`, and `preview.png` showing them on a light and a dark page with the composition guides |
+| `portfolio/` | art for a case-study page and Ko-fi: `cover.webp` (2400 × 800) and `cover-mobile.webp` (1000 × 800), each also as lossless `.png` and its `.svg` source, one scene drawn for the project with no words and re-framed for phones, `icon.png` (512, square corners, from the logo), `alt.txt`, and `preview.png` showing them on a light and a dark page with the composition guides |
 | `README.md` | which file to use for what |
 | `<name>-brand-kit.zip` | all of the above in one download |
 
