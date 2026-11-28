@@ -4,7 +4,7 @@ An object letter is a letter of the name built out of things from the brand's wo
 
 It sits between a symbol and a lettermark. A symbol has no letter. A lettermark is a letter with one detail changed. An object letter is an object that already holds most of a letter, finished by its own parts. It's creative and illustrative, and it still reads at 32 px as the initial.
 
-A close cousin is the **pictorial wordmark**, where one letter in the set word is replaced by an object (an `o` drawn as a ship's wheel). Use the same recipe for that one letter, and make sure the object sits on the type's baseline, x-height and stroke weight.
+A close cousin is the **pictorial wordmark** (below), where one letter in the set word is replaced by an object.
 
 ## The recipe
 
@@ -22,6 +22,17 @@ A close cousin is the **pictorial wordmark**, where one letter in the set word i
 - **The supporting symbol is big enough to read alone.** At 32 px the star in front of the compass is still a star. If it shrinks to a dot, make it bigger or leave it out of the favicon.
 - **Keep a real object's logic.** A hinge is round and its hole is whole; a leg is fixed into a foot. Viewers notice when an object couldn't be built.
 - **The favicon may simplify.** Thicken the fine parts so the letter holds at 16 px (Logowright's favicon draws the legs, ring and handle at 16 instead of 10).
+
+## Pictorial wordmarks
+
+A pictorial wordmark sets the name in a real typeface and replaces one letter with an object from the brand's world. `examples/pinewood/` draws "pinewood" with its first o as the growth rings of a cut log. Use the recipe above for that letter (the world, the object chosen by its outline), plus these rules:
+
+- **The object takes the letter's measurements.** Measure the letter you replace (`bounds(solid(text(...).d))`) and draw the object to its height, width, baseline and side bearings, so the spacing either side doesn't change. Round letters may overshoot the baseline and x-height as the font's own o does.
+- **Keep the letter's mass.** The object should be about as dark as the letter: Pinewood's log is a solid disc with its rings cut in as hairlines, not a thin ring, because a thin ring left a pale hole in the word.
+- **Use the type's stroke weight.** Parts that stand in for strokes match the font's stems. Fine detail goes inside the shape as cuts, not as hairlines added outside it.
+- **One letter only.** Two pictures in one word fight each other. Choose the letter that the object's outline already matches (o for anything round, i for anything tall with a head, l for a mast or a candle).
+- **The word still reads with the object covered.** Cover the object: the rest of the word should still suggest the name. Then look at the object alone: it should still read as the object.
+- **The favicon is the object.** The replaced letter, alone, is usually the favicon and the mark.
 
 ## In the round 1 grid
 

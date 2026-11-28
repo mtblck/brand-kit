@@ -71,6 +71,15 @@ a ring, a weave, a knockout tile.
 
 ![Marlow & Finch: M and F as a shared-stem serif, a monoline in a ring and a ligature in a tile](docs/monograms.png)
 
+When the name points to a world (Logowright: wright, shipwright, navigation),
+an **object letter** builds a letter from that world's objects: a drafting
+compass whose arms make a W, with the north star in front. The concepts can
+also take an **emblem** (the name set round a seal with `arcText`), a
+**negative-space** mark, or a **pictorial wordmark**, and a logo with fine
+detail gets a **responsive ladder** from the full logo down to the favicon.
+
+![Pinewood Supply: an emblem, a negative-space mountain, a pictorial wordmark and the responsive ladder](docs/pinewood.png)
+
 ## What it does
 
 - **`logo`** designs a logo in SVG. It works from a brief, writes concepts from
