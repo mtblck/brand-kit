@@ -1,4 +1,4 @@
-// Logowright: the brand-kit plugin's own logo (locked 2026-11-28, round 4 #2).
+// Logowright: the plugin's own logo (locked 2026-11-28, round 4 #2).
 // A drafting compass seen from its top: the heavy arms and thin legs come down
 // to two points and make a W, the hinge is its middle peak, and the north star
 // stands in front of the join. Built on a 256 grid.
@@ -78,7 +78,7 @@ write(
         'Logowright is a Claude Code plugin that designs a logo as clean SVG from a short brief, sets the name in real typefaces so you choose by eye, and exports the whole brand kit around it from one file.\n\nThe mark is a drafting compass seen from its top: its arms and legs come down to two points and make a W, with the north star in front, for drawing and finding your way with one instrument.',
       construction:
         'On a 256 grid: arms 20 wide and legs, hinge ring and handle 10 wide (the one secondary weight), the legs fixed into the arms\' feet; a four-point star of radius 40 on the centre line, set 6 clear of the compass.',
-      website: 'mattblack.space/skills/brand-kit',
+      website: 'mattblack.space/skills/logowright',
       colors: [
         { name: 'Midnight', hex: C.navy, role: 'primary', usage: 'The compass, the wordmark, headings and the brand field.' },
         { name: 'North Star', hex: C.gold, role: 'accent', usage: 'The star, and one highlight per layout; never body text.' },
@@ -105,7 +105,7 @@ write(
         lives: 'web',
         weirdness: 2,
       },
-      legal: { owner: 'mtblck', codeLicense: 'MIT', contact: 'https://github.com/mtblck/brand-kit/issues' },
+      legal: { owner: 'mtblck', codeLicense: 'MIT', contact: 'https://github.com/mtblck/logowright/issues' },
       portfolio: {
         cover: 'portfolio/cover.svg',
         mobile: 'portfolio/cover-mobile.svg',

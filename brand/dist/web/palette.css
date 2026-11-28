@@ -1,4 +1,4 @@
-/* Logowright website palette, made by brand-kit from brand.json.
+/* Logowright website palette, made by Logowright from brand.json.
  * Scales: 1–2 backgrounds · 3–5 component fills (rest, hover, pressed) · 6–8 borders · 9–10 solid fills (rest, hover) · 11 low-contrast text · 12 high-contrast text.
  * Use the roles (--bg, --text, --brand, --on-brand, …) in components and the numbered steps only for one-offs.
  * Light is the default; dark follows the system, and data-theme="light" or "dark" on <html> forces either. */
