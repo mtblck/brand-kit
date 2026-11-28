@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.9.0 (2026-11-28)
+
+- Object letters, a new structure for concepts: a letter of the name built
+  from objects in the brand's world, with one main object carrying the
+  outline, one accent symbol, and lines from the object's own parts finishing
+  the letter. `references/object-letters.md` has the recipe and rules, and
+  step 3 can give it a row of the round 1 grid when the name points to a
+  world. Pictorial wordmarks (a letter replaced by an object) follow the same
+  recipe.
+- The plugin's own brand kit, under the name Logowright, in `brand/`: a
+  drafting compass seen from its top whose arms make a W, with the north star
+  in front. It's the worked example for object letters.
+
 ## 1.8.1 (2026-11-28)
 
 - Brand guidelines, page 2: with four logos (mark, horizontal, stacked and
