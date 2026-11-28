@@ -4,7 +4,7 @@
   "tagline": "Logos drawn in SVG, and the whole kit around them.",
   "about": "Logowright is a Claude Code plugin that designs a logo as clean SVG from a short brief, sets the name in real typefaces so you choose by eye, and exports the whole brand kit around it from one file.\n\nThe mark is a drafting compass seen from its top: its arms and legs come down to two points and make a W, with the north star in front, for drawing and finding your way with one instrument.",
   "construction": "On a 256 grid: arms 20 wide and legs, hinge ring and handle 10 wide (the one secondary weight), the legs fixed into the arms' feet; a four-point star of radius 40 on the centre line, set 6 clear of the compass.",
-  "website": "mattblack.space/skills/brand-kit",
+  "website": "mattblack.space/skills/logowright",
   "colors": [
     {
       "name": "Midnight",
@@ -101,7 +101,7 @@
   "legal": {
     "owner": "mtblck",
     "codeLicense": "MIT",
-    "contact": "https://github.com/mtblck/brand-kit/issues"
+    "contact": "https://github.com/mtblck/logowright/issues"
   },
   "portfolio": {
     "cover": "portfolio/cover.svg",

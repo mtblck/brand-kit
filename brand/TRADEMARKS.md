@@ -17,4 +17,4 @@ Logowright™ and the Logowright logo (a drafting compass seen from its top, its
 
 ## Anything else
 
-Ask first: https://github.com/mtblck/brand-kit/issues. Merchandise, events and anything not listed above need permission.
+Ask first: https://github.com/mtblck/logowright/issues. Merchandise, events and anything not listed above need permission.

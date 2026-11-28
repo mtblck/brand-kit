@@ -1,6 +1,6 @@
 # Third-party notices
 
-brand-kit is original work under the MIT license (see LICENSE).
+Logowright (formerly brand-kit) is original work under the MIT license (see LICENSE).
 
 - The logo process (a brief that lists the category's clichés, many concepts
   cut to three of different structures, black first, a checkpoint before the

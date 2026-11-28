@@ -36,7 +36,7 @@ async function ot() {
     return opentype
   } catch {}
   mkdirSync(CACHE, { recursive: true })
-  console.error(`brand-kit: installing ${OPENTYPE} into ${CACHE} (once)`)
+  console.error(`logowright: installing ${OPENTYPE} into ${CACHE} (once)`)
   execFileSync('npm', ['install', '--no-save', '--no-audit', '--no-fund', '--prefix', CACHE, OPENTYPE], { stdio: 'ignore' })
   opentype = req('opentype.js')
   return opentype

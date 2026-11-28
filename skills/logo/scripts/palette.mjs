@@ -348,7 +348,7 @@ export function css(pal, name = 'Brand') {
     for (const [k, hex] of Object.entries(pal.roles[mode])) lines.push(`  --${k}: ${oklchCss(hex)};`)
     return lines.join('\n')
   }
-  return `/* ${name} website palette, made by brand-kit from brand.json.
+  return `/* ${name} website palette, made by Logowright from brand.json.
  * Scales: ${SCALE_NOTE}.
  * Use the roles (--bg, --text, --brand, --on-brand, …) in components and the numbered steps only for one-offs.
  * Light is the default; dark follows the system, and data-theme="light" or "dark" on <html> forces either. */
@@ -393,7 +393,7 @@ export function tokens(pal) {
     const { l, c, h } = toOklch(hex)
     return { $type: 'color', $value: { colorSpace: 'oklch', components: [+l.toFixed(4), +c.toFixed(4), c < 1e-4 ? 0 : +h.toFixed(2)], hex } }
   }
-  const t = { $description: `Made by brand-kit. Scale steps: ${SCALE_NOTE}.` }
+  const t = { $description: `Made by Logowright. Scale steps: ${SCALE_NOTE}.` }
   for (const mode of ['light', 'dark']) {
     t[mode] = { scale: {}, role: {} }
     for (const [k, steps] of Object.entries(pal.scales[mode])) t[mode].scale[k] = Object.fromEntries(steps.map((hex, i) => [i + 1, color(hex)]))

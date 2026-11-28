@@ -1,11 +1,11 @@
-# brand-kit
+# Logowright
 
 A Claude Code plugin that designs a logo in SVG and exports the whole brand kit
 around it: icons, brand guidelines, a website colour palette for light and dark
 mode, an email signature, a business card, a slide template and social images,
 all from one `brand.json`.
 
-**See it at [mattblack.space/skills/brand-kit](https://mattblack.space/skills/brand-kit/)**,
+**See it at [mattblack.space/skills/logowright](https://mattblack.space/skills/logowright/)**,
 built around the example brand Harbor.
 
 ![Harbor, the example brand](docs/harbor.png)
@@ -15,14 +15,14 @@ built around the example brand Harbor.
 In Claude Code (2.1.275 or later):
 
 ```
-/plugin install brand-kit --marketplace mtblck/brand-kit
+/plugin install logowright --marketplace mtblck/logowright
 ```
 
 Or add the marketplace first, which works on older versions too:
 
 ```
-/plugin marketplace add mtblck/brand-kit
-/plugin install brand-kit@brand-kit
+/plugin marketplace add mtblck/logowright
+/plugin install logowright@logowright
 ```
 
 To have it in every session on a repo (including Claude Code on the web), add
@@ -31,14 +31,14 @@ this to the repo's `.claude/settings.json`:
 ```json
 {
   "extraKnownMarketplaces": {
-    "brand-kit": { "source": { "source": "github", "repo": "mtblck/brand-kit" } }
+    "logowright": { "source": { "source": "github", "repo": "mtblck/logowright" } }
   },
-  "enabledPlugins": { "brand-kit@brand-kit": true }
+  "enabledPlugins": { "logowright@logowright": true }
 }
 ```
 
 It's also in [mtblck/claude-marketplace](https://github.com/mtblck/claude-marketplace)
-as `brand-kit@mtblck`.
+as `logowright@mtblck`.
 
 ## Use
 

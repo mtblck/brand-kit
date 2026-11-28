@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0 (2026-11-28)
+
+- brand-kit is now **Logowright**. The plugin and its marketplace are named
+  `logowright`, so it installs as `logowright@logowright` (or
+  `logowright@mtblck` from mtblck/claude-marketplace); uninstall
+  `brand-kit@brand-kit` and install the new name. The repo moves to
+  mtblck/logowright (GitHub redirects the old address) and the page to
+  mattblack.space/skills/logowright/. The skills, `brand.json` and every
+  output are unchanged; the cache folder keeps its name (`~/.cache/brand-kit`,
+  `$BRAND_KIT_CACHE`) so fonts and libraries already fetched are reused, and
+  the kit's zip is still `<name>-brand-kit.zip`.
+
 ## 1.10.0 (2026-11-28)
 
 - `TRADEMARKS.md` no longer says the code is open source when it isn't. It

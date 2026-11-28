@@ -25,7 +25,7 @@ The page never crops the covers (the shape stays the same at every width), so wh
 - **Re-frame, don't crop.** The phone cover is the same scene drawn again for 5:4: same subject, same viewpoint and colours, the subject bigger in the frame, fewer supporting pieces, everything moved in toward the middle. Draw both from one script with the width as a parameter (`examples/harbor/portfolio/draw.mjs`), so the two always match.
 - **One focal point** near the optical centre (a touch above the middle). Everything else stays quieter than it. At 1200 × 400, and at 500 × 400, every part of the focal point should still read.
 - **No words.** No text, numbers, third-party logos or likenesses: the page sets the project's name under the image. Covers used to carry the logo in a pill and an npm pill in the corners; they don't any more.
-- **The logo, rarely.** The logo or name generally stays out of the picture. The exception is when the logo is part of the artwork: brand-kit's own cover puts the mark on its construction grid in the middle because making that mark is what the product does, and Harbor's harbour arch and beacon are the mark built as architecture. A logo stuck on as a badge is never the exception.
+- **The logo, rarely.** The logo or name generally stays out of the picture. The exception is when the logo is part of the artwork: Logowright's own cover puts the mark on its construction grid in the middle because making that mark is what the product does, and Harbor's harbour arch and beacon are the mark built as architecture. A logo stuck on as a badge is never the exception.
 - **Still.** Imply motion (a boat mid-crossing, a pencil at the end of its line) rather than blur or streaks.
 
 ## Style

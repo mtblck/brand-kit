@@ -342,7 +342,7 @@ async function need(spec, name, sub) {
     return req(name)
   } catch {}
   mkdirSync(prefix, { recursive: true })
-  console.error(`brand-kit: installing ${spec} into ${prefix} (once)`)
+  console.error(`logowright: installing ${spec} into ${prefix} (once)`)
   execFileSync('npm', ['install', '--no-save', '--no-audit', '--no-fund', '--prefix', prefix, spec], { stdio: 'ignore' })
   return req(name)
 }
