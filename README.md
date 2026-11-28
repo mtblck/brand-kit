@@ -119,7 +119,7 @@ Scripts (in `skills/logo/scripts/`, Node 18+):
 - `specimen.mjs`: the name in every face of the chosen typeface groups.
 - `render.mjs`: PNGs of any SVG, or a numbered concept comparison sheet.
 - `palette.mjs`: the website palette (also runs alone: `node palette.mjs brand.json`).
-- `legal.mjs`: the brand folder's `LICENSE` and `TRADEMARKS.md`.
+- `legal.mjs`: the brand folder's `LICENSE` and `TRADEMARKS.md` (tests: `node --test skills/logo/scripts/legal.test.mjs`).
 - `portfolio.mjs`: the portfolio covers, icon and alt text (also runs alone: `node portfolio.mjs brand.json`).
 - `exports.mjs`: the menu of optional exports, and which ones `brand.json` asks for.
 - `export.mjs`: everything above from `brand.json`.
@@ -161,7 +161,9 @@ reuse the logo as freely as the code. `TRADEMARKS.md` is a short usage policy:
 talking about the project, saying something works with it and linking with the
 unmodified logo are fine; a fork or product under the name, changed logos and
 implied endorsement are not. The skill also adds a line to the project's README
-saying so. These are sensible defaults, not legal advice.
+saying so. In a private or proprietary project (no open-source license found, or
+`legal.codeLicense: "proprietary"`), the files don't call the code open source.
+These are sensible defaults, not legal advice.
 
 ## License
 

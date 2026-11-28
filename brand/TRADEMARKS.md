@@ -1,6 +1,6 @@
 # Logowright name and logo use
 
-Logowright™ and the Logowright logo (a drafting compass seen from its top, its arms making a W, with a four-point star in front) are trademarks of mtblck. They identify Logowright and the people who make it. The code in this project is open source; the brand is not (see [LICENSE](LICENSE)). This page says what you may do with the name and logos without asking.
+Logowright™ and the Logowright logo (a drafting compass seen from its top, its arms making a W, with a four-point star in front) are trademarks of mtblck. They identify Logowright and the people who make it. The code in this project is open source under the MIT license; the brand is not (see [LICENSE](LICENSE)). This page says what you may do with the name and logos without asking.
 
 ## You may, without asking
 

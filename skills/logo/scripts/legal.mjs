@@ -8,7 +8,12 @@
  * Both go into the export folder (so the zip carries them) and, when brand.json sits
  * in a folder named `brand` (or `<something>-brand`), at the top of that folder,
  * where they cover the source, the rounds and the export. At the top they are only
- * written when missing, so an owner's edits are kept.
+ * written when missing, and when they are there they are copied into the export
+ * instead of being made again, so an owner's edits reach the export and the zip.
+ *
+ * The code's license decides one sentence: open source by name, "not open source"
+ * for a repo with no license or a proprietary one, and nothing about the code when
+ * it can't be told (no repo, or a license file this doesn't recognise).
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
@@ -29,10 +34,22 @@ export function repoRoot(dir) {
   }
 }
 
-/** The project's code license by name, read from the repo's LICENSE, or null. */
+/** What `codeLicense` and `legalFacts` give for code that isn't open source. */
+export const PROPRIETARY = 'proprietary'
+
+/** True for a `legal.codeLicense` that means the code isn't open source. */
+export function saysProprietary(v) {
+  return v === false || (typeof v === 'string' && /^(proprietary|closed|private|none|unlicensed|all rights reserved)$/i.test(v.trim()))
+}
+
+/**
+ * The project's code license by name, read from the repo's LICENSE (or package.json's
+ * "license"): an open-source license's name, `PROPRIETARY` when the repo has no license
+ * or a proprietary one, or null when there is no repo or the license isn't recognised.
+ */
 export function codeLicense(repo) {
   if (!repo) return null
-  for (const f of ['LICENSE', 'LICENSE.md', 'LICENSE.txt', 'COPYING']) {
+  for (const f of ['LICENSE', 'LICENSE.md', 'LICENSE.txt', 'LICENCE', 'LICENCE.md', 'COPYING']) {
     let text
     try {
       text = readFileSync(join(repo, f), 'utf8').slice(0, 2000)
@@ -47,26 +64,53 @@ export function codeLicense(repo) {
     if (/GNU GENERAL PUBLIC LICENSE/i.test(text)) return 'GPL'
     if (/Redistribution and use in source and binary forms/i.test(text)) return 'BSD'
     if (/ISC License/i.test(text)) return 'ISC'
-    return 'open-source'
+    if (/This is free and unencumbered software released into the public domain/i.test(text)) return 'Unlicense'
+    if (/CC0 1\.0 Universal/i.test(text)) return 'CC0-1.0'
+    if (/Eclipse Public License/i.test(text)) return 'EPL'
+    if (/proprietary|confidential|all rights reserved/i.test(text)) return PROPRIETARY
+    return null
   }
-  return null
+  let pkg
+  try {
+    pkg = JSON.parse(readFileSync(join(repo, 'package.json'), 'utf8'))
+  } catch {
+    return PROPRIETARY
+  }
+  const lic = typeof pkg.license === 'object' ? pkg.license?.type : pkg.license
+  const id = typeof lic === 'string' ? lic.trim() : ''
+  if (!id || /^(UNLICENSED|SEE LICENSE IN\b)/i.test(id)) return PROPRIETARY
+  return id
 }
 
 /** Who holds the rights, the year, how to ask, and the code license, from brand.json's "legal". */
 export function legalFacts(cfg, detected) {
   const l = cfg.legal || {}
   const email = cfg.contact?.email
+  const set = l.codeLicense
   return {
     name: cfg.name || 'This brand',
     owner: l.owner || cfg.name || 'the owner',
     year: l.year || new Date().getFullYear(),
     contact: l.contact || email || (cfg.website ? `https://${cfg.website}` : null),
-    code: l.codeLicense || detected || null,
+    code: saysProprietary(set) ? PROPRIETARY : (typeof set === 'string' && set.trim()) || detected || null,
   }
 }
 
+/** True when `f.code` names an open-source license (not proprietary, not unknown). */
+function openCode(f) {
+  return !!f.code && f.code !== PROPRIETARY
+}
+
+/** The sentence in TRADEMARKS.md that says what covers the code and the brand. */
+export function codeSentence(f) {
+  if (f.code === PROPRIETARY) return 'The code in this project is not open source, and the brand has its own license (see [LICENSE](LICENSE)).'
+  if (f.code === 'open-source') return 'The code in this project is open source; the brand is not (see [LICENSE](LICENSE)).'
+  if (openCode(f)) return `The code in this project is open source under the ${f.code} license; the brand is not (see [LICENSE](LICENSE)).`
+  return 'The brand has its own license (see [LICENSE](LICENSE)).'
+}
+
 export function licenseText(f) {
-  const code = f.code ? `the ${f.code} license that covers the code` : 'any open-source license that covers the code'
+  const code = openCode(f) && f.code !== 'open-source' ? `the ${f.code} license that covers the code` : 'any license that covers the code'
   return [
     `${f.name} brand material`,
     `Copyright (c) ${f.year} ${f.owner}. All rights reserved.`,
@@ -87,7 +131,7 @@ export function trademarksText(f) {
   return [
     `# ${n} name and logo use`,
     '',
-    `The ${n} name and logos identify ${n} and the people who make it. The code in this project is open source; the brand is not (see [LICENSE](LICENSE)). This page says what you may do with the name and logos without asking.`,
+    `The ${n} name and logos identify ${n} and the people who make it. ${codeSentence(f)} This page says what you may do with the name and logos without asking.`,
     '',
     '## You may, without asking',
     '',
@@ -111,7 +155,8 @@ export function trademarksText(f) {
 
 /**
  * Writes LICENSE and TRADEMARKS.md. Returns { written, root, repo, warnings }.
- * `base` is brand.json's folder, `out` the export folder.
+ * `base` is brand.json's folder, `out` the export folder. When the brand folder's
+ * top already has them, those are what the export gets.
  */
 export function writeLegal({ cfg, base, out }) {
   const repo = repoRoot(base)
@@ -119,18 +164,26 @@ export function writeLegal({ cfg, base, out }) {
   const f = legalFacts(cfg, codeLicense(repo))
   const files = [['LICENSE', licenseText(f)], ['TRADEMARKS.md', trademarksText(f)]]
   const written = []
-  for (const [name, text] of files) {
+  const warnings = []
+  const top = root && root !== out
+  for (const [name, made] of files) {
+    const own = top ? join(root, name) : null
+    let text = made
+    if (own && existsSync(own)) {
+      text = readFileSync(own, 'utf8')
+    } else if (own) {
+      writeFileSync(own, made)
+      written.push(own)
+    }
     writeFileSync(join(out, name), text)
     written.push(join(out, name))
   }
-  const warnings = []
   if (!root) {
     warnings.push('brand.json is not inside a brand/ folder. Keep the brand work (draw script, brand.json, rounds, export) in brand/ so its LICENSE covers all of it.')
-  } else if (root !== out) {
-    for (const [name, text] of files) {
-      if (existsSync(join(root, name))) continue
-      writeFileSync(join(root, name), text)
-      written.push(join(root, name))
+  } else if (top && !openCode(f)) {
+    const own = join(root, 'TRADEMARKS.md')
+    if (/code in this project is open source/i.test(readFileSync(own, 'utf8'))) {
+      warnings.push(`${basename(root)}/TRADEMARKS.md says the code is open source, but ${f.code === PROPRIETARY ? 'it is not' : 'no open-source license was found'}. Correct that sentence (or set legal.codeLicense in brand.json, delete the file and export again); the export copies it as it is.`)
     }
   }
   if (repo && root) {
