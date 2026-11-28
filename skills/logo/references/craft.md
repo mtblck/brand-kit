@@ -12,7 +12,7 @@ The rules `logo` draws by. Read the section you need: before drawing, before loc
 | **Wordmark only** | Short, distinctive names; editorial or fashion voice | It still needs a favicon: take one letter, or the word's distinctive detail |
 | **Wordmark with one modified letter** | The idea lives in a letter (a counter becomes a lens, a stem becomes a pin) | Modify one letter only, and keep it readable as that letter |
 | **Abstract mark** | The product is abstract (infrastructure, finance, a platform) | Generic blobs and swooshes. Base it on a real property of the product, like flow, layers or a grid |
-| **Emblem / badge** | Crafts, food and drink, clubs, heritage | Detail that dies at small sizes: make a simplified inner mark for icons |
+| **Emblem / badge** | Crafts, food and drink, clubs, heritage | Detail that dies at small sizes: make a simplified inner mark for icons (`emblems.md`, `responsive.md`) |
 | **Dynamic** | A system that changes (per person, per season, per page) | Variety that loses the brand: MIT Media Lab's 40,000 generated marks were replaced because nothing stayed constant. Keep one fixed element |
 
 Construction is a separate choice from structure. Any figurative or round mark can be built on a **circle grid** (every curve an arc of one set of circles; see `circle-grid.md`), which is what makes a bird or a leaf look engineered rather than drawn.
